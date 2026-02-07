@@ -1,0 +1,42 @@
+# Virtual Environment
+.venv/
+.qodo/
+
+# Model Outputs
+output/
+*.bin
+*.pt
+*.pth
+*.safetensors
+
+# Dataset
+data/dataset.json
+
+# Logs and temporary files
+*.log
+*.tmp
+*.tmp.*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
