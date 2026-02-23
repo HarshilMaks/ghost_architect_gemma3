@@ -29,6 +29,7 @@ Thumbs.db
 
 # Jupyter Notebook
 .ipynb_checkpoints/
+plan.md
 
 # Environment files
 .env
