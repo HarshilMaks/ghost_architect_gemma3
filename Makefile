@@ -27,17 +27,7 @@ validate:
 	$(PYTHON) scripts/validate_environment.py
 
 dataset-check:
-	@test -f $(DATASET) || (echo "Missing dataset: $(DATASET)" && exit 1)
-	@$(PYTHON) - <<'PY'
-import json
-from pathlib import Path
-p = Path("data/dataset.json")
-raw = p.read_text().strip()
-if not raw:
-    raise SystemExit("data/dataset.json is empty")
-json.loads(raw)
-print("dataset.json is valid JSON")
-PY
+	@$(PYTHON) scripts/validate_dataset.py
 
 train:
 	$(PYTHON) src/train.py --config $(CONFIG) --dataset $(DATASET)

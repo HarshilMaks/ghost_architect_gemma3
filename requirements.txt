@@ -6,11 +6,9 @@ bitsandbytes>=0.41.0
 peft>=0.7.0
 trl>=0.7.0
 
-# Unsloth with compatible version (CRITICAL for memory optimization)
-unsloth[colab-new]==2026.1.4
-
-# xformers with compatible version (memory-efficient attention)
-xformers<0.0.27
+# Unsloth + xformers are installed in Colab via the notebook pip cells.
+# They are NOT listed here because xformers wheels are GPU/CUDA-specific
+# and uv cannot resolve them for a CPU-only local environment.
 
 # Data processing and utilities
 numpy>=1.24.0
