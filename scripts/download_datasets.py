@@ -1,142 +1,120 @@
-"""Dataset download helpers for phase 1/2."""
-"""Dataset download helpers for phase 1/2.
-Automated UI Screenshot Generator using Playwright, Kaggle CSVs, and GitHub.
+"""
+Bulletproof UI Screenshot Generator for Ghost Architect.
+Uses Playwright with Network-Idle waiting and Auto-Trashing of blank screens.
 """
 import os
-import re
+import time
 import requests
-import pandas as pd
 from urllib.parse import urlparse
 from playwright.sync_api import sync_playwright
 from tqdm import tqdm
 
 # --- Configuration ---
-# 1. Your downloaded CSVs inside your data folder
-CSV_FILES = [
-    "data/raw_csvs/saas_companies.csv",
-    "data/raw_csvs/ycombinator.csv",
-    "data/raw_csvs/producthunt.csv"
-]
-
-# 2. The GitHub "Awesome Dashboards" raw Markdown URL (THIS IS THE GITHUB EXTRACTOR)
-GITHUB_URL = "https://raw.githubusercontent.com/obazoud/awesome-dashboard/master/README.md"
-
-# Output directory for your screenshots
 OUTPUT_DIR = "data/ui_screenshots"
-MAX_URLS = 10000  # Total number of screenshots you want
+MAX_URLS = 1000  # Let's grab 1000 high-quality screens
+MIN_FILE_SIZE_KB = 40  # Anything under 40KB is usually a blank/broken screen
 
-def clean_url(url):
-    """Ensure the URL has http/https and is valid."""
-    if pd.isna(url) or not isinstance(url, str):
-        return None
-    url = url.strip()
-    if not url.startswith('http'):
-        url = 'https://' + url
-    return url
-
-def extract_github_urls():
-    """Fetch and extract URLs from the GitHub Awesome Dashboards repository."""
-    print(f"Fetching dashboard links directly from GitHub...")
-    try:
-        response = requests.get(GITHUB_URL)
-        if response.status_code != 200:
-            print("  -> Failed to fetch GitHub list.")
-            return []
-            
-        # Regex to find standard Markdown links: [Name](https://link.com)
-        urls = re.findall(r'\[.*?\]\((https?://[^\)]+)\)', response.text)
-        
-        # Filter out boring non-UI links (like wikipedia, twitter, github source code)
-        valid_ui_urls = [
-            u for u in urls 
-            if "github.com" not in u and "twitter.com" not in u and "wikipedia.org" not in u
-        ]
-        
-        print(f"  -> Found {len(valid_ui_urls)} valid UI links from GitHub Awesome Dashboards")
-        return valid_ui_urls
-    except Exception as e:
-        print(f"  -> Error fetching GitHub links: {e}")
-        return []
-
-def extract_all_urls():
-    """Extract URLs intelligently from CSVs AND GitHub."""
-    all_urls = set()
+def get_fresh_github_urls():
+    """Fetches paginated, modern URLs from GitHub API (2024+)."""
+    print(f"Fetching up to {MAX_URLS} fresh, modern URLs from GitHub API (2024+)...")
+    fresh_urls = set()
     
-    # 1. Execute the GitHub Extractor first
-    github_urls = extract_github_urls()
-    all_urls.update(github_urls)
+    search_queries = [
+        "topic:dashboard pushed:>2024-01-01",
+        "topic:admin-panel pushed:>2024-01-01",
+        "topic:saas pushed:>2024-01-01",
+        "topic:erp pushed:>2024-01-01"
+    ]
     
-    # 2. Extract from your local Kaggle CSVs
-    for csv_file in CSV_FILES:
-        if not os.path.exists(csv_file):
-            print(f"Skipping {csv_file} (Not found in {csv_file})")
-            continue
-            
-        print(f"Reading {csv_file}...")
-        try:
-            df = pd.read_csv(csv_file, on_bad_lines='skip', low_memory=False)
-            
-            # Auto-detect the website column
-            url_col = None
-            for col in df.columns:
-                lower_col = str(col).lower()
-                if 'url' in lower_col or 'website' in lower_col or 'domain' in lower_col or 'link' in lower_col:
-                    url_col = col
-                    break
-            
-            if url_col:
-                urls = df[url_col].apply(clean_url).dropna().tolist()
-                all_urls.update(urls)
-                print(f"  -> Found {len(urls)} URLs in '{url_col}'")
-            else:
-                print(f"  -> Could not find a website column in {csv_file}")
+    headers = {"Accept": "application/vnd.github.v3+json", "User-Agent": "GhostArchitect"}
+    
+    for query in search_queries:
+        print(f"\n  -> Searching GitHub for: {query}")
+        for page in range(1, 10):
+            try:
+                url = f"https://api.github.com/search/repositories?q={query}&sort=updated&order=desc&per_page=100&page={page}"
+                response = requests.get(url, headers=headers)
                 
-        except Exception as e:
-            print(f"Error reading {csv_file}: {e}")
+                if response.status_code == 200:
+                    items = response.json().get("items", [])
+                    if not items:
+                        break 
+                        
+                    for item in items:
+                        homepage = item.get("homepage")
+                        if homepage and homepage.startswith("http") and "github.com" not in homepage:
+                            fresh_urls.add(homepage.strip())
+                elif response.status_code == 403:
+                    time.sleep(15) # Handle rate limit
+                else:
+                    break
+                    
+                time.sleep(6) # Wait between pages
+            except Exception:
+                pass
             
-    # Convert set back to list (removes duplicates) and limit to MAX_URLS
-    final_urls = list(all_urls)[:MAX_URLS]
-    print(f"\nTotal unique URLs gathered (GitHub + CSVs): {len(final_urls)}")
-    return final_urls
+            if len(fresh_urls) >= MAX_URLS:
+                return list(fresh_urls)[:MAX_URLS]
+                
+    return list(fresh_urls)[:MAX_URLS]
 
 def capture_screenshots(urls):
-    """Use Playwright to visit URLs and take screenshots."""
+    """Bulletproof Playwright scraper that waits for full rendering."""
     os.makedirs(OUTPUT_DIR, exist_ok=True)
-    print(f"\nStarting Playwright to capture screenshots...")
+    print(f"\nStarting Playwright to capture fully-rendered screenshots...")
     
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
-        context = browser.new_context(viewport={'width': 1920, 'height': 1080})
+        # Use a modern User-Agent to prevent basic bot-blocking
+        context = browser.new_context(
+            viewport={'width': 1920, 'height': 1080},
+            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36"
+        )
         page = context.new_page()
         
-        for url in tqdm(urls, desc="Snapping UIs"):
+        success_count = 0
+        for url in tqdm(urls, desc="Snapping HD UIs"):
             try:
-                # Clean up filename
                 domain = urlparse(url).netloc.replace("www.", "")
                 safe_name = "".join(c for c in domain if c.isalnum() or c in ".-_")
-                output_path = os.path.join(OUTPUT_DIR, f"{safe_name}.png")
+                output_path = os.path.join(OUTPUT_DIR, f"{safe_name}_{abs(hash(url)) % 10000}.png")
                 
-                # Skip if already downloaded
                 if os.path.exists(output_path):
                     continue
                 
-                # Visit page and snap
-                page.goto(url, timeout=15000, wait_until="networkidle")
+                # CRITICAL FIX 1: Wait until the network is idle (API calls finished)
+                response = page.goto(url, timeout=25000, wait_until="networkidle")
+                
+                # CRITICAL FIX 2: Skip 404s and 500s
+                if not response or not response.ok:
+                    continue
+
+                # CRITICAL FIX 3: Hard wait for 3 seconds to let React/Vue animations paint
+                page.wait_for_timeout(3000)
+                
+                # Remove popups
                 page.evaluate("""
-                    document.querySelectorAll('[id*="cookie"], [class*="cookie"], [id*="popup"], [class*="popup"], [id*="banner"], [class*="banner"]').forEach(el => el.remove());
+                    document.querySelectorAll('[id*="cookie"], [class*="cookie"], [id*="popup"], [id*="banner"]').forEach(el => el.remove());
                 """)
+                
                 page.screenshot(path=output_path)
                 
+                # CRITICAL FIX 4: Delete the image if it is too small (blank white/black screen)
+                file_size_kb = os.path.getsize(output_path) / 1024
+                if file_size_kb < MIN_FILE_SIZE_KB:
+                    os.remove(output_path)
+                    continue # Skip counting this as a success
+                    
+                success_count += 1
+                
             except Exception:
-                # Silently skip websites that timeout or fail
+                # Silently skip timeouts or sites with heavy anti-bot protection
                 pass
                 
         browser.close()
-    print(f"\nFinished! Check your {OUTPUT_DIR} folder.")
+    print(f"\n✅ Finished! Captured {success_count} perfect HD screenshots to {OUTPUT_DIR}/")
 
 if __name__ == "__main__":
-    target_urls = extract_all_urls()
+    target_urls = get_fresh_github_urls()
     if target_urls:
         capture_screenshots(target_urls)
-    else:
-        print("No URLs found. Check your sources.")

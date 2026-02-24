@@ -1,0 +1,152 @@
+[
+  {
+    "instruction": "Write a Python function to sum two numbers.",
+    "input": "a=5, b=10",
+    "output": "def sum_numbers(a, b):\n    return a + b\n\nresult = sum_numbers(5, 10)\nprint(result)  # Output: 15"
+  },
+  {
+    "instruction": "Create a function to reverse a string.",
+    "input": "text='hello'",
+    "output": "def reverse_string(text):\n    return text[::-1]\n\nresult = reverse_string('hello')\nprint(result)  # Output: 'olleh'"
+  },
+  {
+    "instruction": "Write a function to check if a number is prime.",
+    "input": "n=17",
+    "output": "def is_prime(n):\n    if n < 2:\n        return False\n    for i in range(2, int(n**0.5) + 1):\n        if n % i == 0:\n            return False\n    return True\n\nprint(is_prime(17))  # Output: True"
+  },
+  {
+    "instruction": "Create a function to find the maximum element in a list.",
+    "input": "lst=[3, 7, 2, 9, 1]",
+    "output": "def find_max(lst):\n    return max(lst) if lst else None\n\nresult = find_max([3, 7, 2, 9, 1])\nprint(result)  # Output: 9"
+  },
+  {
+    "instruction": "Write a function to count unique elements in a list.",
+    "input": "lst=[1, 2, 2, 3, 3, 3]",
+    "output": "def count_unique(lst):\n    return len(set(lst))\n\nresult = count_unique([1, 2, 2, 3, 3, 3])\nprint(result)  # Output: 3"
+  },
+  {
+    "instruction": "Write a function to merge two sorted lists.",
+    "input": "list1=[1, 3, 5], list2=[2, 4, 6]",
+    "output": "def merge_sorted(list1, list2):\n    return sorted(list1 + list2)\n\nresult = merge_sorted([1, 3, 5], [2, 4, 6])\nprint(result)  # Output: [1, 2, 3, 4, 5, 6]"
+  },
+  {
+    "instruction": "Write a function to check if a string is a palindrome.",
+    "input": "s='racecar'",
+    "output": "def is_palindrome(s):\n    s = s.lower().replace(' ', '')\n    return s == s[::-1]\n\nprint(is_palindrome('racecar'))  # Output: True"
+  },
+  {
+    "instruction": "Write a function to capitalize the first letter of each word.",
+    "input": "text='hello world'",
+    "output": "def capitalize_words(text):\n    return ' '.join(word.capitalize() for word in text.split())\n\nresult = capitalize_words('hello world')\nprint(result)  # Output: 'Hello World'"
+  },
+  {
+    "instruction": "Write a function to compute factorial of a number.",
+    "input": "n=5",
+    "output": "def factorial(n):\n    if n == 0 or n == 1:\n        return 1\n    return n * factorial(n - 1)\n\nprint(factorial(5))  # Output: 120"
+  },
+  {
+    "instruction": "Write a function to find the nth Fibonacci number.",
+    "input": "n=6",
+    "output": "def fibonacci(n):\n    if n <= 1:\n        return n\n    a, b = 0, 1\n    for _ in range(2, n + 1):\n        a, b = b, a + b\n    return b\n\nprint(fibonacci(6))  # Output: 8"
+  },
+  {
+    "instruction": "Write a Python loop that prints numbers from 1 to 10.",
+    "input": "",
+    "output": "for i in range(1, 11):\n    print(i)"
+  },
+  {
+    "instruction": "Create a dictionary with 3 key-value pairs.",
+    "input": "",
+    "output": "data = {'key0': 'value0', 'key1': 'value1', 'key2': 'value2'}\nprint(data)"
+  },
+  {
+    "instruction": "Write a Python loop that prints numbers from 1 to 15.",
+    "input": "",
+    "output": "for i in range(1, 16):\n    print(i)"
+  },
+  {
+    "instruction": "Create a dictionary with 5 key-value pairs.",
+    "input": "",
+    "output": "data = {'key0': 'value0', 'key1': 'value1', 'key2': 'value2'}\nprint(data)"
+  },
+  {
+    "instruction": "Write a Python loop that prints numbers from 1 to 20.",
+    "input": "",
+    "output": "for i in range(1, 21):\n    print(i)"
+  },
+  {
+    "instruction": "Create a dictionary with 7 key-value pairs.",
+    "input": "",
+    "output": "data = {'key0': 'value0', 'key1': 'value1', 'key2': 'value2'}\nprint(data)"
+  },
+  {
+    "instruction": "Write a Python loop that prints numbers from 1 to 25.",
+    "input": "",
+    "output": "for i in range(1, 26):\n    print(i)"
+  },
+  {
+    "instruction": "Create a dictionary with 9 key-value pairs.",
+    "input": "",
+    "output": "data = {'key0': 'value0', 'key1': 'value1', 'key2': 'value2'}\nprint(data)"
+  },
+  {
+    "instruction": "Write a Python loop that prints numbers from 1 to 30.",
+    "input": "",
+    "output": "for i in range(1, 31):\n    print(i)"
+  },
+  {
+    "instruction": "Create a dictionary with 11 key-value pairs.",
+    "input": "",
+    "output": "data = {'key0': 'value0', 'key1': 'value1', 'key2': 'value2'}\nprint(data)"
+  },
+  {
+    "instruction": "Write a Python loop that prints numbers from 1 to 35.",
+    "input": "",
+    "output": "for i in range(1, 36):\n    print(i)"
+  },
+  {
+    "instruction": "Create a dictionary with 13 key-value pairs.",
+    "input": "",
+    "output": "data = {'key0': 'value0', 'key1': 'value1', 'key2': 'value2'}\nprint(data)"
+  },
+  {
+    "instruction": "Write a Python loop that prints numbers from 1 to 40.",
+    "input": "",
+    "output": "for i in range(1, 41):\n    print(i)"
+  },
+  {
+    "instruction": "Create a dictionary with 15 key-value pairs.",
+    "input": "",
+    "output": "data = {'key0': 'value0', 'key1': 'value1', 'key2': 'value2'}\nprint(data)"
+  },
+  {
+    "instruction": "Write a Python loop that prints numbers from 1 to 45.",
+    "input": "",
+    "output": "for i in range(1, 46):\n    print(i)"
+  },
+  {
+    "instruction": "Create a dictionary with 17 key-value pairs.",
+    "input": "",
+    "output": "data = {'key0': 'value0', 'key1': 'value1', 'key2': 'value2'}\nprint(data)"
+  },
+  {
+    "instruction": "Write a Python loop that prints numbers from 1 to 50.",
+    "input": "",
+    "output": "for i in range(1, 51):\n    print(i)"
+  },
+  {
+    "instruction": "Create a dictionary with 19 key-value pairs.",
+    "input": "",
+    "output": "data = {'key0': 'value0', 'key1': 'value1', 'key2': 'value2'}\nprint(data)"
+  },
+  {
+    "instruction": "Write a Python loop that prints numbers from 1 to 55.",
+    "input": "",
+    "output": "for i in range(1, 56):\n    print(i)"
+  },
+  {
+    "instruction": "Create a dictionary with 21 key-value pairs.",
+    "input": "",
+    "output": "data = {'key0': 'value0', 'key1': 'value1', 'key2': 'value2'}\nprint(data)"
+  }
+]
