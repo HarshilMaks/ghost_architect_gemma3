@@ -1,0 +1,1090 @@
+[
+  {
+    "image_path": "data/ui_screenshots/hangman-c0h7.onrender.com_7455.png",
+    "domain": "hangman-c0h7.onrender.com_7455",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "7b4bc77f",
+    "size_kb": 71.3095703125
+  },
+  {
+    "image_path": "data/ui_screenshots/witelli20.ch_1477.png",
+    "domain": "witelli20.ch_1477",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "73d9f4c7",
+    "size_kb": 835.4921875
+  },
+  {
+    "image_path": "data/ui_screenshots/monfly.vercel.app_1432.png",
+    "domain": "monfly.vercel.app_1432",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "d8aa98bb",
+    "size_kb": 150.537109375
+  },
+  {
+    "image_path": "data/ui_screenshots/dashboard-de-performance-de-tr-fego.vercel.app_6896.png",
+    "domain": "dashboard-de-performance-de-tr-fego.vercel.app_6896",
+    "instruction": "Analyze this dashboard UI and generate the schema for the metrics displayed.",
+    "output": "CREATE TABLE metrics (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  metric_name VARCHAR(100),\n  value DECIMAL(15,2),\n  timestamp TIMESTAMP,\n  user_id INT,\n  category VARCHAR(50),\n  FOREIGN KEY (user_id) REFERENCES users(id)\n);",
+    "hash": "71b2e6ad",
+    "size_kb": 764.9853515625
+  },
+  {
+    "image_path": "data/ui_screenshots/flash.srvrs.top_5049.png",
+    "domain": "flash.srvrs.top_5049",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "dccc3db6",
+    "size_kb": 103.27734375
+  },
+  {
+    "image_path": "data/ui_screenshots/KubeUI.com_3385.png",
+    "domain": "KubeUI.com_3385",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "db15dc20",
+    "size_kb": 239.5546875
+  },
+  {
+    "image_path": "data/ui_screenshots/strapi.io_6403.png",
+    "domain": "strapi.io_6403",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "ebdb6c10",
+    "size_kb": 278.50390625
+  },
+  {
+    "image_path": "data/ui_screenshots/getdashdot.com_1689.png",
+    "domain": "getdashdot.com_1689",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "2751f56a",
+    "size_kb": 119.4501953125
+  },
+  {
+    "image_path": "data/ui_screenshots/innovationghar.com_5444.png",
+    "domain": "innovationghar.com_5444",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "b2754898",
+    "size_kb": 800.06640625
+  },
+  {
+    "image_path": "data/ui_screenshots/greyscalemedia.github.io_2949.png",
+    "domain": "greyscalemedia.github.io_2949",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "1da06363",
+    "size_kb": 160.5849609375
+  },
+  {
+    "image_path": "data/ui_screenshots/hexaxia.tech_2721.png",
+    "domain": "hexaxia.tech_2721",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "022f1408",
+    "size_kb": 174.4609375
+  },
+  {
+    "image_path": "data/ui_screenshots/feeyze.github.io_6931.png",
+    "domain": "feeyze.github.io_6931",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "b8550a97",
+    "size_kb": 151.6171875
+  },
+  {
+    "image_path": "data/ui_screenshots/admsoftware.org_3121.png",
+    "domain": "admsoftware.org_3121",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "501a25d7",
+    "size_kb": 624.3486328125
+  },
+  {
+    "image_path": "data/ui_screenshots/hum922.github.io_1111.png",
+    "domain": "hum922.github.io_1111",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "e066c971",
+    "size_kb": 149.732421875
+  },
+  {
+    "image_path": "data/ui_screenshots/protoburn.mrdemonwolf.workers.dev_5032.png",
+    "domain": "protoburn.mrdemonwolf.workers.dev_5032",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "18a56597",
+    "size_kb": 852.390625
+  },
+  {
+    "image_path": "data/ui_screenshots/nguywnben.github.io_7847.png",
+    "domain": "nguywnben.github.io_7847",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "835656df",
+    "size_kb": 133.8798828125
+  },
+  {
+    "image_path": "data/ui_screenshots/minance-tan.vercel.app_9265.png",
+    "domain": "minance-tan.vercel.app_9265",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "e1fd3e9d",
+    "size_kb": 176.677734375
+  },
+  {
+    "image_path": "data/ui_screenshots/linkedin.com_5130.png",
+    "domain": "linkedin.com_5130",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "9f41f428",
+    "size_kb": 327.7080078125
+  },
+  {
+    "image_path": "data/ui_screenshots/almoce.github.io_7437.png",
+    "domain": "almoce.github.io_7437",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "6a0d8a58",
+    "size_kb": 179.228515625
+  },
+  {
+    "image_path": "data/ui_screenshots/ome.github.io_7918.png",
+    "domain": "ome.github.io_7918",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "90f59348",
+    "size_kb": 172.126953125
+  },
+  {
+    "image_path": "data/ui_screenshots/rainbond.io_5514.png",
+    "domain": "rainbond.io_5514",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "d072b1e6",
+    "size_kb": 785.9521484375
+  },
+  {
+    "image_path": "data/ui_screenshots/kubetail.com_6173.png",
+    "domain": "kubetail.com_6173",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "ae38f64c",
+    "size_kb": 342.529296875
+  },
+  {
+    "image_path": "data/ui_screenshots/flyngup.github.io_7551.png",
+    "domain": "flyngup.github.io_7551",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "a9b8aaac",
+    "size_kb": 167.0615234375
+  },
+  {
+    "image_path": "data/ui_screenshots/agentkube.com_9666.png",
+    "domain": "agentkube.com_9666",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "e4016a37",
+    "size_kb": 571.9697265625
+  },
+  {
+    "image_path": "data/ui_screenshots/nrash.info_152.png",
+    "domain": "nrash.info_152",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "c4dd75dc",
+    "size_kb": 773.611328125
+  },
+  {
+    "image_path": "data/ui_screenshots/streampipes.apache.org_8552.png",
+    "domain": "streampipes.apache.org_8552",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "da402fd7",
+    "size_kb": 183.8173828125
+  },
+  {
+    "image_path": "data/ui_screenshots/alireza-portfolio-mu.vercel.app_9353.png",
+    "domain": "alireza-portfolio-mu.vercel.app_9353",
+    "instruction": "Analyze this portfolio/content site UI and generate the schema.",
+    "output": "CREATE TABLE content (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  title VARCHAR(255) NOT NULL,\n  slug VARCHAR(255) UNIQUE,\n  body TEXT,\n  excerpt VARCHAR(500),\n  published_at TIMESTAMP,\n  author_id INT,\n  tags JSON,\n  views_count INT DEFAULT 0,\n  FOREIGN KEY (author_id) REFERENCES users(id)\n);",
+    "hash": "615d33ca",
+    "size_kb": 238.373046875
+  },
+  {
+    "image_path": "data/ui_screenshots/farukmsword2.github.io_9208.png",
+    "domain": "farukmsword2.github.io_9208",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "bc40e674",
+    "size_kb": 158.609375
+  },
+  {
+    "image_path": "data/ui_screenshots/spigotmc.org_6076.png",
+    "domain": "spigotmc.org_6076",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "59a74fa6",
+    "size_kb": 294.2373046875
+  },
+  {
+    "image_path": "data/ui_screenshots/meteroid.com_4203.png",
+    "domain": "meteroid.com_4203",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "f8a41815",
+    "size_kb": 80.2216796875
+  },
+  {
+    "image_path": "data/ui_screenshots/linaar.gumroad.com_3550.png",
+    "domain": "linaar.gumroad.com_3550",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "2fed7dd1",
+    "size_kb": 223.8427734375
+  },
+  {
+    "image_path": "data/ui_screenshots/ptibogxiv.eu_2672.png",
+    "domain": "ptibogxiv.eu_2672",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "023c97de",
+    "size_kb": 2497.291015625
+  },
+  {
+    "image_path": "data/ui_screenshots/run.hopsworks.ai_593.png",
+    "domain": "run.hopsworks.ai_593",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "4aef3dcf",
+    "size_kb": 87.3671875
+  },
+  {
+    "image_path": "data/ui_screenshots/go.vutya.dev_2902.png",
+    "domain": "go.vutya.dev_2902",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "70cb8b18",
+    "size_kb": 101.794921875
+  },
+  {
+    "image_path": "data/ui_screenshots/019c9184-1261-a87a-ddfc-1564bfdd2990.share.connect.posit.cloud_6382.png",
+    "domain": "019c9184-1261-a87a-ddfc-1564bfdd2990.share.connect.posit.cloud_6382",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "e495831c",
+    "size_kb": 165.044921875
+  },
+  {
+    "image_path": "data/ui_screenshots/drive.google.com_2560.png",
+    "domain": "drive.google.com_2560",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "6d1e6173",
+    "size_kb": 431.4931640625
+  },
+  {
+    "image_path": "data/ui_screenshots/ai.m96-chan.dev_5714.png",
+    "domain": "ai.m96-chan.dev_5714",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "8fb73e75",
+    "size_kb": 169.3740234375
+  },
+  {
+    "image_path": "data/ui_screenshots/coreui.io_9856.png",
+    "domain": "coreui.io_9856",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "47c36d18",
+    "size_kb": 373.3525390625
+  },
+  {
+    "image_path": "data/ui_screenshots/serenity.is_245.png",
+    "domain": "serenity.is_245",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "d35796f6",
+    "size_kb": 218.8076171875
+  },
+  {
+    "image_path": "data/ui_screenshots/guacpanel.com_5785.png",
+    "domain": "guacpanel.com_5785",
+    "instruction": "Analyze this admin panel and generate the database schema needed.",
+    "output": "CREATE TABLE resources (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  name VARCHAR(255),\n  status ENUM('active','inactive','pending'),\n  metadata JSON,\n  created_by INT,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n  FOREIGN KEY (created_by) REFERENCES users(id)\n);",
+    "hash": "27fdcbda",
+    "size_kb": 93.10546875
+  },
+  {
+    "image_path": "data/ui_screenshots/docs.piggy-pulse.com_4448.png",
+    "domain": "docs.piggy-pulse.com_4448",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "1f1962cb",
+    "size_kb": 68.8369140625
+  },
+  {
+    "image_path": "data/ui_screenshots/soikoth3010.github.io_2220.png",
+    "domain": "soikoth3010.github.io_2220",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "bab63290",
+    "size_kb": 174.525390625
+  },
+  {
+    "image_path": "data/ui_screenshots/employeevia.web.app_1213.png",
+    "domain": "employeevia.web.app_1213",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "f8c5c961",
+    "size_kb": 1320.1474609375
+  },
+  {
+    "image_path": "data/ui_screenshots/djing.gitbook.io_4522.png",
+    "domain": "djing.gitbook.io_4522",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "de6080f6",
+    "size_kb": 132.20703125
+  },
+  {
+    "image_path": "data/ui_screenshots/satya2320.github.io_385.png",
+    "domain": "satya2320.github.io_385",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "9c7999ab",
+    "size_kb": 157.4619140625
+  },
+  {
+    "image_path": "data/ui_screenshots/rahaf43063.github.io_1796.png",
+    "domain": "rahaf43063.github.io_1796",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "e603a823",
+    "size_kb": 210.9580078125
+  },
+  {
+    "image_path": "data/ui_screenshots/cenksari.com_8447.png",
+    "domain": "cenksari.com_8447",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "4da5900d",
+    "size_kb": 720.5263671875
+  },
+  {
+    "image_path": "data/ui_screenshots/polar.sh_4427.png",
+    "domain": "polar.sh_4427",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "1da4d620",
+    "size_kb": 91.9912109375
+  },
+  {
+    "image_path": "data/ui_screenshots/university-library-managment.vercel.app_4804.png",
+    "domain": "university-library-managment.vercel.app_4804",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "e9cd40f3",
+    "size_kb": 2009.630859375
+  },
+  {
+    "image_path": "data/ui_screenshots/dashboard-gh.vercel.app_5531.png",
+    "domain": "dashboard-gh.vercel.app_5531",
+    "instruction": "Analyze this dashboard UI and generate the schema for the metrics displayed.",
+    "output": "CREATE TABLE metrics (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  metric_name VARCHAR(100),\n  value DECIMAL(15,2),\n  timestamp TIMESTAMP,\n  user_id INT,\n  category VARCHAR(50),\n  FOREIGN KEY (user_id) REFERENCES users(id)\n);",
+    "hash": "b8a34ecb",
+    "size_kb": 66.9638671875
+  },
+  {
+    "image_path": "data/ui_screenshots/fire-eyes-dashboard.vercel.app_8342.png",
+    "domain": "fire-eyes-dashboard.vercel.app_8342",
+    "instruction": "Analyze this dashboard UI and generate the schema for the metrics displayed.",
+    "output": "CREATE TABLE metrics (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  metric_name VARCHAR(100),\n  value DECIMAL(15,2),\n  timestamp TIMESTAMP,\n  user_id INT,\n  category VARCHAR(50),\n  FOREIGN KEY (user_id) REFERENCES users(id)\n);",
+    "hash": "93d3d04f",
+    "size_kb": 147.6162109375
+  },
+  {
+    "image_path": "data/ui_screenshots/app.lizardbyte.dev_2214.png",
+    "domain": "app.lizardbyte.dev_2214",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "837e9e68",
+    "size_kb": 139.203125
+  },
+  {
+    "image_path": "data/ui_screenshots/data-to-insight.github.io_6663.png",
+    "domain": "data-to-insight.github.io_6663",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "126d8383",
+    "size_kb": 174.6142578125
+  },
+  {
+    "image_path": "data/ui_screenshots/nextjs-dashboard-coral-phi-14.vercel.app_2063.png",
+    "domain": "nextjs-dashboard-coral-phi-14.vercel.app_2063",
+    "instruction": "Analyze this dashboard UI and generate the schema for the metrics displayed.",
+    "output": "CREATE TABLE metrics (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  metric_name VARCHAR(100),\n  value DECIMAL(15,2),\n  timestamp TIMESTAMP,\n  user_id INT,\n  category VARCHAR(50),\n  FOREIGN KEY (user_id) REFERENCES users(id)\n);",
+    "hash": "0e64a59e",
+    "size_kb": 188.5478515625
+  },
+  {
+    "image_path": "data/ui_screenshots/farzadasgari.github.io_8868.png",
+    "domain": "farzadasgari.github.io_8868",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "abaeda2c",
+    "size_kb": 257.2490234375
+  },
+  {
+    "image_path": "data/ui_screenshots/hospital-dashboard-blush.vercel.app_1841.png",
+    "domain": "hospital-dashboard-blush.vercel.app_1841",
+    "instruction": "Analyze this dashboard UI and generate the schema for the metrics displayed.",
+    "output": "CREATE TABLE metrics (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  metric_name VARCHAR(100),\n  value DECIMAL(15,2),\n  timestamp TIMESTAMP,\n  user_id INT,\n  category VARCHAR(50),\n  FOREIGN KEY (user_id) REFERENCES users(id)\n);",
+    "hash": "dd83051f",
+    "size_kb": 495.033203125
+  },
+  {
+    "image_path": "data/ui_screenshots/dashboard.elioooooo.fr_403.png",
+    "domain": "dashboard.elioooooo.fr_403",
+    "instruction": "Analyze this dashboard UI and generate the schema for the metrics displayed.",
+    "output": "CREATE TABLE metrics (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  metric_name VARCHAR(100),\n  value DECIMAL(15,2),\n  timestamp TIMESTAMP,\n  user_id INT,\n  category VARCHAR(50),\n  FOREIGN KEY (user_id) REFERENCES users(id)\n);",
+    "hash": "75488076",
+    "size_kb": 83.7705078125
+  },
+  {
+    "image_path": "data/ui_screenshots/code3035.vercel.app_3705.png",
+    "domain": "code3035.vercel.app_3705",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "bd21f451",
+    "size_kb": 707.630859375
+  },
+  {
+    "image_path": "data/ui_screenshots/javajack.github.io_3022.png",
+    "domain": "javajack.github.io_3022",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "22e7e996",
+    "size_kb": 341.12109375
+  },
+  {
+    "image_path": "data/ui_screenshots/minibarindirma.com_4692.png",
+    "domain": "minibarindirma.com_4692",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "7fe40a6d",
+    "size_kb": 713.666015625
+  },
+  {
+    "image_path": "data/ui_screenshots/mimicwizard.readthedocs.io_1941.png",
+    "domain": "mimicwizard.readthedocs.io_1941",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "0e3a1df6",
+    "size_kb": 233.521484375
+  },
+  {
+    "image_path": "data/ui_screenshots/secure-videos.vercel.app_8389.png",
+    "domain": "secure-videos.vercel.app_8389",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "5fcd4a44",
+    "size_kb": 72.8359375
+  },
+  {
+    "image_path": "data/ui_screenshots/dangamuwagedilshan.github.io_7199.png",
+    "domain": "dangamuwagedilshan.github.io_7199",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "45044ee6",
+    "size_kb": 172.10546875
+  },
+  {
+    "image_path": "data/ui_screenshots/detral1.github.io_3121.png",
+    "domain": "detral1.github.io_3121",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "41a9436e",
+    "size_kb": 188.669921875
+  },
+  {
+    "image_path": "data/ui_screenshots/lonero-team.github.io_7668.png",
+    "domain": "lonero-team.github.io_7668",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "48cf84c2",
+    "size_kb": 225.8076171875
+  },
+  {
+    "image_path": "data/ui_screenshots/meryem-code2.github.io_5083.png",
+    "domain": "meryem-code2.github.io_5083",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "4ff7215e",
+    "size_kb": 168.2431640625
+  },
+  {
+    "image_path": "data/ui_screenshots/smart-hostel-management-system-puce.vercel.app_5950.png",
+    "domain": "smart-hostel-management-system-puce.vercel.app_5950",
+    "instruction": "Analyze this admin panel and generate the database schema needed.",
+    "output": "CREATE TABLE resources (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  name VARCHAR(255),\n  status ENUM('active','inactive','pending'),\n  metadata JSON,\n  created_by INT,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n  FOREIGN KEY (created_by) REFERENCES users(id)\n);",
+    "hash": "8c8e2df3",
+    "size_kb": 613.03125
+  },
+  {
+    "image_path": "data/ui_screenshots/control-panel.hololinked.dev_6164.png",
+    "domain": "control-panel.hololinked.dev_6164",
+    "instruction": "Analyze this admin panel and generate the database schema needed.",
+    "output": "CREATE TABLE resources (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  name VARCHAR(255),\n  status ENUM('active','inactive','pending'),\n  metadata JSON,\n  created_by INT,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n  FOREIGN KEY (created_by) REFERENCES users(id)\n);",
+    "hash": "874d444f",
+    "size_kb": 55.986328125
+  },
+  {
+    "image_path": "data/ui_screenshots/lawbringer90.github.io_9932.png",
+    "domain": "lawbringer90.github.io_9932",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "8486a43e",
+    "size_kb": 70.376953125
+  },
+  {
+    "image_path": "data/ui_screenshots/clr-saunders-dsci-532-2026-18-disasterdash-stable.share.connect.posit.cloud_7948.png",
+    "domain": "clr-saunders-dsci-532-2026-18-disasterdash-stable.share.connect.posit.cloud_7948",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "6a66720f",
+    "size_kb": 68.8623046875
+  },
+  {
+    "image_path": "data/ui_screenshots/lycanrf.github.io_8231.png",
+    "domain": "lycanrf.github.io_8231",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "7de21a60",
+    "size_kb": 178.1767578125
+  },
+  {
+    "image_path": "data/ui_screenshots/mirichard.github.io_9035.png",
+    "domain": "mirichard.github.io_9035",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "288a38f6",
+    "size_kb": 72.525390625
+  },
+  {
+    "image_path": "data/ui_screenshots/uknutamagia.pl_8606.png",
+    "domain": "uknutamagia.pl_8606",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "24071eb5",
+    "size_kb": 1403.767578125
+  },
+  {
+    "image_path": "data/ui_screenshots/aliza-dev.github.io_7783.png",
+    "domain": "aliza-dev.github.io_7783",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "67042aa1",
+    "size_kb": 41.4267578125
+  },
+  {
+    "image_path": "data/ui_screenshots/abdelrahman-samy-dev.github.io_2755.png",
+    "domain": "abdelrahman-samy-dev.github.io_2755",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "2ee9b9d6",
+    "size_kb": 183.7099609375
+  },
+  {
+    "image_path": "data/ui_screenshots/tedd456.github.io_2853.png",
+    "domain": "tedd456.github.io_2853",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "1da900ed",
+    "size_kb": 163.6005859375
+  },
+  {
+    "image_path": "data/ui_screenshots/responsivedashboard-booknymph.netlify.app_3504.png",
+    "domain": "responsivedashboard-booknymph.netlify.app_3504",
+    "instruction": "Analyze this dashboard UI and generate the schema for the metrics displayed.",
+    "output": "CREATE TABLE metrics (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  metric_name VARCHAR(100),\n  value DECIMAL(15,2),\n  timestamp TIMESTAMP,\n  user_id INT,\n  category VARCHAR(50),\n  FOREIGN KEY (user_id) REFERENCES users(id)\n);",
+    "hash": "b7e192f5",
+    "size_kb": 218.689453125
+  },
+  {
+    "image_path": "data/ui_screenshots/vue-data-ui.graphieros.com_971.png",
+    "domain": "vue-data-ui.graphieros.com_971",
+    "instruction": "Analyze this dashboard UI and generate the schema for the metrics displayed.",
+    "output": "CREATE TABLE metrics (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  metric_name VARCHAR(100),\n  value DECIMAL(15,2),\n  timestamp TIMESTAMP,\n  user_id INT,\n  category VARCHAR(50),\n  FOREIGN KEY (user_id) REFERENCES users(id)\n);",
+    "hash": "8d987fde",
+    "size_kb": 280.126953125
+  },
+  {
+    "image_path": "data/ui_screenshots/gasperploj.github.io_3488.png",
+    "domain": "gasperploj.github.io_3488",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "b86cb5ca",
+    "size_kb": 160.7353515625
+  },
+  {
+    "image_path": "data/ui_screenshots/chocolavanill.github.io_9.png",
+    "domain": "chocolavanill.github.io_9",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "2d5b791e",
+    "size_kb": 169.8837890625
+  },
+  {
+    "image_path": "data/ui_screenshots/flows.sh_9380.png",
+    "domain": "flows.sh_9380",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "e1b43e6f",
+    "size_kb": 211.8017578125
+  },
+  {
+    "image_path": "data/ui_screenshots/eduardopr19.github.io_1253.png",
+    "domain": "eduardopr19.github.io_1253",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "35f328ed",
+    "size_kb": 157.6708984375
+  },
+  {
+    "image_path": "data/ui_screenshots/trafik8787.github.io_2404.png",
+    "domain": "trafik8787.github.io_2404",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "9814489d",
+    "size_kb": 171.7978515625
+  },
+  {
+    "image_path": "data/ui_screenshots/voux.fr0st.xyz_7859.png",
+    "domain": "voux.fr0st.xyz_7859",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "30cf72d1",
+    "size_kb": 60.033203125
+  },
+  {
+    "image_path": "data/ui_screenshots/raspidash.com_7139.png",
+    "domain": "raspidash.com_7139",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "7ff90b23",
+    "size_kb": 429.548828125
+  },
+  {
+    "image_path": "data/ui_screenshots/voucherboost.com_5011.png",
+    "domain": "voucherboost.com_5011",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "fc7400ef",
+    "size_kb": 328.4443359375
+  },
+  {
+    "image_path": "data/ui_screenshots/nickscripts.com_7402.png",
+    "domain": "nickscripts.com_7402",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "5dfa2661",
+    "size_kb": 160.0283203125
+  },
+  {
+    "image_path": "data/ui_screenshots/ht02777.github.io_984.png",
+    "domain": "ht02777.github.io_984",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "b8c5a6f4",
+    "size_kb": 145.087890625
+  },
+  {
+    "image_path": "data/ui_screenshots/unfoldadmin.com_8057.png",
+    "domain": "unfoldadmin.com_8057",
+    "instruction": "Analyze this admin panel and generate the database schema needed.",
+    "output": "CREATE TABLE resources (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  name VARCHAR(255),\n  status ENUM('active','inactive','pending'),\n  metadata JSON,\n  created_by INT,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n  FOREIGN KEY (created_by) REFERENCES users(id)\n);",
+    "hash": "24e2be61",
+    "size_kb": 285.5478515625
+  },
+  {
+    "image_path": "data/ui_screenshots/tablar.ebuz.xyz_1403.png",
+    "domain": "tablar.ebuz.xyz_1403",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "1c09209d",
+    "size_kb": 144.51171875
+  },
+  {
+    "image_path": "data/ui_screenshots/filamentphp.com_8386.png",
+    "domain": "filamentphp.com_8386",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "c2bdfca1",
+    "size_kb": 389.5361328125
+  },
+  {
+    "image_path": "data/ui_screenshots/admin-panel-12ak.vercel.app_2080.png",
+    "domain": "admin-panel-12ak.vercel.app_2080",
+    "instruction": "Analyze this admin panel and generate the database schema needed.",
+    "output": "CREATE TABLE resources (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  name VARCHAR(255),\n  status ENUM('active','inactive','pending'),\n  metadata JSON,\n  created_by INT,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n  FOREIGN KEY (created_by) REFERENCES users(id)\n);",
+    "hash": "cf6355aa",
+    "size_kb": 141.3759765625
+  },
+  {
+    "image_path": "data/ui_screenshots/asterodigital.com_5114.png",
+    "domain": "asterodigital.com_5114",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "c080ef54",
+    "size_kb": 145.5546875
+  },
+  {
+    "image_path": "data/ui_screenshots/portolan75.github.io_6993.png",
+    "domain": "portolan75.github.io_6993",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "a347ef5f",
+    "size_kb": 62.2646484375
+  },
+  {
+    "image_path": "data/ui_screenshots/xsukax.com_2166.png",
+    "domain": "xsukax.com_2166",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "25b16b90",
+    "size_kb": 193.2548828125
+  },
+  {
+    "image_path": "data/ui_screenshots/admin-hub-dashboard-six.vercel.app_9520.png",
+    "domain": "admin-hub-dashboard-six.vercel.app_9520",
+    "instruction": "Analyze this dashboard UI and generate the schema for the metrics displayed.",
+    "output": "CREATE TABLE metrics (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  metric_name VARCHAR(100),\n  value DECIMAL(15,2),\n  timestamp TIMESTAMP,\n  user_id INT,\n  category VARCHAR(50),\n  FOREIGN KEY (user_id) REFERENCES users(id)\n);",
+    "hash": "9473b74e",
+    "size_kb": 123.5595703125
+  },
+  {
+    "image_path": "data/ui_screenshots/atrio.dev_6895.png",
+    "domain": "atrio.dev_6895",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "7cb3f2bc",
+    "size_kb": 757.98828125
+  },
+  {
+    "image_path": "data/ui_screenshots/enhancenix.com_2271.png",
+    "domain": "enhancenix.com_2271",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "fa47fcd9",
+    "size_kb": 222.7060546875
+  },
+  {
+    "image_path": "data/ui_screenshots/xhahriar037.github.io_1760.png",
+    "domain": "xhahriar037.github.io_1760",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "afec136d",
+    "size_kb": 159.275390625
+  },
+  {
+    "image_path": "data/ui_screenshots/plforecast.streamlit.app_6802.png",
+    "domain": "plforecast.streamlit.app_6802",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "1e13710b",
+    "size_kb": 97.541015625
+  },
+  {
+    "image_path": "data/ui_screenshots/sudosos.gewis.nl_1115.png",
+    "domain": "sudosos.gewis.nl_1115",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "c9fa6935",
+    "size_kb": 56.29296875
+  },
+  {
+    "image_path": "data/ui_screenshots/devflowfix.com_4276.png",
+    "domain": "devflowfix.com_4276",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "0823ec0c",
+    "size_kb": 572.21875
+  },
+  {
+    "image_path": "data/ui_screenshots/pi-hole.net_2725.png",
+    "domain": "pi-hole.net_2725",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "a5a87901",
+    "size_kb": 556.353515625
+  },
+  {
+    "image_path": "data/ui_screenshots/itorandrade.github.io_7917.png",
+    "domain": "itorandrade.github.io_7917",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "87e49aef",
+    "size_kb": 163.224609375
+  },
+  {
+    "image_path": "data/ui_screenshots/wgdashboard.dev_9233.png",
+    "domain": "wgdashboard.dev_9233",
+    "instruction": "Analyze this dashboard UI and generate the schema for the metrics displayed.",
+    "output": "CREATE TABLE metrics (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  metric_name VARCHAR(100),\n  value DECIMAL(15,2),\n  timestamp TIMESTAMP,\n  user_id INT,\n  category VARCHAR(50),\n  FOREIGN KEY (user_id) REFERENCES users(id)\n);",
+    "hash": "f3c99d8d",
+    "size_kb": 538.3466796875
+  },
+  {
+    "image_path": "data/ui_screenshots/cybersec-saas-zjfau6dqcq-uc.a.run.app_2316.png",
+    "domain": "cybersec-saas-zjfau6dqcq-uc.a.run.app_2316",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "53c17555",
+    "size_kb": 495.111328125
+  },
+  {
+    "image_path": "data/ui_screenshots/bassanite.dev_7840.png",
+    "domain": "bassanite.dev_7840",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "59e5523a",
+    "size_kb": 60.8505859375
+  },
+  {
+    "image_path": "data/ui_screenshots/openclaw.ai_3423.png",
+    "domain": "openclaw.ai_3423",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "953b0733",
+    "size_kb": 448.0380859375
+  },
+  {
+    "image_path": "data/ui_screenshots/cliqksocials.com_6279.png",
+    "domain": "cliqksocials.com_6279",
+    "instruction": "Analyze this messaging/chat UI and generate the database schema.",
+    "output": "CREATE TABLE messages (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  sender_id INT NOT NULL,\n  recipient_id INT NOT NULL,\n  content TEXT,\n  sent_at TIMESTAMP,\n  read_at TIMESTAMP,\n  is_deleted BOOLEAN DEFAULT FALSE,\n  FOREIGN KEY (sender_id) REFERENCES users(id),\n  FOREIGN KEY (recipient_id) REFERENCES users(id)\n);",
+    "hash": "8d4f49ad",
+    "size_kb": 160.724609375
+  },
+  {
+    "image_path": "data/ui_screenshots/portfolio-nextjs-v2-rose.vercel.app_6465.png",
+    "domain": "portfolio-nextjs-v2-rose.vercel.app_6465",
+    "instruction": "Analyze this portfolio/content site UI and generate the schema.",
+    "output": "CREATE TABLE content (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  title VARCHAR(255) NOT NULL,\n  slug VARCHAR(255) UNIQUE,\n  body TEXT,\n  excerpt VARCHAR(500),\n  published_at TIMESTAMP,\n  author_id INT,\n  tags JSON,\n  views_count INT DEFAULT 0,\n  FOREIGN KEY (author_id) REFERENCES users(id)\n);",
+    "hash": "d1ebcdc0",
+    "size_kb": 153.037109375
+  },
+  {
+    "image_path": "data/ui_screenshots/meilisearch-ui.vercel.app_5138.png",
+    "domain": "meilisearch-ui.vercel.app_5138",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "99f5ba72",
+    "size_kb": 72.4296875
+  },
+  {
+    "image_path": "data/ui_screenshots/zenobgmi.github.io_6980.png",
+    "domain": "zenobgmi.github.io_6980",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "430c5d13",
+    "size_kb": 151.4677734375
+  },
+  {
+    "image_path": "data/ui_screenshots/sobhan-srza.github.io_3176.png",
+    "domain": "sobhan-srza.github.io_3176",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "6ff825cf",
+    "size_kb": 42.080078125
+  },
+  {
+    "image_path": "data/ui_screenshots/sam-24-dev.github.io_4420.png",
+    "domain": "sam-24-dev.github.io_4420",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "b8d22833",
+    "size_kb": 188.556640625
+  },
+  {
+    "image_path": "data/ui_screenshots/gaelonchas.github.io_428.png",
+    "domain": "gaelonchas.github.io_428",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "c543a660",
+    "size_kb": 157.685546875
+  },
+  {
+    "image_path": "data/ui_screenshots/demianguzman.github.io_1704.png",
+    "domain": "demianguzman.github.io_1704",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "f5966458",
+    "size_kb": 147.5419921875
+  },
+  {
+    "image_path": "data/ui_screenshots/piebro.github.io_6252.png",
+    "domain": "piebro.github.io_6252",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "bfdc241c",
+    "size_kb": 541.6318359375
+  },
+  {
+    "image_path": "data/ui_screenshots/openremote.io_4884.png",
+    "domain": "openremote.io_4884",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "2e755797",
+    "size_kb": 398.6220703125
+  },
+  {
+    "image_path": "data/ui_screenshots/mindease-connect-hub.vercel.app_9053.png",
+    "domain": "mindease-connect-hub.vercel.app_9053",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "8f7ce3ca",
+    "size_kb": 420.9072265625
+  },
+  {
+    "image_path": "data/ui_screenshots/cjmk1.github.io_6564.png",
+    "domain": "cjmk1.github.io_6564",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "cf333d6b",
+    "size_kb": 168.9169921875
+  },
+  {
+    "image_path": "data/ui_screenshots/gamfidick.github.io_135.png",
+    "domain": "gamfidick.github.io_135",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "64ae1009",
+    "size_kb": 146.021484375
+  },
+  {
+    "image_path": "data/ui_screenshots/greenbowl.vercel.app_5905.png",
+    "domain": "greenbowl.vercel.app_5905",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "2558f5c2",
+    "size_kb": 1117.15234375
+  },
+  {
+    "image_path": "data/ui_screenshots/beamback.whoisarjen.com_2896.png",
+    "domain": "beamback.whoisarjen.com_2896",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "40e04bcf",
+    "size_kb": 272.6484375
+  },
+  {
+    "image_path": "data/ui_screenshots/garry4u4.github.io_9736.png",
+    "domain": "garry4u4.github.io_9736",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "0dae926c",
+    "size_kb": 152.7900390625
+  },
+  {
+    "image_path": "data/ui_screenshots/t.me_4624.png",
+    "domain": "t.me_4624",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "3250dd82",
+    "size_kb": 1072.7783203125
+  },
+  {
+    "image_path": "data/ui_screenshots/nonamedloser.github.io_6053.png",
+    "domain": "nonamedloser.github.io_6053",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "856796f6",
+    "size_kb": 181.9765625
+  },
+  {
+    "image_path": "data/ui_screenshots/cylc.github.io_3254.png",
+    "domain": "cylc.github.io_3254",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "35a97eb7",
+    "size_kb": 100.431640625
+  },
+  {
+    "image_path": "data/ui_screenshots/webEbenezer.net_6825.png",
+    "domain": "webEbenezer.net_6825",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "c6e34c0d",
+    "size_kb": 162.3125
+  },
+  {
+    "image_path": "data/ui_screenshots/quiqqer.com_554.png",
+    "domain": "quiqqer.com_554",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "aef59958",
+    "size_kb": 213.0966796875
+  },
+  {
+    "image_path": "data/ui_screenshots/23blocks.com_2994.png",
+    "domain": "23blocks.com_2994",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "38c48aa1",
+    "size_kb": 226.59765625
+  },
+  {
+    "image_path": "data/ui_screenshots/moesaid.com_5053.png",
+    "domain": "moesaid.com_5053",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "a3d7d3e0",
+    "size_kb": 144.1279296875
+  },
+  {
+    "image_path": "data/ui_screenshots/chillguyfsfs-ctrl.github.io_9404.png",
+    "domain": "chillguyfsfs-ctrl.github.io_9404",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "ad1b389c",
+    "size_kb": 173.68359375
+  },
+  {
+    "image_path": "data/ui_screenshots/lamasse237.github.io_3527.png",
+    "domain": "lamasse237.github.io_3527",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "d91e5386",
+    "size_kb": 176.1650390625
+  },
+  {
+    "image_path": "data/ui_screenshots/bidr12345.github.io_3706.png",
+    "domain": "bidr12345.github.io_3706",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "d87097e4",
+    "size_kb": 187.9072265625
+  },
+  {
+    "image_path": "data/ui_screenshots/newstudy-portal.vercel.app_743.png",
+    "domain": "newstudy-portal.vercel.app_743",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  type VARCHAR(100),\n  content JSON,\n  is_active BOOLEAN DEFAULT TRUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+    "hash": "4cc34c08",
+    "size_kb": 936.0009765625
+  },
+  {
+    "image_path": "data/ui_screenshots/cedric-prin-portfolio.vercel.app_9458.png",
+    "domain": "cedric-prin-portfolio.vercel.app_9458",
+    "instruction": "Analyze this portfolio/content site UI and generate the schema.",
+    "output": "CREATE TABLE content (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  title VARCHAR(255) NOT NULL,\n  slug VARCHAR(255) UNIQUE,\n  body TEXT,\n  excerpt VARCHAR(500),\n  published_at TIMESTAMP,\n  author_id INT,\n  tags JSON,\n  views_count INT DEFAULT 0,\n  FOREIGN KEY (author_id) REFERENCES users(id)\n);",
+    "hash": "52301c40",
+    "size_kb": 288.759765625
+  }
+]

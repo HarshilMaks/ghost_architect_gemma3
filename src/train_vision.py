@@ -4,11 +4,34 @@
 import argparse
 import json
 import torch
+import os
 from pathlib import Path
 from PIL import Image
 from transformers import TrainingArguments, AutoProcessor, AutoModelForCausalLM
 from peft import LoraConfig, get_peft_model
 from trl import SFTTrainer
+
+# --- 🔒 HUGGINGFACE AUTHENTICATION ---
+from dotenv import load_dotenv
+from huggingface_hub import login
+
+# Load API keys from .env
+load_dotenv()
+
+# Authenticate with HuggingFace (required for gated models like google/gemma-3-12b-it)
+hf_token = os.getenv("HUGGINGFACE_TOKEN")
+if hf_token:
+    try:
+        login(token=hf_token, add_to_git_credential=False)
+        print("✅ Authenticated with HuggingFace")
+    except Exception as e:
+        print(f"❌ HuggingFace authentication failed: {e}")
+        raise
+else:
+    print("❌ HUGGINGFACE_TOKEN not found in .env file")
+    print("Please add your token: HUGGINGFACE_TOKEN=hf_xxxxxxxxxxxxx")
+    raise ValueError("HUGGINGFACE_TOKEN is required for Phase 2 training")
+# -----------------------------------
 
 def load_multimodal_dataset(dataset_path: Path):
     """Loads dataset and verifies images exist."""
@@ -19,9 +42,11 @@ def load_multimodal_dataset(dataset_path: Path):
     
     valid_rows = []
     for item in parsed:
-        img_path = Path(item["image_path"])
-        if img_path.exists():
-            # Format specifically for Gemma-3 Vision Chat Template
+        # Check if image_path exists; if not, use text-only format
+        img_path = Path(item.get("image_path", "")) if "image_path" in item else None
+        
+        # Format specifically for Gemma-3 Vision Chat Template
+        if img_path and img_path.exists():
             messages = [
                 {
                     "role": "user",
@@ -39,8 +64,23 @@ def load_multimodal_dataset(dataset_path: Path):
                 "messages": messages, 
                 "images": [Image.open(img_path).convert("RGB")]
             })
+        else:
+            # Fallback to text-only for Phase 1 data
+            messages = [
+                {
+                    "role": "user",
+                    "content": [{"type": "text", "text": item["instruction"]}]
+                },
+                {
+                    "role": "assistant",
+                    "content": [{"type": "text", "text": item["output"]}]
+                }
+            ]
+            valid_rows.append({
+                "messages": messages
+            })
             
-    print(f"Loaded {len(valid_rows)} valid multimodal examples.")
+    print(f"Loaded {len(valid_rows)} valid training examples.")
     return Dataset.from_list(valid_rows)
 
 def run_vision_training(dataset_path: Path):
