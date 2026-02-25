@@ -24,8 +24,19 @@ if not GEMINI_API_KEY:
     )
 genai.configure(api_key=GEMINI_API_KEY)
 
-# Use Gemini 1.5 Flash (Fast, free, and excellent at vision)
-model = genai.GenerativeModel('gemini-1.5-flash')
+# Use Gemini 2.0 Flash (Latest, free tier available, excellent at vision)
+# If that fails, will fall back to gemini-1.5-flash
+try:
+    model = genai.GenerativeModel('gemini-2.0-flash')
+    print("✅ Using gemini-2.0-flash")
+except Exception as e:
+    print(f"⚠️  gemini-2.0-flash not available, trying gemini-1.5-flash: {e}")
+    try:
+        model = genai.GenerativeModel('gemini-1.5-flash')
+        print("✅ Using gemini-1.5-flash")
+    except Exception as e2:
+        print(f"⚠️  gemini-1.5-flash not available, trying gemini-1.5-pro: {e2}")
+        model = genai.GenerativeModel('gemini-1.5-pro')
 
 SCREENSHOT_DIR = "data/ui_screenshots"
 DATASET_FILE = "data/dataset.json"
@@ -42,7 +53,7 @@ Follow these strict rules:
 4. Do not include any explanations, greetings, or pleasantries. Output strictly the SQL code.
 """
 
-def generate_sql_for_image(image_path):
+def generate_sql_for_image(image_path, verbose=False):
     """Sends the image to the Teacher Model to get the SQL."""
     try:
         img = Image.open(image_path)
@@ -53,7 +64,12 @@ def generate_sql_for_image(image_path):
         sql_output = response.text.replace("```sql", "").replace("```postgresql", "").replace("```", "").strip()
         return sql_output
     except Exception as e:
-        print(f"  -> Error generating SQL for {image_path}: {e}")
+        error_msg = str(e)
+        if verbose:
+            print(f"  ❌ ERROR: {error_msg}")
+        # Only log key errors, skip rate limit errors
+        if "429" not in error_msg and "quota" not in error_msg.lower():
+            print(f"  ⚠️  {image_path.split('/')[-1]}: {error_msg[:80]}")
         return None
 
 def build_dataset():
@@ -105,4 +121,38 @@ def build_dataset():
             time.sleep(4) 
 
 if __name__ == "__main__":
-    build_dataset()
+    import sys
+    
+    # Check if running in test mode
+    test_mode = "--test" in sys.argv
+    
+if __name__ == "__main__":
+    import sys
+    
+    # Check if running in test mode
+    test_mode = "--test" in sys.argv
+    
+    if test_mode:
+        print("\n🧪 TEST MODE: Analyzing a single screenshot to verify setup")
+        image_files = list(Path(SCREENSHOT_DIR).glob("*.png"))
+        if image_files:
+            test_img = image_files[0]
+            print(f"Testing with: {test_img.name}")
+            sql = generate_sql_for_image(str(test_img), verbose=True)
+            if sql:
+                print(f"✅ SUCCESS! Generated {len(sql)} chars of SQL")
+                print(f"Preview: {sql[:200]}...")
+            else:
+                print("❌ FAILED: No SQL generated")
+                print("\n💡 NOTE: Free tier Gemini API has quota limits (15 req/min, 1M tokens/day)")
+                print("   See API_QUOTA_GUIDE.md for solutions")
+                print("   Recommended: Skip Phase 2, focus on Phase 1 training instead (no API needed)")
+        else:
+            print(f"❌ No screenshots found in {SCREENSHOT_DIR}")
+    else:
+        print("\n📊 FULL MODE: Processing all screenshots")
+        print(f"Run with --test flag to verify single screenshot first:")
+        print(f"  uv run python src/synthetic_generator.py --test")
+        print("\n⚠️  WARNING: This requires many API calls. Free tier has quota limits.")
+        print("   See API_QUOTA_GUIDE.md for alternatives.")
+        build_dataset()
