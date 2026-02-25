@@ -8,10 +8,20 @@ import time
 from pathlib import Path
 from PIL import Image
 import google.generativeai as genai
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # --- Configuration ---
-# You will need to set this environment variable in your terminal later
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "YOUR_API_KEY_HERE")
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+if not GEMINI_API_KEY:
+    raise ValueError(
+        "GEMINI_API_KEY not found in environment variables.\n"
+        "Please create a .env file in the project root with:\n"
+        "  GEMINI_API_KEY=your_actual_api_key_here\n"
+        "See .env.example for template."
+    )
 genai.configure(api_key=GEMINI_API_KEY)
 
 # Use Gemini 1.5 Flash (Fast, free, and excellent at vision)
