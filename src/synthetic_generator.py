@@ -44,7 +44,7 @@ except Exception as e:
             model = genai.GenerativeModel('gemini-1.5-pro')
 
 SCREENSHOT_DIR = "data/ui_screenshots"
-DATASET_FILE = "data/dataset.json"
+DATASET_FILE = "data/dataset_vision.json"
 
 # The Prompt that turns the AI into a Senior Architect
 SYSTEM_PROMPT = """
@@ -92,12 +92,11 @@ def build_dataset():
         except json.JSONDecodeError:
             print("⚠️  Warning: dataset.json was empty or corrupted. Starting fresh.")
 
-    # SMART RESUME: Keep track of images we already processed (Handles both keys)
+    # SMART RESUME: Keep track of images we already processed (Handles both key formats)
     processed_images = set()
     for item in dataset:
         img_val = item.get("image_path") or item.get("image")
         if img_val:
-            # Normalize slashes just in case of OS differences
             processed_images.add(img_val.replace("\\", "/"))
             
     print(f"🧠 Smart Resume: Skipping {len(processed_images)} images already generated...")
@@ -118,22 +117,30 @@ def build_dataset():
         sql = generate_sql_for_image(img_str_path)
         
         if sql:
-            # Create the exact training format required for Gemma-3
-            training_example = {
-                "instruction": "Analyze this UI screenshot and generate the PostgreSQL database schema required to support it.",
-                "input": "", 
-                "output": sql,
-                "image_path": img_str_path 
-            }
+            # Check if this image already exists in dataset (upgrade its output)
+            existing = next((ex for ex in dataset if (ex.get("image_path") or ex.get("image","")).replace("\\","/") == img_str_path), None)
             
-            dataset.append(training_example)
+            if existing:
+                # Upgrade existing heuristic SQL with Gemini's better output
+                existing["output"] = sql
+                existing["instruction"] = "Analyze this UI screenshot and generate the PostgreSQL database schema required to support it."
+            else:
+                # New entry — add with full schema matching dataset_vision.json format
+                dataset.append({
+                    "image_path": img_str_path,
+                    "instruction": "Analyze this UI screenshot and generate the PostgreSQL database schema required to support it.",
+                    "output": sql,
+                    "domain": "unknown",
+                    "hash": "",
+                    "size_kb": round(img_path.stat().st_size / 1024, 1)
+                })
             
             # Save progressively so you don't lose data if it crashes
             with open(DATASET_FILE, "w", encoding="utf-8") as f:
                 json.dump(dataset, f, indent=2)
                 
             processed_this_session += 1
-            print(f"  -> Success! Schema saved. ({processed_this_session} generated this run)")
+            print(f"  -> {'Upgraded' if existing else 'Added'}! Schema saved. ({processed_this_session} processed this run)")
             
             # Sleep to avoid hitting free-tier API rate limits (15 requests/minute)
             time.sleep(4) 
