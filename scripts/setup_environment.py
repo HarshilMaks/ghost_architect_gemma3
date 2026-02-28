@@ -1,1 +1,0 @@
-"""Project environment bootstrap script."""

@@ -1,1 +1,0 @@
-"""Model component definitions."""
