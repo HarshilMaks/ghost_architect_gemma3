@@ -9,22 +9,18 @@ The Ghost Architect is a multimodal AI system that converts UI screenshots into 
 
 ```mermaid
 graph TD
-    A[UI Screenshot] --> B[Vision Encoder]
-    B --> C[Feature Extraction]
-    C --> D[Multimodal Fusion]
-    D --> E[Gemma-3 Text Model]
-    E --> F[SQL Schema Generator]
-    F --> G[Database Schema]
+    A[UI Screenshot] --> B[Gemma-3 Vision Model]
+    B --> C[SQL Schema Generator]
+    C --> D[Database Schema]
     
-    H[Training Data] --> I[Synthetic Generator]
-    I --> J[Teacher Model GPT-4V]
-    J --> K[Quality Validation]
-    K --> L[Fine-tuning Pipeline]
-    L --> E
+    E[Training Data] --> F[Synthetic Generator]
+    F --> G[Gemini API]
+    G --> H[Quality Validation]
+    H --> I[Fine-tuning Pipeline]
+    I --> B
     
-    M[Production API] --> N[FastAPI Server]
-    N --> O[Docker Container]
-    O --> P[Cloud Deployment]
+    J[Export] --> K[GGUF / Ollama]
+    J --> L[Streamlit Demo App]
 ```
 
 ---
@@ -33,95 +29,53 @@ graph TD
 
 ```
 ghost_architect_gemma3/
+├── configs/
+│   └── training_config.yaml        # Phase 1 config (used by Makefile + src/train.py)
+│
+├── scripts/
+│   ├── build_vision_dataset.py     # Builds dataset_vision.json from screenshots + Gemini
+│   ├── download_datasets.py        # Playwright scraper for UI screenshots
+│   ├── generate_training_data.py   # Generates Phase 1 starter data
+│   ├── validate_dataset.py         # Validates dataset.json (make dataset-check)
+│   └── validate_environment.py     # Validates GPU/deps (make validate)
+│
+├── src/                            # Source code
+│   ├── __init__.py
+│   ├── train.py                    # Phase 1: Trinity text training
+│   ├── train_vision.py             # Colab T4 vision training (QLoRA+rsLoRA)
+│   ├── modal_train.py              # Modal A10G vision training (full Trinity)
+│   ├── inference.py                # CLI testing with rich terminal output
+│   ├── app.py                      # Streamlit web app (upload screenshot → schema)
+│   ├── export.py                   # GGUF export for Ollama
+│   └── synthetic_generator.py      # Gemini API for SQL generation from screenshots
+│
+├── data/                           # Training data
+│   ├── dataset.json                # Phase 1: Text training data
+│   ├── dataset_vision.json         # Phase 2: 287 vision training examples
+│   ├── ui_screenshots/             # 287 PNGs (107MB)
+│   ├── raw_csvs/                   # Source CSVs for scraper
+│   ├── synthetic_pairs/            # (empty, for future use)
+│   └── validation_set/             # (empty, for future use)
+│
+├── output/                         # Model outputs (gitignored)
+│   ├── adapters/                   # LoRA adapter weights
+│   └── gguf/                       # GGUF models for Ollama
+│
+├── tests/
+│   └── __init__.py                 # Test package (no tests yet)
+│
+├── notebooks/
+│   └── main.ipynb                  # Colab T4 notebook
+│
 ├── docs/                           # Documentation
-│   ├── architecture.md            # This file
-│   ├── plan.md                    # Implementation plan
-│   ├── prd.md                     # Product requirements
-│   └── ai_rules.md               # Quality control rules
+├── docker/                         # Docker setup (future)
 │
-├── src/                          # Source code
-│   ├── __init__.py
-│   ├── train.py                  # Phase 1: Trinity training
-│   ├── inference.py              # Model inference utilities
-│   ├── multimodal_model.py       # Phase 2: Multimodal architecture
-│   ├── synthetic_generator.py    # Dataset generation system
-│   ├── data_processing.py        # Data preprocessing utilities
-│   ├── export.py                 # GGUF export functionality
-│   │
-│   ├── models/                   # Model definitions
-│   │   ├── __init__.py
-│   │   ├── trinity_config.py     # QLoRA + DoRA + rsLoRA config
-│   │   ├── vision_encoder.py     # Vision processing components
-│   │   └── multimodal_fusion.py  # Cross-modal integration
-│   │
-│   ├── training/                 # Training utilities
-│   │   ├── __init__.py
-│   │   ├── memory_monitor.py     # GPU memory tracking
-│   │   ├── oom_recovery.py       # Out-of-memory handling
-│   │   └── metrics.py            # Training metrics
-│   │
-│   ├── data/                     # Data processing
-│   │   ├── __init__.py
-│   │   ├── ui_analyzer.py        # UI element detection
-│   │   ├── sql_validator.py      # Schema validation
-│   │   └── quality_filter.py     # Data quality assurance
-│   │
-│   └── api/                      # Production API
-│       ├── __init__.py
-│       ├── main.py               # FastAPI application
-│       ├── models.py             # API data models
-│       ├── endpoints.py          # API endpoints
-│       └── middleware.py         # Authentication/validation
-│
-├── data/                         # Training data
-│   ├── dataset.json             # Phase 1: Text training data
-│   ├── ui_screenshots/          # Phase 2: UI images
-│   ├── synthetic_pairs/         # Generated UI-SQL pairs
-│   └── validation_set/          # Test/validation data
-│
-├── output/                      # Model outputs
-│   ├── adapters/               # LoRA adapter weights
-│   │   ├── phase1/            # Text fine-tuning adapters
-│   │   └── phase2/            # Multimodal adapters
-│   ├── checkpoints/           # Training checkpoints
-│   └── gguf/                  # Production GGUF models
-│
-├── scripts/                    # Utility scripts
-│   ├── setup_environment.py   # Environment initialization
-│   ├── download_datasets.py   # Data acquisition scripts
-│   ├── run_training.py        # Training execution script
-│   ├── export_model.py        # Model export automation
-│   └── deploy.py              # Deployment automation
-│
-├── tests/                      # Test suite
-│   ├── __init__.py
-│   ├── test_training.py       # Training pipeline tests
-│   ├── test_inference.py      # Model inference tests
-│   ├── test_api.py            # API endpoint tests
-│   └── test_quality.py        # Quality validation tests
-│
-├── configs/                    # Configuration files
-│   ├── training_config.yaml   # Training parameters
-│   ├── model_config.yaml      # Model architecture settings
-│   └── deployment_config.yaml # Production deployment settings
-│
-├── notebooks/                  # Jupyter notebooks
-│   └── main.ipynb             # Colab T4 main training workflow
-│
-├── docker/                     # Container definitions
-│   ├── Dockerfile             # Production container
-│   ├── docker-compose.yml     # Local development
-│   └── requirements.txt       # Container dependencies
-│
-├── .github/                    # GitHub workflows
-│   └── workflows/
-│       ├── tests.yml          # Automated testing
-│       └── deploy.yml         # Deployment pipeline
-│
-├── requirements.txt            # Python dependencies
-├── .gitignore                 # Git ignore patterns
-├── README.md                  # Project overview
-└── LICENSE                    # License file
+├── Makefile                        # Build targets
+├── requirements.txt                # Python dependencies
+├── README.md
+├── DATASET_README.md
+├── SECURITY.md
+└── LICENSE
 ```
 
 ---
@@ -200,147 +154,42 @@ class TrinityTrainer:
 
 ---
 
-## 4. Phase 2: Ghost Architect (Multimodal System)
+## 4. Phase 2: Ghost Architect (Vision Training)
 
-### 4.1 Multimodal Architecture
+### 4.1 Two Training Paths
+
+Ghost Architect offers two vision training paths depending on available hardware:
+
+| | **Modal A10G** (`src/modal_train.py`) | **Colab T4** (`src/train_vision.py`) |
+|---|---|---|
+| **Trinity** | Full: QLoRA + DoRA + rsLoRA | QLoRA + rsLoRA only (no DoRA) |
+| **Vision layers** | `finetune_vision_layers=True` | `finetune_vision_layers=False` |
+| **Epochs / Context** | 3 epochs, 4096 ctx | 1 epoch, 2048 ctx |
+| **Cost** | ~$1.65 (from free $30 credits) | Free |
+
+> **DoRA bug:** PEFT's `dora.py` passes fp16 `x_eye` to fp32 `lora_A` without casting. Unsloth's Gemma3 temporary fp16 patch triggers this on T4. `modal_train.py` includes an inline monkey-patch; `train_vision.py` disables DoRA.
+
+### 4.2 Vision Dataset Format
 ```python
-class GhostArchitect(nn.Module):
-    def __init__(self):
-        # Vision Components
-        self.vision_encoder = CLIPVisionModel.from_pretrained("openai/clip-vit-base-patch32")
-        self.vision_projector = nn.Linear(768, 4096)  # Project to text model dimension
-        
-        # Text Components  
-        self.text_model = load_gemma3_with_trinity()
-        
-        # Multimodal Fusion
-        self.fusion_attention = MultiheadAttention(4096, 32)
-        self.fusion_norm = LayerNorm(4096)
-        
-        # SQL Generation Head
-        self.sql_head = nn.Sequential(
-            nn.Linear(4096, 2048),
-            nn.ReLU(),
-            nn.Dropout(0.1),
-            nn.Linear(2048, vocab_size)
-        )
-    
-    def forward(self, image, text_input):
-        # Process image
-        vision_features = self.vision_encoder(image)
-        vision_projected = self.vision_projector(vision_features)
-        
-        # Process text
-        text_features = self.text_model.get_input_embeddings()(text_input)
-        
-        # Multimodal fusion
-        fused_features = self.fusion_attention(
-            text_features, vision_projected, vision_projected
-        )[0]
-        fused_features = self.fusion_norm(fused_features + text_features)
-        
-        # Generate SQL schema
-        sql_logits = self.sql_head(fused_features)
-        return sql_logits
+# No top-level "images" column. Image paths embedded in messages:
+{
+    "messages": [
+        {"role": "user", "content": [
+            {"type": "image", "image": "data/ui_screenshots/example.png", "text": ""},
+            {"type": "text", "text": "Analyze this UI and generate the database schema."}
+        ]},
+        {"role": "assistant", "content": "CREATE TABLE users (...)"}
+    ]
+}
+# This avoids TRL's _is_vision_dataset check.
+# UnslothVisionDataCollator falls back to process_vision_info() → fetch_image() → Image.open(path).
 ```
 
-### 4.2 Synthetic Dataset Generation Architecture
+### 4.3 Synthetic Dataset Generation
 ```python
-class SyntheticDatasetGenerator:
-    def __init__(self):
-        self.teacher_model = "gpt-4-vision-preview"
-        self.ui_analyzer = UIElementDetector()
-        self.sql_validator = SQLSchemaValidator()
-        self.quality_filter = DataQualityFilter()
-    
-    def generate_dataset(self, ui_images):
-        synthetic_pairs = []
-        
-        for image_path in ui_images:
-            # Analyze UI structure
-            ui_elements = self.ui_analyzer.detect_elements(image_path)
-            
-            # Generate schema with teacher model
-            schema = self.query_teacher_model(image_path, ui_elements)
-            
-            # Validate and filter
-            if self.validate_pair(image_path, schema):
-                synthetic_pairs.append({
-                    "image": image_path,
-                    "schema": schema,
-                    "ui_elements": ui_elements,
-                    "complexity_score": self.calculate_complexity(ui_elements)
-                })
-        
-        return synthetic_pairs
-    
-    def query_teacher_model(self, image, ui_elements):
-        prompt = f"""
-        Act as a Senior Database Architect. Analyze this UI screenshot and infer 
-        the PostgreSQL database schema required to support this interface.
-        
-        UI Elements Detected: {ui_elements}
-        
-        Generate a complete PostgreSQL schema including:
-        1. All necessary tables
-        2. Primary keys and foreign keys
-        3. Appropriate data types
-        4. Indexes for performance
-        5. Constraints and validations
-        
-        Output ONLY valid PostgreSQL SQL.
-        """
-        
-        return self.teacher_model.generate(image, prompt)
-```
-
-### 4.3 Production API Architecture
-```python
-# FastAPI Production System
-from fastapi import FastAPI, UploadFile, HTTPException
-from pydantic import BaseModel
-
-class SchemaRequest(BaseModel):
-    image: UploadFile
-    output_format: str = "postgresql"
-    include_indexes: bool = True
-    include_constraints: bool = True
-
-class SchemaResponse(BaseModel):
-    sql_schema: str
-    confidence_score: float
-    ui_elements_detected: List[str]
-    complexity_rating: str
-    execution_time: float
-
-app = FastAPI(title="Ghost Architect API")
-
-@app.post("/generate-schema", response_model=SchemaResponse)
-async def generate_database_schema(request: SchemaRequest):
-    try:
-        # Process uploaded image
-        image = await process_uploaded_image(request.image)
-        
-        # Load Ghost Architect model
-        model = load_ghost_architect_model()
-        
-        # Generate schema
-        schema_result = model.generate_schema(
-            image=image,
-            output_format=request.output_format,
-            include_indexes=request.include_indexes,
-            include_constraints=request.include_constraints
-        )
-        
-        return SchemaResponse(**schema_result)
-        
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-# Health check and monitoring
-@app.get("/health")
-async def health_check():
-    return {"status": "healthy", "model_loaded": check_model_status()}
+# File: src/synthetic_generator.py
+# Uses Gemini API (google-generativeai) to auto-generate SQL annotations from screenshots.
+# Called by scripts/build_vision_dataset.py to produce data/dataset_vision.json (287 examples).
 ```
 
 ---
@@ -349,42 +198,35 @@ async def health_check():
 
 ### 5.1 Training Data Structure
 ```python
-# Phase 1: Text Fine-tuning Data
-text_training_format = {
-    "conversations": [
-        {
-            "instruction": "Clear task instruction",
-            "input": "Optional context",
-            "output": "Expected response"
-        }
-    ]
-}
+# Phase 1: Text Fine-tuning Data (data/dataset.json)
+text_training_format = [
+    {
+        "instruction": "Clear task instruction",
+        "input": "Optional context",
+        "output": "Expected response"
+    }
+]
 
-# Phase 2: Multimodal Training Data
-multimodal_training_format = {
-    "image_path": "path/to/ui_screenshot.png",
-    "ui_analysis": {
-        "elements": ["form", "table", "navigation", "cards"],
-        "relationships": ["user_profile", "order_history"],
-        "complexity": "medium"
-    },
-    "sql_schema": "CREATE TABLE users (...); CREATE TABLE orders (...);"
+# Phase 2: Vision Training Data (data/dataset_vision.json)
+# 287 examples. Image paths embedded in messages (no top-level "images" column):
+vision_training_format = {
+    "messages": [
+        {"role": "user", "content": [
+            {"type": "image", "image": "data/ui_screenshots/example.png", "text": ""},
+            {"type": "text", "text": "Analyze this UI and generate the database schema."}
+        ]},
+        {"role": "assistant", "content": "CREATE TABLE users (...)"}
+    ]
 }
 ```
 
 ### 5.2 Quality Metrics & Validation
-```python
-class DataQualityValidator:
-    def validate_ui_sql_pair(self, image, schema):
-        checks = {
-            "sql_syntax_valid": self.validate_sql_syntax(schema),
-            "ui_elements_mapped": self.check_element_mapping(image, schema),
-            "relationships_correct": self.validate_relationships(schema),
-            "complexity_appropriate": self.check_complexity_match(image, schema),
-            "schema_complete": self.validate_completeness(schema)
-        }
-        
-        return all(checks.values()), checks
+```bash
+# Validate Phase 1 dataset:
+make dataset-check   # runs scripts/validate_dataset.py
+
+# Validate/rebuild Phase 2 dataset:
+python scripts/build_vision_dataset.py
 ```
 
 ---
@@ -395,12 +237,13 @@ class DataQualityValidator:
 ```yaml
 # Development Stack
 development:
-  platform: "Google Colab Pro"
-  gpu: "NVIDIA T4 (16GB VRAM)"
+  platforms:
+    - "Google Colab (T4 GPU, 16GB VRAM) — free"
+    - "Modal (A10G GPU, 24GB VRAM) — ~$1.65 per run"
   python: "3.11+"
   cuda: "12.1+"
   
-# Dependencies
+# Core Dependencies
 core_dependencies:
   - unsloth==2026.1.4
   - transformers>=4.38.0
@@ -409,147 +252,50 @@ core_dependencies:
   - trl>=0.18.2,<=0.24.0,!=0.19.0
   - bitsandbytes>=0.41.0
   - accelerate>=0.25.0
+  - google-generativeai          # Gemini API for synthetic SQL generation
+  - streamlit                    # Interactive demo app
   # xformers is optional; do not force-install on Colab T4 if no wheel is available.
 ```
 
-### 6.2 Production Deployment
-```docker
-# Production Container
-FROM nvidia/cuda:12.1-runtime-ubuntu22.04
+### 6.2 Deployment Model
 
-# Install Python and dependencies
-RUN apt-get update && apt-get install -y python3.11 python3-pip
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+The project deploys locally, not as a web API:
 
-# Copy application
-COPY src/ /app/src/
-COPY output/gguf/ /app/models/
+1. **Export to GGUF**: `python src/export.py` → `output/gguf/`
+2. **Run with Ollama**: `ollama create ghost-architect -f Modelfile && ollama run ghost-architect`
+3. **Interactive demo**: `streamlit run src/app.py` (upload screenshot → see schema)
+4. **CLI testing**: `python src/inference.py` (rich terminal output)
 
-# Set environment
-ENV MODEL_PATH=/app/models/ghost-architect.gguf
-ENV API_HOST=0.0.0.0
-ENV API_PORT=8000
-
-# Run application
-CMD ["uvicorn", "src.api.main:app", "--host", "${API_HOST}", "--port", "${API_PORT}"]
-```
-
-### 6.3 Scalability Architecture
-```mermaid
-graph LR
-    A[Load Balancer] --> B[API Instance 1]
-    A --> C[API Instance 2]
-    A --> D[API Instance N]
-    
-    B --> E[Model Cache]
-    C --> E
-    D --> E
-    
-    E --> F[GPU Inference Cluster]
-    F --> G[Model Storage]
-    
-    H[Monitoring] --> I[Metrics Dashboard]
-    H --> J[Alert System]
-```
+> There is no FastAPI/uvicorn server. The `docker/` directory is reserved for future containerized deployment.
 
 ---
 
-## 7. Performance & Monitoring
+## 7. Performance Targets
 
-### 7.1 Performance Targets
 ```python
 performance_targets = {
     "training": {
-        "memory_usage": "<16GB on T4 GPU",
+        "memory_usage": "<16GB on T4 GPU, <24GB on A10G",
         "training_speed": ">100 tokens/second",
-        "convergence_time": "<4 hours for Phase 1"
+        "convergence": "loss < 0.5 by end of training"
     },
     "inference": {
-        "api_latency": "<5 seconds per request",
-        "throughput": ">10 requests/minute",
-        "accuracy": ">90% valid SQL schemas"
-    },
-    "scalability": {
-        "concurrent_users": ">100 simultaneous requests",
-        "model_size": "<8GB GGUF file",
-        "startup_time": "<30 seconds"
+        "gguf_latency": "<5 seconds per request via Ollama",
+        "accuracy": ">90% valid SQL schemas",
+        "model_size": "<8GB GGUF file"
     }
 }
 ```
 
-### 7.2 Monitoring & Observability
-```python
-class SystemMonitor:
-    def __init__(self):
-        self.metrics_collector = MetricsCollector()
-        self.alerting_system = AlertingSystem()
-    
-    def track_training_metrics(self):
-        return {
-            "gpu_memory_usage": self.get_gpu_memory(),
-            "training_loss": self.get_current_loss(),
-            "learning_rate": self.get_learning_rate(),
-            "tokens_per_second": self.get_training_speed(),
-            "checkpoint_size": self.get_checkpoint_size()
-        }
-    
-    def track_inference_metrics(self):
-        return {
-            "request_latency": self.measure_latency(),
-            "sql_validity_rate": self.check_sql_validity(),
-            "model_confidence": self.get_confidence_scores(),
-            "error_rate": self.calculate_error_rate(),
-            "resource_utilization": self.get_resource_usage()
-        }
-```
+---
+
+## 8. Security
+
+See `SECURITY.md` for full security practices. Key points:
+- No hardcoded secrets; API keys loaded via environment variables
+- `.env` protected in `.gitignore`
+- Input validation in all scripts
 
 ---
 
-## 8. Security & Compliance
-
-### 8.1 Security Architecture
-```python
-security_measures = {
-    "input_validation": [
-        "Image format validation",
-        "File size limits (max 10MB)",
-        "Content scanning for malicious files",
-        "Rate limiting per IP"
-    ],
-    "api_security": [
-        "JWT authentication",
-        "HTTPS encryption",
-        "CORS policy enforcement",
-        "Input sanitization"
-    ],
-    "model_security": [
-        "Model file integrity checks",
-        "Secure model loading",
-        "Output content filtering",
-        "Resource usage limits"
-    ]
-}
-```
-
-### 8.2 Privacy & Data Handling
-```python
-privacy_controls = {
-    "data_processing": [
-        "No permanent storage of user images",
-        "Temporary processing only",
-        "Automatic cleanup after processing",
-        "No logging of sensitive content"
-    ],
-    "compliance": [
-        "GDPR compliance for EU users",
-        "Data minimization principles",
-        "User consent mechanisms",
-        "Right to data deletion"
-    ]
-}
-```
-
----
-
-This architecture provides a comprehensive foundation for building the Ghost Architect system, from initial text fine-tuning through production deployment of the multimodal UI-to-SQL system.
+This architecture covers the Ghost Architect system from text fine-tuning through vision training and local GGUF deployment.

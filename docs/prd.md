@@ -74,10 +74,10 @@ Ghost Architect is a specialized AI system that:
 
 ### 2.4 Technical Architecture
 - **Base Model**: Fine-tuned Gemma-3-12B with multimodal capabilities
-- **Deployment**: Containerized API (Docker) with cloud scalability
-- **API Interface**: RESTful API with comprehensive documentation
+- **Training**: Modal A10G (full Trinity) or Colab T4 (QLoRA+rsLoRA)
+- **Deployment**: GGUF export for Ollama local inference + Streamlit demo app
 - **Model Format**: Optimized GGUF for efficient inference
-- **Security**: Input validation, rate limiting, secure processing
+- **Security**: Input validation, secure processing
 
 ---
 

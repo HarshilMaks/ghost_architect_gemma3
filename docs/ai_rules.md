@@ -200,72 +200,36 @@ class DatasetValidator:
 
 ---
 
-## 4. API Development Rules
+## 4. Application Interface Rules
 
-### 4.1 API Design Rules
+### 4.1 Interface Design Rules
 
-**Mandatory API Standards**:
-- ✅ **REST Compliance**: Follow RESTful design principles
+**Mandatory Standards**:
 - ✅ **Input Validation**: Validate all inputs before processing
 - ✅ **Error Handling**: Consistent error response format
-- ✅ **Rate Limiting**: Implement rate limiting for abuse prevention
-- ✅ **Documentation**: OpenAPI/Swagger documentation
+- ✅ **Documentation**: Clear usage documentation
 
-**API Implementation Example**:
+**Streamlit App Example** (`src/app.py`):
 ```python
-# ✅ CORRECT: Proper API implementation
-from fastapi import FastAPI, HTTPException, UploadFile, Depends
-from fastapi.security import HTTPBearer
-from pydantic import BaseModel, validator
+# ✅ CORRECT: Proper input handling
+import streamlit as st
+from PIL import Image
 
-class SchemaRequest(BaseModel):
-    output_format: str = "postgresql"
-    include_indexes: bool = True
-    
-    @validator('output_format')
-    def validate_format(cls, v):
-        allowed_formats = ["postgresql", "mysql", "sqlite"]
-        if v not in allowed_formats:
-            raise ValueError(f"Format must be one of: {allowed_formats}")
-        return v
-
-@app.post("/generate-schema")
-async def generate_schema(
-    image: UploadFile,
-    request: SchemaRequest,
-    api_key: str = Depends(get_api_key)
-):
-    """Generate database schema from UI screenshot."""
-    
-    # Input validation
-    if not image.content_type.startswith("image/"):
-        raise HTTPException(400, "Invalid image format")
-    
-    if image.size > 10 * 1024 * 1024:  # 10MB limit
-        raise HTTPException(400, "Image too large")
-    
-    try:
-        # Process request
-        result = await process_schema_request(image, request)
-        return result
-    except ProcessingError as e:
-        logger.error(f"Processing failed: {str(e)}")
-        raise HTTPException(500, f"Processing failed: {str(e)}")
-
-# ❌ INCORRECT: No validation or error handling
-@app.post("/generate")
-async def generate(image, format):
-    # Direct processing without validation - PROHIBITED
-    return process_image(image)
+uploaded = st.file_uploader("Upload UI screenshot", type=["png", "jpg", "jpeg"])
+if uploaded is not None:
+    if uploaded.size > 10 * 1024 * 1024:  # 10MB limit
+        st.error("Image too large (max 10MB)")
+    else:
+        image = Image.open(uploaded)
+        # Process image and generate schema
+        st.code(result, language="sql")
 ```
 
 ### 4.2 Security Rules
 
 **Mandatory Security Measures**:
 - ✅ **Input Sanitization**: Sanitize all user inputs
-- ✅ **Authentication**: Require API key authentication
-- ✅ **Rate Limiting**: Implement per-IP rate limiting
-- ✅ **HTTPS Only**: Force HTTPS in production
+- ✅ **No Hardcoded Secrets**: Use environment variables for API keys
 - ✅ **No Data Persistence**: Delete user images immediately after processing
 
 ---
@@ -275,9 +239,8 @@ async def generate(image, format):
 ### 5.1 Response Time Requirements
 
 **Performance Standards**:
-- ✅ **API Latency**: <5 seconds for 95% of requests
+- ✅ **Inference Latency**: <5 seconds per request via Ollama
 - ✅ **Memory Efficiency**: <8GB GGUF model size
-- ✅ **Throughput**: Handle 100+ concurrent requests
 - ✅ **Resource Cleanup**: Automatic cleanup of temporary resources
 
 **Performance Monitoring**:
@@ -404,13 +367,13 @@ def generate_schema_safe(image_path: str) -> SchemaResult:
 
 ## 8. Deployment Rules
 
-### 8.1 Production Deployment Standards
+### 8.1 Deployment Standards
 
-**Deployment Requirements**:
-- ✅ **Containerization**: All deployments must use Docker containers
-- ✅ **Health Checks**: Implement comprehensive health check endpoints
-- ✅ **Environment Configuration**: Use environment variables for configuration
-- ✅ **Security Hardening**: Apply security best practices to containers
+**Deployment Model**:
+- ✅ **GGUF Export**: All models exported via `src/export.py` for Ollama
+- ✅ **Local Inference**: Run via Ollama locally
+- ✅ **Streamlit Demo**: Interactive demo via `src/app.py`
+- ✅ **CLI Testing**: `src/inference.py` for quick validation
 
 ### 8.2 Release Process Rules
 
@@ -438,9 +401,8 @@ def generate_schema_safe(image_path: str) -> SchemaResult:
 - [ ] Performance benchmarks met
 - [ ] Security audit completed
 - [ ] Documentation updated
-- [ ] API documentation current
-- [ ] Deployment procedures tested
-- [ ] Rollback procedures verified
+- [ ] GGUF export tested
+- [ ] Ollama deployment verified
 
 ---
 

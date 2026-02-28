@@ -9,7 +9,7 @@
 | **Trinity Config** | ✅ Ready | `configs/training_config.yaml` (rank=64, DoRA+rsLoRA) |
 | **Colab Notebook** | ✅ Ready | `notebooks/main.ipynb` (7 cells, complete pipeline) |
 | **Dependencies** | ✅ Ready | `requirements.txt` (all pinned correctly) |
-| **Documentation** | ✅ Ready | 4 guides (SETUP_API.md, SECURITY.md, API_QUOTA_GUIDE.md, DATASET_README.md) |
+| **Documentation** | ✅ Ready | SECURITY.md, DATASET_README.md, docs/ |
 | **Environment** | ✅ Secure | `.env` file protected in `.gitignore` |
 
 ---
@@ -104,10 +104,8 @@ If OOM occurs, follow protocol in `configs/training_config.yaml`:
 
 | Document | Purpose |
 |----------|---------|
-| `SETUP_API.md` | 3-step API key setup |
-| `SECURITY.md` | Full security best practices |
+| `SECURITY.md` | Security best practices |
 | `DATASET_README.md` | Dataset format & expansion |
-| `API_QUOTA_GUIDE.md` | Gemini API quota explanation |
 | `docs/architecture.md` | Trinity architecture details |
 | `docs/learning-guide.md` | LoRA/DoRA/rsLoRA concepts |
 | `README.md` | Project overview |
@@ -167,7 +165,7 @@ After Phase 1 completes:
 - ✅ Fine-tuned Gemma-3-12B model (GGUF format)
 - ✅ Can run locally: `ollama run ghost-architect`
 - ✅ Understanding of modern LLM fine-tuning
-- ⏸️ Phase 2 (Vision UI→SQL) optional, for later
+- ➡️ Phase 2 (Vision UI→SQL): `src/train_vision.py` (Colab T4) or `src/modal_train.py` (Modal A10G)
 
 ---
 

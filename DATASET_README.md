@@ -1,12 +1,13 @@
-# Dataset Setup Guide for Ghost Architect Phase 1
+# Dataset Setup Guide for Ghost Architect
 
 ## Current Status ✅
 
 | Component | Status | Notes |
 |-----------|--------|-------|
-| **data/dataset.json** | ✅ Ready | 30 starter examples for Phase 1 training |
+| **data/dataset.json** | ✅ Ready | 30 starter examples for Phase 1 text training |
+| **data/dataset_vision.json** | ✅ Ready | 287 vision training examples (UI screenshot → SQL) |
 | **scripts/download_datasets.py** | ✅ Fixed | 5 security fixes, URL validation improved |
-| **data/ui_screenshots/** | 🔄 Ongoing | ~50+ UI images captured, can expand to 10K+ |
+| **data/ui_screenshots/** | ✅ Ready | 287 PNGs (107MB) |
 
 ---
 
@@ -50,7 +51,7 @@ Run Phase 1 training on Colab:
 ```python
 # In Colab notebook
 !cd /content/ghost_architect_gemma3 && python src/train.py \
-  --config configs/training_config_colab_t4.yaml \
+  --config configs/training_config.yaml \
   --dataset data/dataset.json
 ```
 
@@ -112,21 +113,22 @@ Your `data/dataset.json` must follow this format:
 
 ---
 
-## UI Screenshots (Phase 2 Preparation)
+## UI Screenshots (Phase 2)
 
-**Current:** ~50 screenshots captured in `data/ui_screenshots/`
+**Current:** 287 screenshots in `data/ui_screenshots/` (107MB), paired with SQL annotations in `data/dataset_vision.json`.
 
 **To expand:**
 ```bash
 # Edit MAX_URLS in scripts/download_datasets.py
 # max_urls = 1000  # or higher
 uv run python scripts/download_datasets.py
+# Then rebuild vision dataset:
+uv run python scripts/build_vision_dataset.py
 ```
 
 **How they're used:**
-- Phase 2: Vision encoder + text → SQL generation
+- Phase 2 vision training via `src/train_vision.py` (Colab T4) or `src/modal_train.py` (Modal A10G)
 - Not needed for Phase 1 text fine-tuning
-- Good to gather in parallel while Phase 1 trains
 
 ---
 
@@ -152,40 +154,53 @@ uv run python scripts/download_datasets.py
 ```
 ghost_architect_gemma3/
 ├── data/
-│   ├── dataset.json                    # Training data (auto-generated)
-│   ├── raw_csvs/                       # Your input CSVs
+│   ├── dataset.json                    # Phase 1 text training data (30 examples)
+│   ├── dataset_vision.json             # Phase 2 vision training data (287 examples)
+│   ├── raw_csvs/                       # Source CSVs for scraper
 │   │   ├── saas_companies.csv
 │   │   ├── ycombinator.csv
 │   │   └── producthunt.csv
-│   └── ui_screenshots/                 # Playwright captures (Phase 2)
-│       ├── producthunt.com_12345.png
-│       └── ... (more screenshots)
+│   ├── ui_screenshots/                 # 287 PNGs (Playwright captures)
+│   │   ├── producthunt.com_12345.png
+│   │   └── ...
+│   ├── synthetic_pairs/                # (empty, for future use)
+│   └── validation_set/                 # (empty, for future use)
 │
 └── scripts/
-    ├── download_datasets.py             # Screenshot extractor (FIXED)
-    └── generate_training_data.py        # Data generator (NEW)
+    ├── build_vision_dataset.py          # Builds dataset_vision.json from screenshots + Gemini
+    ├── download_datasets.py             # Playwright scraper for UI screenshots
+    ├── generate_training_data.py        # Generates Phase 1 starter data
+    ├── validate_dataset.py              # Validates dataset.json (make dataset-check)
+    └── validate_environment.py          # Validates GPU/deps (make validate)
 ```
 
 ---
 
-## Next Phase 1 Actions
+## Next Actions
 
-1. **[Now]** Verify `data/dataset.json` is ready:
+1. **[Now]** Verify datasets are ready:
    ```bash
-   wc -l data/dataset.json
-   head -20 data/dataset.json
+   make dataset-check                     # validates data/dataset.json
+   python scripts/build_vision_dataset.py  # validates dataset_vision.json
    ```
 
 2. **[Colab]** Run Phase 1 training:
    ```python
    # In notebook, run cell 6 to launch training
-   !python src/train.py --config configs/training_config_colab_t4.yaml --dataset data/dataset.json
+   !python src/train.py --config configs/training_config.yaml --dataset data/dataset.json
    ```
 
-3. **[After training]** Export model to GGUF:
+3. **[Vision training]** Choose a training path:
    ```bash
-   # src/export.py (to be implemented)
-   python src/export.py --adapter output/adapters/final_adapter
+   # Modal A10G (full Trinity — QLoRA+DoRA+rsLoRA):
+   modal run src/modal_train.py
+   # OR Colab T4 (QLoRA+rsLoRA, no DoRA):
+   python src/train_vision.py
+   ```
+
+4. **[After training]** Export model to GGUF:
+   ```bash
+   python src/export.py
    ```
 
 ---
