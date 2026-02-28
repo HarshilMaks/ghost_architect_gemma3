@@ -1,4 +1,3 @@
-"""GGUF export utilities (to be implemented)."""
 #!/usr/bin/env python3
 """
 Export trained LoRA adapters to GGUF format for local inference via Ollama.

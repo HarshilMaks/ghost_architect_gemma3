@@ -14,7 +14,6 @@ import logging
 # Unsloth MUST be imported FIRST
 from unsloth import FastVisionModel
 
-from transformers import TrainingArguments
 from unsloth.trainer import UnslothVisionDataCollator
 from trl import SFTTrainer, SFTConfig
 from datasets import Dataset
@@ -110,11 +109,9 @@ def create_vision_model():
         bias="none",
         random_state=42,
         use_rslora=True,    # Rank-stabilized (prevents gradient collapse at r=64)
-        use_dora=True,      # Weight decomposition (magnitude + direction).
-                            # Requires the DoRA dtype patch cell to run first in the notebook:
-                            # Unsloth's Gemma3 patch runs q_proj in fp16; PEFT's dora.py
-                            # passes x_eye(fp16) to fp32 lora_A without casting → crash.
-                            # The patch adds: x_eye = x_eye.to(next(lora_A.parameters()).dtype)
+        use_dora=False,     # DoRA crashes on T4: Unsloth's Gemma3 patch forces fp16 on
+                            # q_proj input but DoRA passes it to fp32 lora_A without cast.
+                            # Use Modal (modal_train.py) for full Trinity with DoRA.
     )
 
     logger.info(f"✅ Model loaded with Trinity adapters")
