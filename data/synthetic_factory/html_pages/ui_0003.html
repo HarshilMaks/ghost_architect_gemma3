@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>Task Management App</title>
+<script src="https://cdn.tailwindcss.com"></script></head>
+<body class="bg-gray-50"><header class="bg-white border-b px-6 py-4">
+<h1 class="text-2xl font-bold">Task Management App</h1></header>
+<main class="max-w-6xl mx-auto px-6 py-8">
+
+<div class="bg-white rounded-lg border p-6"><h2 class="text-lg font-semibold mb-4">Task Management App</h2>
+<form class="space-y-4">
+<div><label class="block text-sm">{'name': 'task_title', 'label': 'Task Title', 'type': 'text_input', 'placeholder': 'e.g., Design marketing landing page', 'max_length': 255}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div><div><label class="block text-sm">{'name': 'task_description', 'label': 'Description', 'type': 'rich_text_editor', 'placeholder': 'Provide detailed information about the task...'}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div><div><label class="block text-sm">{'name': 'status', 'label': 'Status', 'type': 'dropdown', 'options': ['To Do', 'In Progress', 'Under Review', 'Completed', 'Blocked'], 'default': 'To Do'}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div><div><label class="block text-sm">{'name': 'priority', 'label': 'Priority', 'type': 'radio_group', 'options': [{'label': 'Urgent', 'value': 'urgent'}, {'label': 'High', 'value': 'high'}, {'label': 'Medium', 'value': 'medium'}, {'label': 'Low', 'value': 'low'}], 'default': 'medium'}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div><div><label class="block text-sm">{'name': 'assignees', 'label': 'Assignees', 'type': 'user_selector', 'multi_select': True}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div><div><label class="block text-sm">{'name': 'due_date', 'label': 'Due Date', 'type': 'date_picker'}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div>
+<button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md">Submit</button>
+</form></div></main></body></html>

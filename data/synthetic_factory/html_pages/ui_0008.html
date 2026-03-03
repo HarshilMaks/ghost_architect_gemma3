@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>InvoicePulse: Invoice Detail View</title>
+<script src="https://cdn.tailwindcss.com"></script></head>
+<body class="bg-gray-50"><header class="bg-white border-b px-6 py-4">
+<h1 class="text-2xl font-bold">InvoicePulse: Invoice Detail View</h1></header>
+<main class="max-w-6xl mx-auto px-6 py-8">
+
+<div class="bg-white rounded-lg border p-6"><h2 class="text-lg font-semibold mb-4">InvoicePulse: Invoice Detail View</h2>
+<form class="space-y-4">
+<div><label class="block text-sm">{'name': 'invoiceId', 'type': 'text', 'label': 'Invoice ID', 'placeholder': 'INV-2023-00123', 'readonly': True}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div><div><label class="block text-sm">{'name': 'status', 'type': 'select', 'label': 'Status', 'placeholder': 'Select status...', 'options': ['Draft', 'Pending Approval', 'Sent', 'Partially Paid', 'Paid', 'Overdue', 'Cancelled'], 'default': 'Draft'}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div><div><label class="block text-sm">{'name': 'issueDate', 'type': 'date', 'label': 'Issue Date', 'placeholder': 'YYYY-MM-DD'}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div><div><label class="block text-sm">{'name': 'dueDate', 'type': 'date', 'label': 'Due Date', 'placeholder': 'YYYY-MM-DD'}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div><div><label class="block text-sm">{'name': 'currency', 'type': 'select', 'label': 'Currency', 'options': ['USD', 'EUR', 'GBP', 'CAD', 'AUD'], 'default': 'USD'}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div><div><label class="block text-sm">{'name': 'customerId', 'type': 'text', 'label': 'Customer ID', 'placeholder': 'CUST-00456', 'readonly': True}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div>
+<button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md">Submit</button>
+</form></div></main></body></html>

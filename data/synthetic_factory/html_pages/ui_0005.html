@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>Support Agent Dashboard</title>
+<script src="https://cdn.tailwindcss.com"></script></head>
+<body class="bg-gray-50"><header class="bg-white border-b px-6 py-4">
+<h1 class="text-2xl font-bold">Support Agent Dashboard</h1></header>
+<main class="max-w-6xl mx-auto px-6 py-8">
+
+<div class="bg-white rounded-lg border p-6"><h2 class="text-lg font-semibold mb-4">Support Agent Dashboard</h2>
+<form class="space-y-4">
+<div><label class="block text-sm">{'id': 'ticket_id', 'label': 'Ticket ID', 'type': 'text', 'read_only': True, 'format': 'STK-XXXXX', 'description': 'Unique identifier for the support ticket.'}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div><div><label class="block text-sm">{'id': 'subject', 'label': 'Subject', 'type': 'text', 'max_length': 255, 'required': True, 'description': 'A concise summary of the issue or request.'}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div><div><label class="block text-sm">{'id': 'description', 'label': 'Description', 'type': 'textarea', 'rows': 6, 'required': True, 'description': 'Detailed explanation of the support request.'}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div><div><label class="block text-sm">{'id': 'status', 'label': 'Status', 'type': 'select', 'options': ['New', 'Open', 'In Progress', 'Pending Customer', 'Resolved', 'Closed'], 'default': 'New', 'required': True, 'description': 'Current processing status of the ticket.'}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div><div><label class="block text-sm">{'id': 'priority', 'label': 'Priority', 'type': 'select', 'options': ['Low', 'Medium', 'High', 'Urgent'], 'default': 'Medium', 'required': True, 'description': 'Level of urgency for resolving the ticket.'}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div><div><label class="block text-sm">{'id': 'reporter_id', 'label': 'Reporter', 'type': 'user_lookup', 'read_only_on_edit': True, 'required': True, 'description': 'User or customer who submitted the ticket.'}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div>
+<button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md">Submit</button>
+</form></div></main></body></html>

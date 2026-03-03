@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>User Profile Dashboard (Variant 1)</title>
+<script src="https://cdn.tailwindcss.com"></script></head>
+<body class="bg-gray-50"><header class="bg-white border-b px-6 py-4">
+<h1 class="text-2xl font-bold">User Profile Dashboard (Variant 1)</h1></header>
+<main class="max-w-6xl mx-auto px-6 py-8">
+
+<div class="bg-white rounded-lg border p-6"><h2 class="text-lg font-semibold mb-4">User Profile Dashboard (Variant 1)</h2>
+<form class="space-y-4">
+<div><label class="block text-sm">{'id': 'profile_picture', 'label': 'Profile Picture', 'type': 'media', 'data_type': 'url', 'component_type': 'avatar', 'read_only': True, 'placeholder': '/assets/default-avatar.png'}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div><div><label class="block text-sm">{'id': 'full_name', 'label': 'Full Name', 'type': 'text', 'data_type': 'string', 'component_type': 'text-display', 'read_only': True}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div><div><label class="block text-sm">{'id': 'email', 'label': 'Email', 'type': 'email', 'data_type': 'string', 'component_type': 'text-display', 'read_only': True}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div><div><label class="block text-sm">{'id': 'member_since', 'label': 'Member Since', 'type': 'date', 'data_type': 'date', 'component_type': 'text-display', 'read_only': True}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div><div><label class="block text-sm">{'id': 'edit_profile_button', 'label': 'Edit Profile', 'type': 'button', 'component_type': 'action-button', 'action': {'type': 'navigate', 'target': '/profile/edit'}}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div><div><label class="block text-sm">{'id': 'phone_number', 'label': 'Phone Number', 'type': 'text', 'data_type': 'string', 'component_type': 'text-display', 'read_only': True}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div>
+<button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md">Submit</button>
+</form></div></main></body></html>

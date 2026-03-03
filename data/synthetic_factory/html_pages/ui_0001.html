@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>Product Catalog & Discovery</title>
+<script src="https://cdn.tailwindcss.com"></script></head>
+<body class="bg-gray-50"><header class="bg-white border-b px-6 py-4">
+<h1 class="text-2xl font-bold">Product Catalog & Discovery</h1></header>
+<main class="max-w-6xl mx-auto px-6 py-8">
+
+<div class="bg-white rounded-lg border p-6"><h2 class="text-lg font-semibold mb-4">Product Catalog & Discovery</h2>
+<form class="space-y-4">
+<div><label class="block text-sm">{'id': 'productId', 'name': 'Product ID', 'type': 'string', 'description': 'Unique identifier for the product.', 'is_key': True}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div><div><label class="block text-sm">{'id': 'productName', 'name': 'Product Name', 'type': 'string', 'description': 'The official name of the product.', 'is_display_field': True}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div><div><label class="block text-sm">{'id': 'brand', 'name': 'Brand', 'type': 'string', 'description': 'The brand associated with the product.', 'is_display_field': True}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div><div><label class="block text-sm">{'id': 'category', 'name': 'Category', 'type': 'string', 'description': "The primary category the product belongs to (e.g., 'Electronics', 'Home Goods').", 'is_display_field': True}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div><div><label class="block text-sm">{'id': 'price', 'name': 'Price', 'type': 'number', 'format': 'currency', 'currency_field': 'currencyCode', 'description': 'The current selling price of the product.', 'is_display_field': True}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div><div><label class="block text-sm">{'id': 'currencyCode', 'name': 'Currency Code', 'type': 'string', 'description': "ISO 4217 currency code (e.g., 'USD', 'EUR')."}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div>
+<button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md">Submit</button>
+</form></div></main></body></html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>Admin Analytics Panel (variant 1)</title>
+<script src="https://cdn.tailwindcss.com"></script></head>
+<body class="bg-gray-50"><header class="bg-white border-b px-6 py-4">
+<h1 class="text-2xl font-bold">Admin Analytics Panel (variant 1)</h1></header>
+<main class="max-w-6xl mx-auto px-6 py-8">
+
+<div class="bg-white rounded-lg border p-6"><h2 class="text-lg font-semibold mb-4">Admin Analytics Panel (variant 1)</h2>
+<div class="space-y-3">
+<div class="flex justify-between py-3 border-b">
+<span>{'id': 'systemHealthScore', 'name': 'System Health Score', 'type': 'metric', 'displayType': 'gauge', 'unit': '/100', 'description': 'An aggregated score reflecting the overall health and operational status of the system.'}</span><span class="text-gray-500">Value</span></div><div class="flex justify-between py-3 border-b">
+<span>{'id': 'activeUsersLive', 'name': 'Active Users (Live)', 'type': 'metric', 'displayType': 'number', 'unit': 'users', 'description': 'The current number of users actively engaged with the platform.'}</span><span class="text-gray-500">Value</span></div><div class="flex justify-between py-3 border-b">
+<span>{'id': 'avgApiLatencyMs', 'name': 'Avg API Latency', 'type': 'metric', 'displayType': 'number', 'unit': 'ms', 'description': 'Average response time for all API calls over the last hour.'}</span><span class="text-gray-500">Value</span></div><div class="flex justify-between py-3 border-b">
+<span>{'id': 'errorRate24h', 'name': 'Error Rate (24h)', 'type': 'metric', 'displayType': 'percentage', 'description': 'Percentage of server-side errors (HTTP 5xx) out of total requests in the past 24 hours.'}</span><span class="text-gray-500">Value</span></div><div class="flex justify-between py-3 border-b">
+<span>{'id': 'newSignupsToday', 'name': 'New Signups (Today)', 'type': 'metric', 'displayType': 'number', 'unit': 'users', 'description': 'Total number of new user registrations recorded today.'}</span><span class="text-gray-500">Value</span></div><div class="flex justify-between py-3 border-b">
+<span>{'id': 'databaseQueryTimeAvg', 'name': 'DB Query Time (Avg)', 'type': 'metric', 'displayType': 'number', 'unit': 'ms', 'description': 'Average execution time for database queries.'}</span><span class="text-gray-500">Value</span></div><div class="flex justify-between py-3 border-b">
+<span>{'id': 'serverLoadAvg', 'name': 'Server Load Average', 'type': 'metric', 'displayType': 'number', 'unit': 'load', 'description': 'Average server load over the last 5 minutes.'}</span><span class="text-gray-500">Value</span></div><div class="flex justify-between py-3 border-b">
+<span>{'id': 'transactionVolumeDaily', 'name': 'Daily Transaction Volume', 'type': 'chart', 'chartType': 'bar', 'xAxisLabel': 'Hour of Day', 'yAxisLabel': 'Transactions', 'description': 'Hourly breakdown of transaction volume over the last 24 hours.'}</span><span class="text-gray-500">Value</span></div><div class="flex justify-between py-3 border-b">
+<span>{'id': 'userActivityHeatmap', 'name': 'User Activity Heatmap', 'type': 'chart', 'chartType': 'heatmap', 'xAxisLabel': 'Day of Week', 'yAxisLabel': 'Hour of Day', 'description': 'Visual representation of user activity intensity throughout the week and day.'}</span><span class="text-gray-500">Value</span></div><div class="flex justify-between py-3 border-b">
+<span>{'id': 'resourceUtilizationTrend', 'name': 'Resource Utilization Trend', 'type': 'chart', 'chartType': 'area', 'xAxisLabel': 'Time', 'yAxisLabel': 'Utilization (%)', 'series': ['CPU', 'Memory', 'Disk I/O'], 'description': 'Historical trend of key resource (CPU, Memory, Disk I/O) utilization over the past week.'}</span><span class="text-gray-500">Value</span></div>
+</div></div></main></body></html>

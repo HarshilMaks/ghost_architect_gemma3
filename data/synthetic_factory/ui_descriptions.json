@@ -1,0 +1,3925 @@
+[
+  {
+    "name": "User Profile Dashboard (Variant 1)",
+    "type": "dashboard",
+    "description": "A comprehensive overview of the user's personal information, account status, recent activity, and security settings, designed for quick review and access to core functionalities.",
+    "fields": [
+      {
+        "id": "profile_picture",
+        "label": "Profile Picture",
+        "type": "media",
+        "data_type": "url",
+        "component_type": "avatar",
+        "read_only": true,
+        "placeholder": "/assets/default-avatar.png"
+      },
+      {
+        "id": "full_name",
+        "label": "Full Name",
+        "type": "text",
+        "data_type": "string",
+        "component_type": "text-display",
+        "read_only": true
+      },
+      {
+        "id": "email",
+        "label": "Email",
+        "type": "email",
+        "data_type": "string",
+        "component_type": "text-display",
+        "read_only": true
+      },
+      {
+        "id": "member_since",
+        "label": "Member Since",
+        "type": "date",
+        "data_type": "date",
+        "component_type": "text-display",
+        "read_only": true
+      },
+      {
+        "id": "edit_profile_button",
+        "label": "Edit Profile",
+        "type": "button",
+        "component_type": "action-button",
+        "action": {
+          "type": "navigate",
+          "target": "/profile/edit"
+        }
+      },
+      {
+        "id": "phone_number",
+        "label": "Phone Number",
+        "type": "text",
+        "data_type": "string",
+        "component_type": "text-display",
+        "read_only": true
+      },
+      {
+        "id": "address",
+        "label": "Address",
+        "type": "textarea",
+        "data_type": "string",
+        "component_type": "text-display",
+        "read_only": true
+      },
+      {
+        "id": "account_status",
+        "label": "Account Status",
+        "type": "select",
+        "data_type": "string",
+        "component_type": "status-badge",
+        "read_only": true,
+        "options": [
+          {
+            "label": "Active",
+            "value": "active"
+          },
+          {
+            "label": "Inactive",
+            "value": "inactive"
+          },
+          {
+            "label": "Suspended",
+            "value": "suspended"
+          }
+        ]
+      },
+      {
+        "id": "membership_tier",
+        "label": "Membership Tier",
+        "type": "text",
+        "data_type": "string",
+        "component_type": "text-display",
+        "read_only": true
+      },
+      {
+        "id": "last_login",
+        "label": "Last Login",
+        "type": "datetime",
+        "data_type": "datetime",
+        "component_type": "text-display",
+        "read_only": true
+      },
+      {
+        "id": "activity_chart",
+        "label": "Daily Activity",
+        "type": "chart",
+        "data_type": "array",
+        "component_type": "line-chart",
+        "read_only": true,
+        "chart_type": "line",
+        "data_source": "/api/user/activity-data"
+      },
+      {
+        "id": "recent_notifications_list",
+        "label": "Recent Notifications",
+        "type": "list",
+        "data_type": "array",
+        "component_type": "data-list",
+        "read_only": true,
+        "data_source": "/api/user/notifications",
+        "list_item_template": {
+          "title_field": "message",
+          "subtitle_field": "timestamp"
+        }
+      },
+      {
+        "id": "change_password_button",
+        "label": "Change Password",
+        "type": "button",
+        "component_type": "action-button",
+        "action": {
+          "type": "modal-form",
+          "form_id": "change_password_form"
+        }
+      },
+      {
+        "id": "two_factor_status",
+        "label": "Two-Factor Authentication",
+        "type": "boolean",
+        "data_type": "boolean",
+        "component_type": "status-badge",
+        "read_only": true,
+        "true_label": "Enabled",
+        "false_label": "Disabled",
+        "true_color": "success",
+        "false_color": "warning"
+      },
+      {
+        "id": "privacy_settings_link",
+        "label": "Privacy Settings",
+        "type": "link",
+        "component_type": "navigation-link",
+        "target": "/settings/privacy"
+      }
+    ],
+    "layout": {
+      "type": "container",
+      "children": [
+        {
+          "id": "profile_header_section",
+          "type": "card",
+          "title": "My Profile",
+          "variant": "elevated",
+          "layout": {
+            "type": "grid",
+            "columns": "auto 1fr",
+            "gap": "1.5rem",
+            "align_items": "center",
+            "children": [
+              {
+                "field_id": "profile_picture",
+                "component_props": {
+                  "size": "xlarge",
+                  "shape": "circle"
+                }
+              },
+              {
+                "type": "stack",
+                "direction": "vertical",
+                "spacing": "0.5rem",
+                "children": [
+                  {
+                    "field_id": "full_name",
+                    "component_props": {
+                      "variant": "h4"
+                    }
+                  },
+                  {
+                    "field_id": "email"
+                  },
+                  {
+                    "field_id": "member_since"
+                  },
+                  {
+                    "type": "group",
+                    "direction": "horizontal",
+                    "justify_content": "flex-start",
+                    "children": [
+                      {
+                        "field_id": "edit_profile_button",
+                        "component_props": {
+                          "variant": "outlined"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "main_content_grid",
+          "type": "grid",
+          "columns": "repeat(auto-fit, minmax(300px, 1fr))",
+          "gap": "1.5rem",
+          "margin_top": "1.5rem",
+          "children": [
+            {
+              "id": "contact_info_card",
+              "type": "card",
+              "title": "Contact Information",
+              "layout": {
+                "type": "stack",
+                "direction": "vertical",
+                "spacing": "0.75rem",
+                "children": [
+                  {
+                    "field_id": "phone_number"
+                  },
+                  {
+                    "field_id": "address"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "account_status_card",
+              "type": "card",
+              "title": "Account Overview",
+              "layout": {
+                "type": "stack",
+                "direction": "vertical",
+                "spacing": "0.75rem",
+                "children": [
+                  {
+                    "field_id": "account_status"
+                  },
+                  {
+                    "field_id": "membership_tier"
+                  },
+                  {
+                    "field_id": "last_login"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "activity_chart_card",
+              "type": "card",
+              "title": "Activity & Notifications",
+              "layout": {
+                "type": "stack",
+                "direction": "vertical",
+                "spacing": "1rem",
+                "children": [
+                  {
+                    "field_id": "activity_chart",
+                    "component_props": {
+                      "height": "200px"
+                    }
+                  },
+                  {
+                    "field_id": "recent_notifications_list",
+                    "component_props": {
+                      "max_items": 5,
+                      "variant": "minimal"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "id": "security_settings_card",
+              "type": "card",
+              "title": "Security & Settings",
+              "layout": {
+                "type": "stack",
+                "direction": "vertical",
+                "spacing": "0.75rem",
+                "children": [
+                  {
+                    "field_id": "two_factor_status"
+                  },
+                  {
+                    "field_id": "change_password_button"
+                  },
+                  {
+                    "field_id": "privacy_settings_link"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "has_charts": true,
+    "has_forms": true
+  },
+  {
+    "name": "Product Catalog & Discovery",
+    "type": "Product Listing",
+    "description": "An interactive interface for browsing a wide range of products. Users can apply various filters to refine their search, sort results, and switch between grid and list views. Each product card provides essential information and direct actions like 'Add to Cart'.",
+    "fields": [
+      {
+        "id": "productId",
+        "name": "Product ID",
+        "type": "string",
+        "description": "Unique identifier for the product.",
+        "is_key": true
+      },
+      {
+        "id": "productName",
+        "name": "Product Name",
+        "type": "string",
+        "description": "The official name of the product.",
+        "is_display_field": true
+      },
+      {
+        "id": "brand",
+        "name": "Brand",
+        "type": "string",
+        "description": "The brand associated with the product.",
+        "is_display_field": true
+      },
+      {
+        "id": "category",
+        "name": "Category",
+        "type": "string",
+        "description": "The primary category the product belongs to (e.g., 'Electronics', 'Home Goods').",
+        "is_display_field": true
+      },
+      {
+        "id": "price",
+        "name": "Price",
+        "type": "number",
+        "format": "currency",
+        "currency_field": "currencyCode",
+        "description": "The current selling price of the product.",
+        "is_display_field": true
+      },
+      {
+        "id": "currencyCode",
+        "name": "Currency Code",
+        "type": "string",
+        "description": "ISO 4217 currency code (e.g., 'USD', 'EUR')."
+      },
+      {
+        "id": "averageRating",
+        "name": "Average Customer Rating",
+        "type": "number",
+        "format": "decimal",
+        "min": 0,
+        "max": 5,
+        "description": "The average rating given by customers, typically out of 5 stars.",
+        "is_display_field": true
+      },
+      {
+        "id": "totalReviews",
+        "name": "Total Reviews",
+        "type": "number",
+        "format": "integer",
+        "description": "The total number of customer reviews for the product.",
+        "is_display_field": true
+      },
+      {
+        "id": "imageUrl",
+        "name": "Product Image URL",
+        "type": "string",
+        "format": "url",
+        "description": "URL to the main image of the product.",
+        "is_display_field": true
+      },
+      {
+        "id": "availability",
+        "name": "Availability Status",
+        "type": "string",
+        "enum": [
+          "In Stock",
+          "Low Stock",
+          "Out of Stock",
+          "Pre-Order"
+        ],
+        "description": "Current stock status of the product.",
+        "is_display_field": true
+      },
+      {
+        "id": "discountPercentage",
+        "name": "Discount Percentage",
+        "type": "number",
+        "format": "percentage",
+        "optional": true,
+        "description": "The percentage discount applied to the product, if any."
+      },
+      {
+        "id": "freeShipping",
+        "name": "Free Shipping",
+        "type": "boolean",
+        "description": "Indicates if the product qualifies for free shipping.",
+        "is_display_field": true
+      },
+      {
+        "id": "searchKeyword",
+        "name": "Search Products",
+        "type": "string",
+        "description": "Text input to search for products by name, brand, or keywords.",
+        "is_filter": true,
+        "filter_type": "text_input"
+      },
+      {
+        "id": "filterCategory",
+        "name": "Product Categories",
+        "type": "array_of_strings",
+        "description": "Multi-select checkboxes or dropdown for filtering by product category.",
+        "is_filter": true,
+        "filter_type": "multi_select",
+        "options_source": "dynamic_unique_categories"
+      },
+      {
+        "id": "filterBrand",
+        "name": "Brands",
+        "type": "array_of_strings",
+        "description": "Multi-select checkboxes or dropdown for filtering by brand.",
+        "is_filter": true,
+        "filter_type": "multi_select",
+        "options_source": "dynamic_unique_brands"
+      },
+      {
+        "id": "filterPriceRange",
+        "name": "Price Range",
+        "type": "object",
+        "description": "Slider or min/max number inputs to filter products within a price range.",
+        "is_filter": true,
+        "filter_type": "range_slider",
+        "fields": [
+          {
+            "id": "minPrice",
+            "name": "Min Price",
+            "type": "number",
+            "default": 0
+          },
+          {
+            "id": "maxPrice",
+            "name": "Max Price",
+            "type": "number",
+            "default": 9999
+          }
+        ]
+      },
+      {
+        "id": "filterRating",
+        "name": "Minimum Rating",
+        "type": "number",
+        "format": "integer",
+        "min": 1,
+        "max": 5,
+        "description": "Select minimum star rating (e.g., 4 & Up).",
+        "is_filter": true,
+        "filter_type": "rating_selector"
+      },
+      {
+        "id": "filterAvailability",
+        "name": "Show Available Only",
+        "type": "boolean",
+        "description": "Toggle to display only products that are 'In Stock'.",
+        "is_filter": true,
+        "filter_type": "toggle_switch"
+      },
+      {
+        "id": "sortOrder",
+        "name": "Sort By",
+        "type": "string",
+        "description": "Dropdown to select sorting criteria for the product list.",
+        "is_filter": true,
+        "filter_type": "dropdown",
+        "options": [
+          {
+            "value": "price_asc",
+            "label": "Price: Low to High"
+          },
+          {
+            "value": "price_desc",
+            "label": "Price: High to Low"
+          },
+          {
+            "value": "rating_desc",
+            "label": "Top Rated"
+          },
+          {
+            "value": "newest",
+            "label": "Newest Arrivals"
+          },
+          {
+            "value": "popularity",
+            "label": "Most Popular"
+          }
+        ]
+      }
+    ],
+    "layout": {
+      "type": "flex_container",
+      "direction": "row",
+      "gap": "20px",
+      "children": [
+        {
+          "id": "sidebar_filters",
+          "type": "sidebar",
+          "position": "left",
+          "width_units": "280px",
+          "header": {
+            "text": "Filter Products",
+            "icon": "filter"
+          },
+          "collapsible": true,
+          "children": [
+            {
+              "field_id": "searchKeyword",
+              "component": "SearchInput",
+              "props": {
+                "placeholder": "Search..."
+              }
+            },
+            {
+              "component": "Divider"
+            },
+            {
+              "component": "Label",
+              "text": "Categories"
+            },
+            {
+              "field_id": "filterCategory",
+              "component": "CheckboxGroup"
+            },
+            {
+              "component": "Divider"
+            },
+            {
+              "component": "Label",
+              "text": "Brands"
+            },
+            {
+              "field_id": "filterBrand",
+              "component": "CheckboxGroup"
+            },
+            {
+              "component": "Divider"
+            },
+            {
+              "component": "Label",
+              "text": "Price Range"
+            },
+            {
+              "field_id": "filterPriceRange",
+              "component": "DualRangeSlider"
+            },
+            {
+              "component": "Divider"
+            },
+            {
+              "component": "Label",
+              "text": "Customer Rating"
+            },
+            {
+              "field_id": "filterRating",
+              "component": "StarRatingSelector",
+              "props": {
+                "show_label": false
+              }
+            },
+            {
+              "component": "Divider"
+            },
+            {
+              "field_id": "filterAvailability",
+              "component": "ToggleSwitch",
+              "props": {
+                "label": "In Stock Only"
+              }
+            }
+          ]
+        },
+        {
+          "id": "main_product_area",
+          "type": "flex_item",
+          "flex_grow": 1,
+          "children": [
+            {
+              "id": "listing_controls_bar",
+              "type": "flex_container",
+              "direction": "row",
+              "justify_content": "space-between",
+              "align_items": "center",
+              "padding": "10px 0",
+              "children": [
+                {
+                  "field_id": "sortOrder",
+                  "component": "Dropdown",
+                  "props": {
+                    "label": "Sort By"
+                  }
+                },
+                {
+                  "id": "view_toggle_buttons",
+                  "type": "button_group",
+                  "children": [
+                    {
+                      "label": "Grid",
+                      "icon": "grid_view",
+                      "action": "set_view_mode",
+                      "payload": "grid",
+                      "is_active_if": "view_mode == 'grid'"
+                    },
+                    {
+                      "label": "List",
+                      "icon": "list_view",
+                      "action": "set_view_mode",
+                      "payload": "list",
+                      "is_active_if": "view_mode == 'list'"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "product_display_area",
+              "type": "grid",
+              "grid_template_columns": "repeat(auto-fill, minmax(280px, 1fr))",
+              "gap": "20px",
+              "items_source": "filtered_products",
+              "item_template": {
+                "type": "card",
+                "variant": "product",
+                "on_click_action": "navigate_to_product_detail",
+                "on_click_payload_field": "productId",
+                "children": [
+                  {
+                    "field_id": "imageUrl",
+                    "component": "Image",
+                    "props": {
+                      "alt_field": "productName",
+                      "aspect_ratio": "4/3",
+                      "object_fit": "cover"
+                    }
+                  },
+                  {
+                    "type": "flex_container",
+                    "direction": "column",
+                    "padding": "15px",
+                    "children": [
+                      {
+                        "field_id": "brand",
+                        "component": "Text",
+                        "props": {
+                          "tag": "span",
+                          "font_size": "small",
+                          "color": "textSecondary"
+                        }
+                      },
+                      {
+                        "field_id": "productName",
+                        "component": "Text",
+                        "props": {
+                          "tag": "h3",
+                          "font_size": "medium",
+                          "font_weight": "bold",
+                          "margin_bottom": "5px"
+                        }
+                      },
+                      {
+                        "type": "flex_container",
+                        "direction": "row",
+                        "align_items": "center",
+                        "gap": "5px",
+                        "margin_bottom": "10px",
+                        "children": [
+                          {
+                            "field_id": "averageRating",
+                            "component": "StarRatingDisplay",
+                            "props": {
+                              "max_stars": 5
+                            }
+                          },
+                          {
+                            "field_id": "totalReviews",
+                            "component": "Text",
+                            "props": {
+                              "tag": "span",
+                              "font_size": "small",
+                              "color": "textHint",
+                              "prefix": "(",
+                              "suffix": ")"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "flex_container",
+                        "direction": "row",
+                        "align_items": "baseline",
+                        "gap": "5px",
+                        "margin_bottom": "15px",
+                        "children": [
+                          {
+                            "field_id": "price",
+                            "component": "Text",
+                            "props": {
+                              "tag": "span",
+                              "font_size": "large",
+                              "font_weight": "bold",
+                              "color": "primary"
+                            }
+                          },
+                          {
+                            "field_id": "discountPercentage",
+                            "component": "Badge",
+                            "props": {
+                              "variant": "danger",
+                              "prefix": "-",
+                              "suffix": "%",
+                              "display_if_truthy": true
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "flex_container",
+                        "direction": "row",
+                        "justify_content": "space-between",
+                        "align_items": "center",
+                        "children": [
+                          {
+                            "field_id": "availability",
+                            "component": "Badge",
+                            "props": {
+                              "variant_map": {
+                                "In Stock": "success",
+                                "Low Stock": "warning",
+                                "Out of Stock": "danger",
+                                "Pre-Order": "info"
+                              }
+                            }
+                          },
+                          {
+                            "label": "Add to Cart",
+                            "type": "button",
+                            "variant": "primary",
+                            "icon": "add_shopping_cart",
+                            "action": "add_to_cart",
+                            "payload_field": "productId",
+                            "disabled_if": "availability == 'Out of Stock'"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "id": "pagination_controls",
+              "type": "pagination",
+              "align_self": "center",
+              "margin_top": "20px",
+              "current_page_field": "currentPage",
+              "total_pages_field": "totalPages",
+              "on_page_change_action": "fetch_products_page"
+            }
+          ]
+        }
+      ]
+    },
+    "has_charts": false,
+    "has_forms": true
+  },
+  {
+    "name": "Admin Analytics Panel (variant 1)",
+    "type": "Panel",
+    "description": "A comprehensive analytics dashboard for administrators, focusing on critical system performance indicators, user engagement metrics, and resource utilization. Provides real-time insights and historical trends for proactive monitoring and strategic decision-making.",
+    "fields": [
+      {
+        "id": "systemHealthScore",
+        "name": "System Health Score",
+        "type": "metric",
+        "displayType": "gauge",
+        "unit": "/100",
+        "description": "An aggregated score reflecting the overall health and operational status of the system."
+      },
+      {
+        "id": "activeUsersLive",
+        "name": "Active Users (Live)",
+        "type": "metric",
+        "displayType": "number",
+        "unit": "users",
+        "description": "The current number of users actively engaged with the platform."
+      },
+      {
+        "id": "avgApiLatencyMs",
+        "name": "Avg API Latency",
+        "type": "metric",
+        "displayType": "number",
+        "unit": "ms",
+        "description": "Average response time for all API calls over the last hour."
+      },
+      {
+        "id": "errorRate24h",
+        "name": "Error Rate (24h)",
+        "type": "metric",
+        "displayType": "percentage",
+        "description": "Percentage of server-side errors (HTTP 5xx) out of total requests in the past 24 hours."
+      },
+      {
+        "id": "newSignupsToday",
+        "name": "New Signups (Today)",
+        "type": "metric",
+        "displayType": "number",
+        "unit": "users",
+        "description": "Total number of new user registrations recorded today."
+      },
+      {
+        "id": "databaseQueryTimeAvg",
+        "name": "DB Query Time (Avg)",
+        "type": "metric",
+        "displayType": "number",
+        "unit": "ms",
+        "description": "Average execution time for database queries."
+      },
+      {
+        "id": "serverLoadAvg",
+        "name": "Server Load Average",
+        "type": "metric",
+        "displayType": "number",
+        "unit": "load",
+        "description": "Average server load over the last 5 minutes."
+      },
+      {
+        "id": "transactionVolumeDaily",
+        "name": "Daily Transaction Volume",
+        "type": "chart",
+        "chartType": "bar",
+        "xAxisLabel": "Hour of Day",
+        "yAxisLabel": "Transactions",
+        "description": "Hourly breakdown of transaction volume over the last 24 hours."
+      },
+      {
+        "id": "userActivityHeatmap",
+        "name": "User Activity Heatmap",
+        "type": "chart",
+        "chartType": "heatmap",
+        "xAxisLabel": "Day of Week",
+        "yAxisLabel": "Hour of Day",
+        "description": "Visual representation of user activity intensity throughout the week and day."
+      },
+      {
+        "id": "resourceUtilizationTrend",
+        "name": "Resource Utilization Trend",
+        "type": "chart",
+        "chartType": "area",
+        "xAxisLabel": "Time",
+        "yAxisLabel": "Utilization (%)",
+        "series": [
+          "CPU",
+          "Memory",
+          "Disk I/O"
+        ],
+        "description": "Historical trend of key resource (CPU, Memory, Disk I/O) utilization over the past week."
+      },
+      {
+        "id": "topBrowsers",
+        "name": "Top 5 Browsers",
+        "type": "table",
+        "columns": [
+          {
+            "id": "browser",
+            "name": "Browser"
+          },
+          {
+            "id": "users",
+            "name": "Users (%)"
+          },
+          {
+            "id": "requests",
+            "name": "Requests"
+          }
+        ],
+        "description": "Breakdown of user traffic by web browser."
+      },
+      {
+        "id": "securityEventsLog",
+        "name": "Recent Security Events",
+        "type": "table",
+        "columns": [
+          {
+            "id": "timestamp",
+            "name": "Timestamp"
+          },
+          {
+            "id": "type",
+            "name": "Event Type"
+          },
+          {
+            "id": "source",
+            "name": "Source IP"
+          },
+          {
+            "id": "status",
+            "name": "Status"
+          }
+        ],
+        "description": "Log of recent security-related events and alerts."
+      }
+    ],
+    "layout": {
+      "type": "grid",
+      "columns": 12,
+      "rows": [
+        {
+          "id": "kpi-header-row",
+          "height": "auto",
+          "widgets": [
+            {
+              "fieldId": "systemHealthScore",
+              "width": 2,
+              "height": 1,
+              "cardType": "gauge"
+            },
+            {
+              "fieldId": "activeUsersLive",
+              "width": 2,
+              "height": 1,
+              "cardType": "largeValue"
+            },
+            {
+              "fieldId": "avgApiLatencyMs",
+              "width": 2,
+              "height": 1,
+              "cardType": "largeValue"
+            },
+            {
+              "fieldId": "errorRate24h",
+              "width": 2,
+              "height": 1,
+              "cardType": "largeValue"
+            },
+            {
+              "fieldId": "newSignupsToday",
+              "width": 2,
+              "height": 1,
+              "cardType": "largeValue"
+            },
+            {
+              "fieldId": "serverLoadAvg",
+              "width": 2,
+              "height": 1,
+              "cardType": "largeValue"
+            }
+          ]
+        },
+        {
+          "id": "main-charts-row-1",
+          "height": "380px",
+          "widgets": [
+            {
+              "fieldId": "transactionVolumeDaily",
+              "width": 6,
+              "height": 1
+            },
+            {
+              "fieldId": "userActivityHeatmap",
+              "width": 6,
+              "height": 1
+            }
+          ]
+        },
+        {
+          "id": "main-charts-row-2",
+          "height": "380px",
+          "widgets": [
+            {
+              "fieldId": "resourceUtilizationTrend",
+              "width": 12,
+              "height": 1
+            }
+          ]
+        },
+        {
+          "id": "details-row-1",
+          "height": "300px",
+          "widgets": [
+            {
+              "fieldId": "topBrowsers",
+              "width": 6,
+              "height": 1
+            },
+            {
+              "fieldId": "securityEventsLog",
+              "width": 6,
+              "height": 1
+            }
+          ]
+        },
+        {
+          "id": "details-row-2",
+          "height": "150px",
+          "widgets": [
+            {
+              "fieldId": "databaseQueryTimeAvg",
+              "width": 12,
+              "height": 1,
+              "cardType": "smallValue"
+            }
+          ]
+        }
+      ]
+    },
+    "has_charts": true,
+    "has_forms": false
+  },
+  {
+    "name": "Task Management App",
+    "type": "application",
+    "description": "A collaborative task management application designed to help teams organize, track, and complete projects efficiently. It features multiple task views (list, board, calendar, timeline), advanced filtering, real-time updates, and a comprehensive detail panel for task attributes, comments, and attachments. Focuses on intuitive user experience and flexible workflow adaptation.",
+    "fields": [
+      {
+        "name": "task_title",
+        "label": "Task Title",
+        "type": "text_input",
+        "placeholder": "e.g., Design marketing landing page",
+        "max_length": 255
+      },
+      {
+        "name": "task_description",
+        "label": "Description",
+        "type": "rich_text_editor",
+        "placeholder": "Provide detailed information about the task..."
+      },
+      {
+        "name": "status",
+        "label": "Status",
+        "type": "dropdown",
+        "options": [
+          "To Do",
+          "In Progress",
+          "Under Review",
+          "Completed",
+          "Blocked"
+        ],
+        "default": "To Do"
+      },
+      {
+        "name": "priority",
+        "label": "Priority",
+        "type": "radio_group",
+        "options": [
+          {
+            "label": "Urgent",
+            "value": "urgent"
+          },
+          {
+            "label": "High",
+            "value": "high"
+          },
+          {
+            "label": "Medium",
+            "value": "medium"
+          },
+          {
+            "label": "Low",
+            "value": "low"
+          }
+        ],
+        "default": "medium"
+      },
+      {
+        "name": "assignees",
+        "label": "Assignees",
+        "type": "user_selector",
+        "multi_select": true
+      },
+      {
+        "name": "due_date",
+        "label": "Due Date",
+        "type": "date_picker"
+      },
+      {
+        "name": "start_date",
+        "label": "Start Date",
+        "type": "date_picker",
+        "optional": true
+      },
+      {
+        "name": "project",
+        "label": "Project",
+        "type": "autocomplete_selector",
+        "source_api": "/api/projects"
+      },
+      {
+        "name": "tags",
+        "label": "Tags",
+        "type": "tag_input",
+        "multi_select": true
+      },
+      {
+        "name": "attachments",
+        "label": "Attachments",
+        "type": "file_upload",
+        "multi_upload": true
+      },
+      {
+        "name": "subtasks",
+        "label": "Subtasks",
+        "type": "nested_list_input",
+        "item_schema": {
+          "title": {
+            "type": "text_input"
+          },
+          "completed": {
+            "type": "checkbox"
+          }
+        }
+      },
+      {
+        "name": "comments_thread",
+        "label": "Comments",
+        "type": "comment_thread",
+        "has_input": true
+      },
+      {
+        "name": "estimated_time",
+        "label": "Estimated Time",
+        "type": "duration_input",
+        "units": [
+          "hours",
+          "days"
+        ]
+      },
+      {
+        "name": "recurrence",
+        "label": "Recurrence",
+        "type": "dropdown",
+        "options": [
+          "None",
+          "Daily",
+          "Weekly",
+          "Monthly",
+          "Yearly",
+          "Custom"
+        ],
+        "default": "None",
+        "optional": true
+      }
+    ],
+    "layout": {
+      "structure": "three_column_dashboard",
+      "header": {
+        "elements": [
+          "logo",
+          "search_bar",
+          "view_selector",
+          "quick_add_button",
+          "notifications_icon",
+          "user_profile"
+        ]
+      },
+      "left_sidebar": {
+        "title": "Navigation",
+        "items": [
+          {
+            "label": "Dashboard",
+            "icon": "home"
+          },
+          {
+            "label": "My Tasks",
+            "icon": "list_check"
+          },
+          {
+            "label": "Projects",
+            "icon": "folder",
+            "nested_items_source": "/api/projects"
+          },
+          {
+            "label": "Teams",
+            "icon": "users"
+          },
+          {
+            "label": "Inbox",
+            "icon": "inbox"
+          },
+          {
+            "label": "Reports",
+            "icon": "chart_bar"
+          },
+          {
+            "label": "Settings",
+            "icon": "cog"
+          }
+        ]
+      },
+      "main_content_area": {
+        "title": "Current Project Tasks",
+        "controls": [
+          "filter_panel",
+          "sort_options",
+          "new_task_button"
+        ],
+        "views": [
+          {
+            "type": "list_view",
+            "description": "Table-like display of tasks with customizable columns.",
+            "columns": [
+              "task_title",
+              "status",
+              "assignees",
+              "due_date",
+              "priority",
+              "tags"
+            ]
+          },
+          {
+            "type": "board_view",
+            "description": "Kanban-style board with draggable task cards, columns based on 'status'.",
+            "column_field": "status",
+            "card_elements": [
+              "task_title",
+              "assignees",
+              "due_date",
+              "priority"
+            ]
+          },
+          {
+            "type": "calendar_view",
+            "description": "Monthly/Weekly calendar displaying tasks based on 'due_date' or 'start_date'.",
+            "event_fields": [
+              "task_title",
+              "assignees",
+              "status"
+            ]
+          },
+          {
+            "type": "timeline_view",
+            "description": "Gantt-chart like view for project planning, displaying tasks and their durations.",
+            "start_field": "start_date",
+            "end_field": "due_date",
+            "task_label_field": "task_title"
+          }
+        ]
+      },
+      "right_detail_panel": {
+        "title_field": "task_title",
+        "description": "Displays comprehensive details for a selected task.",
+        "sections": [
+          {
+            "heading": "Task Details",
+            "fields": [
+              "status",
+              "priority",
+              "assignees",
+              "due_date",
+              "start_date",
+              "project",
+              "tags",
+              "estimated_time",
+              "recurrence"
+            ]
+          },
+          {
+            "heading": "Description",
+            "field": "task_description"
+          },
+          {
+            "heading": "Subtasks",
+            "field": "subtasks"
+          },
+          {
+            "heading": "Attachments",
+            "field": "attachments"
+          },
+          {
+            "heading": "Activity & Comments",
+            "field": "comments_thread"
+          }
+        ],
+        "actions": [
+          "edit_button",
+          "delete_button",
+          "mark_complete_button",
+          "share_button"
+        ]
+      }
+    },
+    "has_charts": true,
+    "has_forms": true
+  },
+  {
+    "name": "Social Media Feed (Discovery & Interaction Focused)",
+    "type": "Page",
+    "description": "A dynamic social media feed page optimized for content discovery and rich user interaction. It features a prominent 'Stories' section, a streamlined post creation experience, and a main feed displaying a mix of posts from followed accounts and algorithmically suggested content, alongside a personalized right-hand sidebar for quick navigation and suggestions.",
+    "fields": [
+      {
+        "id": "story_carousel_section",
+        "type": "Carousel",
+        "label": "User Stories & Highlights",
+        "description": "A horizontal, scrollable carousel displaying ephemeral stories or curated highlights from followed users and suggested accounts. Each item provides a quick gateway to their full story content.",
+        "components": [
+          {
+            "type": "StoryBubble",
+            "props": {
+              "userId": "string",
+              "userName": "string",
+              "userAvatarUrl": "string",
+              "hasNewStory": "boolean",
+              "isLive": "boolean"
+            },
+            "actions": [
+              {
+                "label": "View Story",
+                "type": "navigate",
+                "target": "/stories/{userId}"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "post_creation_area",
+        "type": "Form",
+        "label": "Create New Post Widget",
+        "description": "An interactive widget at the top of the feed allowing users to quickly compose and share various types of content.",
+        "fields": [
+          {
+            "id": "user_avatar_preview",
+            "type": "Image",
+            "label": "Your Avatar",
+            "src": "{currentUser.avatarUrl}"
+          },
+          {
+            "id": "post_text_input",
+            "type": "TextArea",
+            "label": "What's happening?",
+            "placeholder": "Share an update, photo, or video..."
+          },
+          {
+            "id": "add_media_button",
+            "type": "Button",
+            "label": "Photo/Video",
+            "icon": "image_gallery",
+            "variant": "secondary"
+          },
+          {
+            "id": "add_poll_button",
+            "type": "Button",
+            "label": "Poll",
+            "icon": "poll",
+            "variant": "secondary"
+          },
+          {
+            "id": "add_location_button",
+            "type": "Button",
+            "label": "Location",
+            "icon": "location_pin",
+            "variant": "secondary"
+          }
+        ],
+        "actions": [
+          {
+            "label": "Post",
+            "type": "submit",
+            "style": "primary",
+            "icon": "send"
+          }
+        ]
+      },
+      {
+        "id": "main_feed_stream",
+        "type": "Container",
+        "label": "Main Content Feed Stream",
+        "description": "The primary vertical scrollable area displaying a personalized stream of posts, including rich media, text, and interactive elements. Content is typically sorted by relevance or recency.",
+        "orientation": "vertical",
+        "components": [
+          {
+            "id": "feed_item_template",
+            "type": "Component",
+            "label": "Individual Post Card",
+            "description": "A template for a single post within the feed, detailing its structure and interactive components.",
+            "props": {
+              "postId": "string",
+              "authorId": "string",
+              "authorName": "string",
+              "authorHandle": "string",
+              "authorAvatarUrl": "string",
+              "timestamp": "datetime",
+              "textContent": "string",
+              "mediaAttachments": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "type": "string",
+                      "format": "url"
+                    },
+                    "type": {
+                      "type": "string",
+                      "enum": [
+                        "image",
+                        "video"
+                      ]
+                    }
+                  }
+                },
+                "description": "Array of image/video objects, supporting carousels"
+              },
+              "linkPreview": {
+                "type": "object",
+                "properties": {
+                  "url": {
+                    "type": "string"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "imageUrl": {
+                    "type": "string"
+                  }
+                },
+                "optional": true
+              },
+              "engagementMetrics": {
+                "type": "object",
+                "properties": {
+                  "likes": {
+                    "type": "integer"
+                  },
+                  "comments": {
+                    "type": "integer"
+                  },
+                  "shares": {
+                    "type": "integer"
+                  },
+                  "views": {
+                    "type": "integer",
+                    "optional": true
+                  }
+                }
+              },
+              "isLikedByCurrentUser": "boolean",
+              "isBookmarkedByCurrentUser": "boolean"
+            },
+            "sub_components": [
+              {
+                "id": "post_header",
+                "type": "UserInfoDisplay",
+                "label": "Author & Time",
+                "elements": [
+                  "avatar",
+                  "name",
+                  "handle",
+                  "timestamp",
+                  "options_menu"
+                ]
+              },
+              {
+                "id": "post_body_text",
+                "type": "TextDisplay",
+                "label": "Post Content Text",
+                "props": {
+                  "maxLines": 6,
+                  "expandable": true
+                }
+              },
+              {
+                "id": "post_media_carousel",
+                "type": "ImageVideoCarousel",
+                "label": "Media Display",
+                "optional": true
+              },
+              {
+                "id": "post_link_preview",
+                "type": "LinkCard",
+                "label": "Embedded Link Preview",
+                "optional": true
+              },
+              {
+                "id": "post_action_bar",
+                "type": "ButtonGroup",
+                "label": "Interaction Buttons",
+                "orientation": "horizontal",
+                "buttons": [
+                  {
+                    "id": "like_button",
+                    "type": "Button",
+                    "label": "Like",
+                    "icon": "heart",
+                    "variant": "toggle",
+                    "countDisplay": "engagementMetrics.likes"
+                  },
+                  {
+                    "id": "comment_button",
+                    "type": "Button",
+                    "label": "Comment",
+                    "icon": "chat",
+                    "countDisplay": "engagementMetrics.comments"
+                  },
+                  {
+                    "id": "share_button",
+                    "type": "Button",
+                    "label": "Share",
+                    "icon": "share",
+                    "countDisplay": "engagementMetrics.shares"
+                  },
+                  {
+                    "id": "bookmark_button",
+                    "type": "Button",
+                    "label": "Bookmark",
+                    "icon": "bookmark",
+                    "variant": "toggle"
+                  }
+                ]
+              },
+              {
+                "id": "comments_preview_section",
+                "type": "Container",
+                "label": "Recent Comments & Input",
+                "description": "Shows a summary of recent comments and an inline input for adding a new comment.",
+                "components": [
+                  {
+                    "type": "TextLink",
+                    "label": "View all {engagementMetrics.comments} comments",
+                    "target": "/post/{postId}/comments"
+                  },
+                  {
+                    "type": "CommentSnippet",
+                    "label": "Latest Comment"
+                  },
+                  {
+                    "type": "Form",
+                    "label": "Add a comment",
+                    "fields": [
+                      {
+                        "id": "new_comment_text",
+                        "type": "TextInput",
+                        "placeholder": "Add a comment..."
+                      }
+                    ],
+                    "actions": [
+                      {
+                        "label": "Post",
+                        "type": "submit",
+                        "style": "link"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "right_sidebar_widgets",
+        "type": "Container",
+        "label": "Right Sidebar",
+        "description": "A dynamic sidebar providing personalized content, suggestions, and quick navigation links.",
+        "orientation": "vertical",
+        "components": [
+          {
+            "id": "current_user_profile_card",
+            "type": "UserProfileCard",
+            "label": "Current User Profile Overview",
+            "props": {
+              "avatarUrl": "string",
+              "displayName": "string",
+              "handle": "string",
+              "followersCount": "integer",
+              "followingCount": "integer"
+            },
+            "actions": [
+              {
+                "label": "View Profile",
+                "type": "navigate",
+                "target": "/profile/{currentUser.handle}"
+              }
+            ]
+          },
+          {
+            "id": "suggested_for_you_list",
+            "type": "List",
+            "label": "Suggested for You",
+            "description": "A list of accounts or content topics recommended to the user based on their activity and connections.",
+            "components": [
+              {
+                "type": "SuggestionItem",
+                "props": {
+                  "id": "string",
+                  "name": "string",
+                  "handle": "string",
+                  "avatarUrl": "string",
+                  "reason": "string",
+                  "type": "enum (account, topic)"
+                },
+                "actions": [
+                  {
+                    "label": "Follow",
+                    "type": "button",
+                    "variant": "primary"
+                  },
+                  {
+                    "label": "Dismiss",
+                    "type": "button",
+                    "variant": "text"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "trending_topics_widget",
+            "type": "List",
+            "label": "Trends for You",
+            "description": "A list of trending hashtags and topics personalized for the user.",
+            "components": [
+              {
+                "type": "TrendItem",
+                "props": {
+                  "topic": "string",
+                  "volume": "string",
+                  "description": "string",
+                  "rank": "integer"
+                },
+                "actions": [
+                  {
+                    "label": "View Trend",
+                    "type": "navigate",
+                    "target": "/search?q={topic}"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "quick_links_navigation",
+            "type": "ButtonGroup",
+            "label": "Quick Links",
+            "orientation": "vertical",
+            "buttons": [
+              {
+                "label": "Explore",
+                "icon": "search",
+                "type": "navigate",
+                "target": "/explore"
+              },
+              {
+                "label": "Notifications",
+                "icon": "bell",
+                "type": "navigate",
+                "target": "/notifications",
+                "badge": "{unreadNotificationCount}"
+              },
+              {
+                "label": "Messages",
+                "icon": "message",
+                "type": "navigate",
+                "target": "/messages",
+                "badge": "{unreadMessageCount}"
+              },
+              {
+                "label": "Settings",
+                "icon": "settings",
+                "type": "navigate",
+                "target": "/settings"
+              }
+            ]
+          },
+          {
+            "id": "advertisement_banner",
+            "type": "Image",
+            "label": "Sponsored Content",
+            "description": "A small ad banner, typically contextual or targeted.",
+            "src": "string",
+            "alt": "Advertisement",
+            "actions": [
+              {
+                "label": "Learn More",
+                "type": "external_link",
+                "target": "string"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "layout": {
+      "type": "Grid",
+      "columns": [
+        {
+          "id": "main_content_column",
+          "span": 8,
+          "components": [
+            "story_carousel_section",
+            "post_creation_area",
+            "main_feed_stream"
+          ]
+        },
+        {
+          "id": "sidebar_column",
+          "span": 4,
+          "components": [
+            "right_sidebar_widgets"
+          ]
+        }
+      ],
+      "column_gap": "24px"
+    },
+    "has_charts": false,
+    "has_forms": true
+  },
+  {
+    "name": "Support Agent Dashboard",
+    "type": "dashboard",
+    "description": "Primary dashboard for a support agent to manage their assigned tickets, monitor overall system health, and quickly access critical actions. Provides an overview of ticket status, workload, and recent activity.",
+    "fields": [
+      {
+        "id": "ticket_id",
+        "label": "Ticket ID",
+        "type": "text",
+        "read_only": true,
+        "format": "STK-XXXXX",
+        "description": "Unique identifier for the support ticket."
+      },
+      {
+        "id": "subject",
+        "label": "Subject",
+        "type": "text",
+        "max_length": 255,
+        "required": true,
+        "description": "A concise summary of the issue or request."
+      },
+      {
+        "id": "description",
+        "label": "Description",
+        "type": "textarea",
+        "rows": 6,
+        "required": true,
+        "description": "Detailed explanation of the support request."
+      },
+      {
+        "id": "status",
+        "label": "Status",
+        "type": "select",
+        "options": [
+          "New",
+          "Open",
+          "In Progress",
+          "Pending Customer",
+          "Resolved",
+          "Closed"
+        ],
+        "default": "New",
+        "required": true,
+        "description": "Current processing status of the ticket."
+      },
+      {
+        "id": "priority",
+        "label": "Priority",
+        "type": "select",
+        "options": [
+          "Low",
+          "Medium",
+          "High",
+          "Urgent"
+        ],
+        "default": "Medium",
+        "required": true,
+        "description": "Level of urgency for resolving the ticket."
+      },
+      {
+        "id": "reporter_id",
+        "label": "Reporter",
+        "type": "user_lookup",
+        "read_only_on_edit": true,
+        "required": true,
+        "description": "User or customer who submitted the ticket."
+      },
+      {
+        "id": "assignee_id",
+        "label": "Assignee",
+        "type": "user_lookup",
+        "description": "Support agent currently responsible for handling the ticket."
+      },
+      {
+        "id": "category",
+        "label": "Category",
+        "type": "select",
+        "options": [
+          "Technical Support",
+          "Billing Inquiry",
+          "Bug Report",
+          "Feature Request",
+          "Account Management",
+          "General Inquiry"
+        ],
+        "required": true,
+        "description": "Classification of the ticket to help route and prioritize."
+      },
+      {
+        "id": "created_at",
+        "label": "Created At",
+        "type": "datetime",
+        "read_only": true,
+        "description": "Timestamp when the ticket was first submitted."
+      },
+      {
+        "id": "last_updated_at",
+        "label": "Last Updated At",
+        "type": "datetime",
+        "read_only": true,
+        "description": "Timestamp of the most recent update or activity on the ticket."
+      },
+      {
+        "id": "resolution_date",
+        "label": "Resolution Date",
+        "type": "date",
+        "optional": true,
+        "description": "Date when the ticket was marked as resolved."
+      },
+      {
+        "id": "due_date",
+        "label": "Due Date",
+        "type": "date",
+        "optional": true,
+        "description": "Target date for ticket resolution."
+      },
+      {
+        "id": "attachments",
+        "label": "Attachments",
+        "type": "file_upload",
+        "multiple": true,
+        "description": "Files attached to the ticket by reporter or agent."
+      },
+      {
+        "id": "comments",
+        "label": "Ticket History/Comments",
+        "type": "list_of_objects",
+        "read_only": true,
+        "item_schema": {
+          "author_id": {
+            "type": "user_lookup",
+            "label": "Author"
+          },
+          "timestamp": {
+            "type": "datetime",
+            "label": "Timestamp"
+          },
+          "text": {
+            "type": "textarea",
+            "label": "Comment Text"
+          }
+        },
+        "description": "Chronological log of all public and internal interactions and notes on the ticket."
+      },
+      {
+        "id": "internal_notes",
+        "label": "Internal Notes",
+        "type": "textarea",
+        "optional": true,
+        "rows": 3,
+        "description": "Private notes accessible only to support agents, not visible to the customer."
+      }
+    ],
+    "layout": "The dashboard is organized into a responsive grid. The top section prominently features customizable analytics widgets displaying key metrics such like 'Tickets by Status', 'Daily New vs. Resolved Tickets', and 'Average First Response Time'. Below these charts, a central 'My Open Tickets' table provides a sortable and filterable list of tickets assigned to the current agent, showing Ticket ID, Subject, Status, Priority, Reporter, and Last Updated At. A 'Quick Actions' panel on the right allows for rapid ticket creation, assignment, or status updates. A 'Recent Activity Feed' section highlights new comments or status changes across all watched tickets. A sidebar navigation allows access to different ticket queues (e.g., 'All Tickets', 'Unassigned', 'High Priority', 'SLA Breaches') and reporting tools.",
+    "has_charts": true,
+    "has_forms": true
+  },
+  {
+    "name": "E-commerce Checkout (Standard Flow)",
+    "type": "Checkout Process",
+    "description": "A multi-step user interface for completing an E-commerce order, guiding the user from cart review to payment and order confirmation. Features a progress indicator, distinct form sections for shipping, delivery, and payment, and a persistent order summary sidebar.",
+    "has_charts": false,
+    "has_forms": true,
+    "fields": [
+      {
+        "id": "checkout_progress_steps",
+        "type": "ProgressIndicator",
+        "label": "Checkout Steps",
+        "steps": [
+          {
+            "id": "shipping_step",
+            "label": "Shipping"
+          },
+          {
+            "id": "delivery_step",
+            "label": "Delivery"
+          },
+          {
+            "id": "payment_step",
+            "label": "Payment"
+          },
+          {
+            "id": "review_step",
+            "label": "Review"
+          }
+        ],
+        "current_step_id": "shipping_step"
+      },
+      {
+        "id": "cart_items_table",
+        "type": "Table",
+        "label": "Your Cart",
+        "columns": [
+          {
+            "id": "product_name",
+            "label": "Product",
+            "type": "Text",
+            "flex": 3
+          },
+          {
+            "id": "qty",
+            "label": "Qty",
+            "type": "Number",
+            "flex": 1
+          },
+          {
+            "id": "price",
+            "label": "Price",
+            "type": "Currency",
+            "flex": 1
+          },
+          {
+            "id": "total",
+            "label": "Total",
+            "type": "Currency",
+            "flex": 1
+          }
+        ],
+        "data_source": "api/cart/items",
+        "read_only": true
+      },
+      {
+        "id": "subtotal_display",
+        "type": "TextDisplay",
+        "label": "Subtotal",
+        "value_source": "cart.subtotal",
+        "format": "currency"
+      },
+      {
+        "id": "shipping_display",
+        "type": "TextDisplay",
+        "label": "Shipping",
+        "value_source": "cart.shipping_cost",
+        "format": "currency"
+      },
+      {
+        "id": "tax_display",
+        "type": "TextDisplay",
+        "label": "Tax",
+        "value_source": "cart.tax_amount",
+        "format": "currency"
+      },
+      {
+        "id": "discount_display",
+        "type": "TextDisplay",
+        "label": "Discount",
+        "value_source": "cart.discount_amount",
+        "format": "currency",
+        "variant": "negative"
+      },
+      {
+        "id": "order_total_display",
+        "type": "TextDisplay",
+        "label": "Order Total",
+        "value_source": "cart.total_amount",
+        "format": "currency",
+        "variant": "bold_large"
+      },
+      {
+        "id": "promo_code_input",
+        "type": "TextInput",
+        "label": "Promo Code",
+        "placeholder": "Enter code",
+        "tooltip": "Enter a promotional code to apply a discount to your order."
+      },
+      {
+        "id": "apply_promo_button",
+        "type": "Button",
+        "label": "Apply",
+        "action": "applyPromoCode",
+        "variant": "secondary"
+      },
+      {
+        "id": "email_input",
+        "type": "EmailInput",
+        "label": "Email Address",
+        "required": true,
+        "placeholder": "your.email@example.com",
+        "autocomplete": "email"
+      },
+      {
+        "id": "first_name_input",
+        "type": "TextInput",
+        "label": "First Name",
+        "required": true,
+        "autocomplete": "given-name"
+      },
+      {
+        "id": "last_name_input",
+        "type": "TextInput",
+        "label": "Last Name",
+        "required": true,
+        "autocomplete": "family-name"
+      },
+      {
+        "id": "address1_input",
+        "type": "TextInput",
+        "label": "Address Line 1",
+        "required": true,
+        "placeholder": "Street address, P.O. Box, Company name",
+        "autocomplete": "address-line1"
+      },
+      {
+        "id": "address2_input",
+        "type": "TextInput",
+        "label": "Address Line 2",
+        "optional": true,
+        "placeholder": "Apartment, suite, unit, building, floor, etc.",
+        "autocomplete": "address-line2"
+      },
+      {
+        "id": "city_input",
+        "type": "TextInput",
+        "label": "City",
+        "required": true,
+        "autocomplete": "address-level2"
+      },
+      {
+        "id": "state_dropdown",
+        "type": "Select",
+        "label": "State/Province",
+        "options": [
+          {
+            "value": "CA",
+            "label": "California"
+          },
+          {
+            "value": "NY",
+            "label": "New York"
+          },
+          {
+            "value": "TX",
+            "label": "Texas"
+          },
+          {
+            "value": "FL",
+            "label": "Florida"
+          },
+          {
+            "value": "WA",
+            "label": "Washington"
+          }
+        ],
+        "required": true,
+        "data_source": "api/states?country={country_dropdown.value}",
+        "autocomplete": "address-level1"
+      },
+      {
+        "id": "zip_code_input",
+        "type": "TextInput",
+        "label": "Zip/Postal Code",
+        "required": true,
+        "validation_pattern": "^\\d{5}(-\\d{4})?$",
+        "autocomplete": "postal-code"
+      },
+      {
+        "id": "country_dropdown",
+        "type": "Select",
+        "label": "Country",
+        "options": [
+          {
+            "value": "USA",
+            "label": "United States"
+          },
+          {
+            "value": "CAN",
+            "label": "Canada"
+          },
+          {
+            "value": "MEX",
+            "label": "Mexico"
+          },
+          {
+            "value": "GBR",
+            "label": "United Kingdom"
+          }
+        ],
+        "required": true,
+        "default_value": "USA",
+        "autocomplete": "country"
+      },
+      {
+        "id": "phone_input",
+        "type": "PhoneInput",
+        "label": "Phone Number",
+        "required": true,
+        "placeholder": "(XXX) XXX-XXXX",
+        "autocomplete": "tel"
+      },
+      {
+        "id": "save_address_checkbox",
+        "type": "Checkbox",
+        "label": "Save this address for future purchases",
+        "visibility_condition": "user.isLoggedIn"
+      },
+      {
+        "id": "shipping_method_radio_group",
+        "type": "RadioGroup",
+        "label": "Choose Shipping Method",
+        "options": [
+          {
+            "value": "standard",
+            "label": "Standard Shipping",
+            "description": "3-5 business days",
+            "cost": 5.0
+          },
+          {
+            "value": "express",
+            "label": "Express Shipping",
+            "description": "1-2 business days",
+            "cost": 15.0
+          },
+          {
+            "value": "next_day",
+            "label": "Next Day Delivery",
+            "description": "Order by 2 PM for next business day",
+            "cost": 25.0
+          }
+        ],
+        "required": true,
+        "default_value": "standard"
+      },
+      {
+        "id": "delivery_estimate_text",
+        "type": "TextDisplay",
+        "label": "Estimated Delivery",
+        "value_source": "shipping_method_radio_group.selectedOption.description",
+        "variant": "caption"
+      },
+      {
+        "id": "payment_method_tabs",
+        "type": "TabbedContainer",
+        "label": "Payment Method",
+        "tabs": [
+          {
+            "id": "credit_card_tab",
+            "label": "Credit Card",
+            "fields": [
+              {
+                "id": "card_number_input",
+                "type": "TextInput",
+                "label": "Card Number",
+                "placeholder": "XXXX XXXX XXXX XXXX",
+                "required": true,
+                "validation_pattern": "^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9]{2})[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\\d{3})\\d{11})$",
+                "autocomplete": "cc-number"
+              },
+              {
+                "id": "card_name_input",
+                "type": "TextInput",
+                "label": "Name on Card",
+                "required": true,
+                "autocomplete": "cc-name"
+              },
+              {
+                "id": "card_expiry_cvv_group",
+                "type": "HorizontalLayout",
+                "children": [
+                  {
+                    "id": "expiry_date_input",
+                    "type": "TextInput",
+                    "label": "Expiry Date",
+                    "placeholder": "MM/YY",
+                    "required": true,
+                    "validation_pattern": "^(0[1-9]|1[0-2])\\/?([0-9]{2})$",
+                    "maxLength": 5,
+                    "autocomplete": "cc-exp"
+                  },
+                  {
+                    "id": "cvv_input",
+                    "type": "TextInput",
+                    "label": "CVV",
+                    "placeholder": "XXX",
+                    "required": true,
+                    "validation_pattern": "^[0-9]{3,4}$",
+                    "maxLength": 4,
+                    "tooltip": "The 3 or 4 digit security code on the back of your card."
+                  }
+                ]
+              },
+              {
+                "id": "billing_address_same_checkbox",
+                "type": "Checkbox",
+                "label": "Billing address same as shipping",
+                "default_value": true
+              },
+              {
+                "id": "billing_address_fieldset",
+                "type": "FieldSet",
+                "label": "Billing Address",
+                "visibility_condition": "billing_address_same_checkbox == false",
+                "fields": [
+                  {
+                    "id": "billing_address1_input",
+                    "type": "TextInput",
+                    "label": "Address Line 1",
+                    "required": true,
+                    "autocomplete": "billing address-line1"
+                  },
+                  {
+                    "id": "billing_address2_input",
+                    "type": "TextInput",
+                    "label": "Address Line 2",
+                    "optional": true,
+                    "autocomplete": "billing address-line2"
+                  },
+                  {
+                    "id": "billing_city_input",
+                    "type": "TextInput",
+                    "label": "City",
+                    "required": true,
+                    "autocomplete": "billing address-level2"
+                  },
+                  {
+                    "id": "billing_state_dropdown",
+                    "type": "Select",
+                    "label": "State/Province",
+                    "options": [
+                      {
+                        "value": "CA",
+                        "label": "California"
+                      }
+                    ],
+                    "required": true,
+                    "autocomplete": "billing address-level1"
+                  },
+                  {
+                    "id": "billing_zip_code_input",
+                    "type": "TextInput",
+                    "label": "Zip/Postal Code",
+                    "required": true,
+                    "autocomplete": "billing postal-code"
+                  },
+                  {
+                    "id": "billing_country_dropdown",
+                    "type": "Select",
+                    "label": "Country",
+                    "options": [
+                      {
+                        "value": "USA",
+                        "label": "United States"
+                      }
+                    ],
+                    "required": true,
+                    "autocomplete": "billing country"
+                  }
+                ]
+              },
+              {
+                "id": "save_card_checkbox",
+                "type": "Checkbox",
+                "label": "Save card for future purchases",
+                "visibility_condition": "user.isLoggedIn"
+              }
+            ]
+          },
+          {
+            "id": "paypal_tab",
+            "label": "PayPal",
+            "fields": [
+              {
+                "id": "paypal_info_text",
+                "type": "TextDisplay",
+                "label": "PayPal Information",
+                "text": "You will be redirected to PayPal's secure website to complete your payment. After successful payment, you will be brought back to our site.",
+                "variant": "info"
+              },
+              {
+                "id": "paypal_button",
+                "type": "Button",
+                "label": "Continue to PayPal",
+                "variant": "secondary",
+                "icon": "paypal",
+                "action": "redirectToPayPal"
+              }
+            ]
+          },
+          {
+            "id": "apple_pay_tab",
+            "label": "Apple Pay",
+            "fields": [
+              {
+                "id": "apple_pay_info_text",
+                "type": "TextDisplay",
+                "label": "Apple Pay Information",
+                "text": "Pay securely and conveniently with Apple Pay. Your shipping and billing details will be automatically used from your Apple Pay settings.",
+                "variant": "info"
+              },
+              {
+                "id": "apple_pay_button",
+                "type": "Button",
+                "label": "Pay with Apple Pay",
+                "variant": "tertiary",
+                "icon": "apple_pay",
+                "action": "initiateApplePay"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "review_summary_card",
+        "type": "Card",
+        "label": "Order Review",
+        "content": "This section dynamically displays a consolidated summary of all entered shipping, delivery, and payment information along with the final cart summary. It serves as the last chance for the user to review details before placing the order.",
+        "dynamic_content_source": "checkout.summary"
+      },
+      {
+        "id": "terms_checkbox",
+        "type": "Checkbox",
+        "label": "I agree to the <a href='/terms' target='_blank'>terms and conditions</a> and the <a href='/privacy' target='_blank'>privacy policy</a>.",
+        "required": true
+      },
+      {
+        "id": "place_order_button",
+        "type": "Button",
+        "label": "Place Order",
+        "variant": "primary",
+        "action": "placeOrder",
+        "disabled_condition": "!terms_checkbox || !forms.shippingForm.isValid || !forms.paymentForm.isValid",
+        "tooltip": "Please agree to the terms and fill all required fields to place your order."
+      }
+    ],
+    "layout": {
+      "type": "TwoColumnLayout",
+      "main_column": {
+        "type": "VerticalLayout",
+        "children": [
+          "checkout_progress_steps",
+          {
+            "id": "shipping_section",
+            "type": "Section",
+            "title": "1. Shipping Information",
+            "description": "Where should we send your order?",
+            "children": [
+              "email_input",
+              {
+                "id": "name_fields_layout",
+                "type": "HorizontalLayout",
+                "spacing": "medium",
+                "children": [
+                  "first_name_input",
+                  "last_name_input"
+                ]
+              },
+              "address1_input",
+              "address2_input",
+              {
+                "id": "city_state_layout",
+                "type": "HorizontalLayout",
+                "spacing": "medium",
+                "children": [
+                  "city_input",
+                  "state_dropdown"
+                ]
+              },
+              {
+                "id": "zip_country_layout",
+                "type": "HorizontalLayout",
+                "spacing": "medium",
+                "children": [
+                  "zip_code_input",
+                  "country_dropdown"
+                ]
+              },
+              "phone_input",
+              "save_address_checkbox"
+            ]
+          },
+          {
+            "id": "delivery_section",
+            "type": "Section",
+            "title": "2. Delivery Method",
+            "description": "How quickly do you need your items?",
+            "children": [
+              "shipping_method_radio_group",
+              "delivery_estimate_text"
+            ]
+          },
+          {
+            "id": "payment_section",
+            "type": "Section",
+            "title": "3. Payment Information",
+            "description": "Choose your preferred payment method.",
+            "children": [
+              "payment_method_tabs"
+            ]
+          },
+          {
+            "id": "review_section",
+            "type": "Section",
+            "title": "4. Review & Place Order",
+            "description": "Please review your order details before confirming your purchase.",
+            "children": [
+              "review_summary_card",
+              "terms_checkbox",
+              "place_order_button"
+            ]
+          }
+        ]
+      },
+      "sidebar_column": {
+        "type": "VerticalLayout",
+        "sticky": true,
+        "children": [
+          {
+            "id": "order_summary_card",
+            "type": "Card",
+            "title": "Order Summary",
+            "children": [
+              "cart_items_table",
+              "subtotal_display",
+              "shipping_display",
+              "tax_display",
+              "discount_display",
+              "order_total_display",
+              {
+                "id": "promo_code_layout",
+                "type": "HorizontalLayout",
+                "spacing": "small",
+                "children": [
+                  "promo_code_input",
+                  "apply_promo_button"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name": "Team Event Planning Calendar",
+    "type": "calendar",
+    "description": "A centralized calendar for managing and scheduling team-wide events, meetings, and project milestones, enabling collaboration and visibility across the organization.",
+    "fields": [
+      {
+        "id": "eventId",
+        "name": "Event ID",
+        "type": "hidden",
+        "dataType": "string"
+      },
+      {
+        "id": "eventName",
+        "name": "Event Title",
+        "type": "text",
+        "dataType": "string",
+        "required": true,
+        "placeholder": "e.g., Sprint Planning, Team Offsite"
+      },
+      {
+        "id": "eventDescription",
+        "name": "Description",
+        "type": "textarea",
+        "dataType": "string",
+        "rows": 4,
+        "placeholder": "Provide details about the event agenda, goals, etc."
+      },
+      {
+        "id": "startDate",
+        "name": "Start Date/Time",
+        "type": "datetime-local",
+        "dataType": "datetime",
+        "required": true
+      },
+      {
+        "id": "endDate",
+        "name": "End Date/Time",
+        "type": "datetime-local",
+        "dataType": "datetime",
+        "required": true
+      },
+      {
+        "id": "isAllDay",
+        "name": "All-day event",
+        "type": "checkbox",
+        "dataType": "boolean",
+        "defaultValue": false
+      },
+      {
+        "id": "attendees",
+        "name": "Attendees",
+        "type": "multi-select",
+        "dataType": "array",
+        "optionsSource": "user_directory",
+        "placeholder": "Select team members or groups"
+      },
+      {
+        "id": "location",
+        "name": "Location",
+        "type": "text",
+        "dataType": "string",
+        "placeholder": "e.g., Main Conference Room, Zoom Link, Office C-201"
+      },
+      {
+        "id": "category",
+        "name": "Category",
+        "type": "select",
+        "dataType": "string",
+        "options": [
+          {
+            "label": "Meeting",
+            "value": "meeting"
+          },
+          {
+            "label": "Team Building",
+            "value": "team_building"
+          },
+          {
+            "label": "Project Milestone",
+            "value": "project_milestone"
+          },
+          {
+            "label": "Training/Workshop",
+            "value": "training_workshop"
+          },
+          {
+            "label": "Company Holiday",
+            "value": "company_holiday"
+          },
+          {
+            "label": "Other",
+            "value": "other"
+          }
+        ],
+        "defaultValue": "meeting"
+      },
+      {
+        "id": "recurrence",
+        "name": "Recurrence",
+        "type": "select",
+        "dataType": "string",
+        "options": [
+          {
+            "label": "None",
+            "value": "none"
+          },
+          {
+            "label": "Daily",
+            "value": "daily"
+          },
+          {
+            "label": "Weekly",
+            "value": "weekly"
+          },
+          {
+            "label": "Monthly",
+            "value": "monthly"
+          },
+          {
+            "label": "Yearly",
+            "value": "yearly"
+          }
+        ],
+        "defaultValue": "none"
+      },
+      {
+        "id": "reminder",
+        "name": "Reminder",
+        "type": "select",
+        "dataType": "string",
+        "options": [
+          {
+            "label": "None",
+            "value": "none"
+          },
+          {
+            "label": "5 minutes before",
+            "value": "5m"
+          },
+          {
+            "label": "15 minutes before",
+            "value": "15m"
+          },
+          {
+            "label": "30 minutes before",
+            "value": "30m"
+          },
+          {
+            "label": "1 hour before",
+            "value": "1h"
+          },
+          {
+            "label": "1 day before",
+            "value": "1d"
+          }
+        ],
+        "defaultValue": "15m"
+      },
+      {
+        "id": "status",
+        "name": "Status",
+        "type": "select",
+        "dataType": "string",
+        "options": [
+          {
+            "label": "Confirmed",
+            "value": "confirmed"
+          },
+          {
+            "label": "Tentative",
+            "value": "tentative"
+          },
+          {
+            "label": "Cancelled",
+            "value": "cancelled"
+          }
+        ],
+        "defaultValue": "confirmed"
+      },
+      {
+        "id": "visibility",
+        "name": "Visibility",
+        "type": "select",
+        "dataType": "string",
+        "options": [
+          {
+            "label": "Public (All Org)",
+            "value": "public"
+          },
+          {
+            "label": "Team Only",
+            "value": "team_only"
+          },
+          {
+            "label": "Private (Creator & Attendees)",
+            "value": "private"
+          }
+        ],
+        "defaultValue": "team_only",
+        "description": "Who can view this event."
+      },
+      {
+        "id": "attachments",
+        "name": "Attachments",
+        "type": "file-upload",
+        "dataType": "array",
+        "maxFiles": 5,
+        "allowedTypes": [
+          "pdf",
+          "doc",
+          "docx",
+          "xls",
+          "xlsx",
+          "ppt",
+          "pptx",
+          "zip",
+          "jpg",
+          "png"
+        ]
+      },
+      {
+        "id": "createdBy",
+        "name": "Created By",
+        "type": "text",
+        "dataType": "string",
+        "readOnly": true
+      },
+      {
+        "id": "createdAt",
+        "name": "Created At",
+        "type": "datetime-local",
+        "dataType": "datetime",
+        "readOnly": true
+      }
+    ],
+    "layout": {
+      "type": "grid",
+      "rows": [
+        {
+          "cols": [
+            {
+              "width": 12,
+              "components": [
+                {
+                  "type": "calendar",
+                  "id": "mainCalendar",
+                  "viewModes": [
+                    "month",
+                    "week",
+                    "day",
+                    "agenda"
+                  ],
+                  "defaultView": "month",
+                  "eventsSource": "/api/team-events",
+                  "actions": {
+                    "onEventClick": {
+                      "type": "modal",
+                      "title": "Event Details",
+                      "formId": "eventDetailForm",
+                      "dataMapping": {
+                        "eventId": "eventId"
+                      }
+                    },
+                    "onDateClick": {
+                      "type": "modal",
+                      "title": "New Event",
+                      "formId": "newEventForm",
+                      "dataMapping": {
+                        "startDate": "selectedDate",
+                        "endDate": "selectedDate"
+                      }
+                    }
+                  },
+                  "toolbar": {
+                    "left": [
+                      "prev",
+                      "next",
+                      "today"
+                    ],
+                    "center": [
+                      "title"
+                    ],
+                    "right": [
+                      "month",
+                      "week",
+                      "day",
+                      "agenda",
+                      "quickAddButton"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "cols": [
+            {
+              "width": 3,
+              "components": [
+                {
+                  "type": "panel",
+                  "title": "Filters",
+                  "fields": [
+                    "category",
+                    "attendees",
+                    "status"
+                  ],
+                  "orientation": "vertical",
+                  "applyButton": {
+                    "label": "Apply Filters",
+                    "action": {
+                      "type": "filter",
+                      "target": "mainCalendar"
+                    }
+                  },
+                  "clearButton": {
+                    "label": "Clear Filters",
+                    "action": {
+                      "type": "clearFilters",
+                      "target": "mainCalendar"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "width": 9,
+              "components": [
+                {
+                  "type": "form",
+                  "id": "eventDetailForm",
+                  "title": "Event Details",
+                  "fields": [
+                    "eventName",
+                    "eventDescription",
+                    "startDate",
+                    "endDate",
+                    "isAllDay",
+                    "attendees",
+                    "location",
+                    "category",
+                    "recurrence",
+                    "reminder",
+                    "status",
+                    "visibility",
+                    "attachments",
+                    "createdBy",
+                    "createdAt"
+                  ],
+                  "actions": [
+                    {
+                      "label": "Edit",
+                      "type": "button",
+                      "variant": "primary",
+                      "action": {
+                        "type": "openForm",
+                        "formId": "editEventForm",
+                        "dataMapping": {
+                          "*": "*"
+                        }
+                      }
+                    },
+                    {
+                      "label": "Delete",
+                      "type": "button",
+                      "variant": "danger",
+                      "action": {
+                        "type": "apiCall",
+                        "method": "DELETE",
+                        "endpoint": "/api/team-events/{eventId}"
+                      }
+                    },
+                    {
+                      "label": "Close",
+                      "type": "button",
+                      "variant": "secondary",
+                      "action": {
+                        "type": "closeModal"
+                      }
+                    }
+                  ],
+                  "visibility": "hidden"
+                },
+                {
+                  "type": "form",
+                  "id": "newEventForm",
+                  "title": "Create New Team Event",
+                  "fields": [
+                    "eventName",
+                    "eventDescription",
+                    "startDate",
+                    "endDate",
+                    "isAllDay",
+                    "attendees",
+                    "location",
+                    "category",
+                    "recurrence",
+                    "reminder",
+                    "visibility",
+                    "attachments"
+                  ],
+                  "actions": [
+                    {
+                      "label": "Save Event",
+                      "type": "submit",
+                      "variant": "primary",
+                      "action": {
+                        "type": "apiCall",
+                        "method": "POST",
+                        "endpoint": "/api/team-events",
+                        "onSuccess": {
+                          "type": "refresh",
+                          "target": "mainCalendar"
+                        }
+                      }
+                    },
+                    {
+                      "label": "Cancel",
+                      "type": "button",
+                      "variant": "secondary",
+                      "action": {
+                        "type": "closeModal"
+                      }
+                    }
+                  ],
+                  "visibility": "hidden"
+                },
+                {
+                  "type": "form",
+                  "id": "editEventForm",
+                  "title": "Edit Team Event",
+                  "fields": [
+                    "eventId",
+                    "eventName",
+                    "eventDescription",
+                    "startDate",
+                    "endDate",
+                    "isAllDay",
+                    "attendees",
+                    "location",
+                    "category",
+                    "recurrence",
+                    "reminder",
+                    "status",
+                    "visibility",
+                    "attachments"
+                  ],
+                  "actions": [
+                    {
+                      "label": "Update Event",
+                      "type": "submit",
+                      "variant": "primary",
+                      "action": {
+                        "type": "apiCall",
+                        "method": "PUT",
+                        "endpoint": "/api/team-events/{eventId}",
+                        "onSuccess": {
+                          "type": "refresh",
+                          "target": "mainCalendar"
+                        }
+                      }
+                    },
+                    {
+                      "label": "Cancel",
+                      "type": "button",
+                      "variant": "secondary",
+                      "action": {
+                        "type": "closeModal"
+                      }
+                    }
+                  ],
+                  "visibility": "hidden"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "has_charts": false,
+    "has_forms": true
+  },
+  {
+    "name": "InvoicePulse: Invoice Detail View",
+    "type": "Web Application (SPA) - Detail Screen",
+    "description": "A dynamic and comprehensive detail view for managing individual invoices, featuring multi-tabbed sections for core information, payment tracking, communication, and audit trails. Designed for efficiency and complete oversight.",
+    "fields": [
+      {
+        "name": "invoiceId",
+        "type": "text",
+        "label": "Invoice ID",
+        "placeholder": "INV-2023-00123",
+        "readonly": true
+      },
+      {
+        "name": "status",
+        "type": "select",
+        "label": "Status",
+        "placeholder": "Select status...",
+        "options": [
+          "Draft",
+          "Pending Approval",
+          "Sent",
+          "Partially Paid",
+          "Paid",
+          "Overdue",
+          "Cancelled"
+        ],
+        "default": "Draft"
+      },
+      {
+        "name": "issueDate",
+        "type": "date",
+        "label": "Issue Date",
+        "placeholder": "YYYY-MM-DD"
+      },
+      {
+        "name": "dueDate",
+        "type": "date",
+        "label": "Due Date",
+        "placeholder": "YYYY-MM-DD"
+      },
+      {
+        "name": "currency",
+        "type": "select",
+        "label": "Currency",
+        "options": [
+          "USD",
+          "EUR",
+          "GBP",
+          "CAD",
+          "AUD"
+        ],
+        "default": "USD"
+      },
+      {
+        "name": "customerId",
+        "type": "text",
+        "label": "Customer ID",
+        "placeholder": "CUST-00456",
+        "readonly": true
+      },
+      {
+        "name": "customerName",
+        "type": "autocomplete",
+        "label": "Customer Name",
+        "placeholder": "Search or select customer...",
+        "options_endpoint": "/api/customers/search",
+        "on_select_fill": [
+          "customerEmail",
+          "billingAddress"
+        ]
+      },
+      {
+        "name": "customerEmail",
+        "type": "email",
+        "label": "Customer Email",
+        "placeholder": "customer@example.com"
+      },
+      {
+        "name": "billingAddress",
+        "type": "textarea",
+        "label": "Billing Address",
+        "placeholder": "Enter full billing address..."
+      },
+      {
+        "name": "lineItems",
+        "type": "table_editor",
+        "label": "Line Items",
+        "columns": [
+          {
+            "name": "itemType",
+            "label": "Type",
+            "type": "select",
+            "options": [
+              "Product",
+              "Service"
+            ],
+            "default": "Product"
+          },
+          {
+            "name": "description",
+            "label": "Description",
+            "type": "text"
+          },
+          {
+            "name": "quantity",
+            "label": "Qty",
+            "type": "number",
+            "min": 1
+          },
+          {
+            "name": "unitPrice",
+            "label": "Unit Price",
+            "type": "currency"
+          },
+          {
+            "name": "total",
+            "label": "Line Total",
+            "type": "currency",
+            "readonly": true
+          }
+        ]
+      },
+      {
+        "name": "subtotal",
+        "type": "currency",
+        "label": "Subtotal",
+        "readonly": true
+      },
+      {
+        "name": "discountType",
+        "type": "select",
+        "label": "Discount Type",
+        "options": [
+          "None",
+          "Percentage",
+          "Fixed Amount"
+        ],
+        "default": "None"
+      },
+      {
+        "name": "discountValue",
+        "type": "number",
+        "label": "Discount Value",
+        "placeholder": "0.00"
+      },
+      {
+        "name": "taxRate",
+        "type": "number",
+        "label": "Tax Rate (%)",
+        "placeholder": "0.00",
+        "min": 0,
+        "max": 100,
+        "step": 0.01
+      },
+      {
+        "name": "taxAmount",
+        "type": "currency",
+        "label": "Tax Amount",
+        "readonly": true
+      },
+      {
+        "name": "totalAmount",
+        "type": "currency",
+        "label": "Total Amount Due",
+        "readonly": true
+      },
+      {
+        "name": "customerNotes",
+        "type": "textarea",
+        "label": "Notes for Customer",
+        "placeholder": "Optional notes to include on the invoice..."
+      },
+      {
+        "name": "internalNotes",
+        "type": "textarea",
+        "label": "Internal Notes",
+        "placeholder": "Private notes for internal team use..."
+      },
+      {
+        "name": "paymentHistory",
+        "type": "data_table",
+        "label": "Payment History",
+        "columns": [
+          {
+            "name": "paymentDate",
+            "label": "Date",
+            "type": "date"
+          },
+          {
+            "name": "amount",
+            "label": "Amount",
+            "type": "currency"
+          },
+          {
+            "name": "method",
+            "label": "Method",
+            "type": "text"
+          },
+          {
+            "name": "transactionId",
+            "label": "Transaction ID",
+            "type": "text"
+          },
+          {
+            "name": "status",
+            "label": "Status",
+            "type": "text"
+          }
+        ],
+        "data_source": "/api/invoices/{invoiceId}/payments"
+      },
+      {
+        "name": "communications",
+        "type": "activity_feed",
+        "label": "Communication Log",
+        "feed_items": [
+          {
+            "timestamp": "2023-10-26T10:00:00Z",
+            "user": "System",
+            "event": "Invoice Generated"
+          },
+          {
+            "timestamp": "2023-10-26T10:15:00Z",
+            "user": "John Doe",
+            "event": "Invoice Sent via Email"
+          },
+          {
+            "timestamp": "2023-10-28T14:30:00Z",
+            "user": "Customer Support",
+            "event": "Customer called for clarification on line item #2"
+          },
+          {
+            "timestamp": "2023-11-01T09:00:00Z",
+            "user": "System",
+            "event": "Payment Reminder Sent"
+          }
+        ]
+      },
+      {
+        "name": "attachments",
+        "type": "file_upload",
+        "label": "Attachments",
+        "upload_endpoint": "/api/invoices/{invoiceId}/attachments",
+        "display_type": "list",
+        "allowed_types": [
+          "pdf",
+          "jpg",
+          "png",
+          "docx",
+          "xlsx"
+        ]
+      },
+      {
+        "name": "auditLog",
+        "type": "data_table",
+        "label": "Audit Log",
+        "columns": [
+          {
+            "name": "timestamp",
+            "label": "Timestamp",
+            "type": "datetime"
+          },
+          {
+            "name": "user",
+            "label": "User",
+            "type": "text"
+          },
+          {
+            "name": "action",
+            "label": "Action",
+            "type": "text"
+          },
+          {
+            "name": "details",
+            "label": "Details",
+            "type": "text"
+          }
+        ],
+        "data_source": "/api/invoices/{invoiceId}/audit"
+      }
+    ],
+    "layout": {
+      "type": "container",
+      "direction": "vertical",
+      "components": [
+        {
+          "type": "header",
+          "title_field": "invoiceId",
+          "subtitle": "Invoice Detail View",
+          "actions": [
+            {
+              "label": "Edit Invoice",
+              "icon": "edit",
+              "action_type": "edit"
+            },
+            {
+              "label": "Send Invoice",
+              "icon": "send",
+              "action_type": "api",
+              "endpoint": "/api/invoices/{invoiceId}/send"
+            },
+            {
+              "label": "Record Payment",
+              "icon": "payment",
+              "action_type": "form",
+              "form_id": "recordPaymentForm"
+            },
+            {
+              "label": "Download PDF",
+              "icon": "download",
+              "action_type": "api",
+              "endpoint": "/api/invoices/{invoiceId}/pdf",
+              "method": "GET",
+              "download": true
+            }
+          ]
+        },
+        {
+          "type": "tabs",
+          "tabs": [
+            {
+              "id": "details",
+              "label": "Overview & Details",
+              "content": {
+                "type": "grid",
+                "columns": 2,
+                "gap": "20px",
+                "sections": [
+                  {
+                    "title": "Invoice Information",
+                    "fields": [
+                      "invoiceId",
+                      "status",
+                      "issueDate",
+                      "dueDate",
+                      "currency"
+                    ]
+                  },
+                  {
+                    "title": "Customer Details",
+                    "fields": [
+                      "customerId",
+                      "customerName",
+                      "customerEmail",
+                      "billingAddress"
+                    ]
+                  },
+                  {
+                    "title": "Line Items",
+                    "full_width": true,
+                    "fields": [
+                      "lineItems"
+                    ]
+                  },
+                  {
+                    "title": "Summary",
+                    "full_width": true,
+                    "fields": [
+                      "subtotal",
+                      "discountType",
+                      "discountValue",
+                      "taxRate",
+                      "taxAmount",
+                      "totalAmount"
+                    ]
+                  },
+                  {
+                    "title": "Notes",
+                    "full_width": true,
+                    "fields": [
+                      "customerNotes",
+                      "internalNotes"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "id": "payments",
+              "label": "Payments",
+              "content": {
+                "type": "component",
+                "component_name": "paymentHistory"
+              }
+            },
+            {
+              "id": "communication",
+              "label": "Communication",
+              "content": {
+                "type": "component",
+                "component_name": "communications"
+              }
+            },
+            {
+              "id": "attachments",
+              "label": "Attachments",
+              "content": {
+                "type": "component",
+                "component_name": "attachments"
+              }
+            },
+            {
+              "id": "audit",
+              "label": "Audit Trail",
+              "content": {
+                "type": "component",
+                "component_name": "auditLog"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "has_charts": true,
+    "has_forms": true
+  },
+  {
+    "name": "TeamConnect Chat Hub",
+    "type": "Application UI",
+    "description": "A modern team collaboration chat application featuring direct messages, group channels, rich media support, threaded replies, and integrated task management.",
+    "fields": [
+      {
+        "id": "workspace_switcher",
+        "type": "dropdown",
+        "label": "Workspace",
+        "placeholder": "Select Workspace",
+        "options": [
+          {
+            "value": "main_team",
+            "label": "Main Team"
+          },
+          {
+            "value": "project_alpha",
+            "label": "Project Alpha"
+          },
+          {
+            "value": "client_support",
+            "label": "Client Support"
+          }
+        ]
+      },
+      {
+        "id": "user_profile_card",
+        "type": "group",
+        "label": "Current User",
+        "fields": [
+          {
+            "id": "user_avatar",
+            "type": "image",
+            "src": "/api/user/avatar/current"
+          },
+          {
+            "id": "user_name",
+            "type": "text",
+            "value": "Alice Johnson"
+          },
+          {
+            "id": "user_status_indicator",
+            "type": "status_indicator",
+            "status": "online"
+          }
+        ]
+      },
+      {
+        "id": "channel_list",
+        "type": "list",
+        "label": "Channels",
+        "item_template": {
+          "type": "group",
+          "fields": [
+            {
+              "id": "channel_icon",
+              "type": "icon",
+              "name": "hashtag"
+            },
+            {
+              "id": "channel_name",
+              "type": "text"
+            },
+            {
+              "id": "unread_count",
+              "type": "badge",
+              "value": 0,
+              "hidden_if_zero": true
+            }
+          ]
+        },
+        "items": [
+          {
+            "channel_name": "general",
+            "unread_count": 5
+          },
+          {
+            "channel_name": "development",
+            "unread_count": 0
+          },
+          {
+            "channel_name": "marketing",
+            "unread_count": 2
+          },
+          {
+            "channel_name": "random",
+            "unread_count": 0
+          }
+        ]
+      },
+      {
+        "id": "direct_message_list",
+        "type": "list",
+        "label": "Direct Messages",
+        "item_template": {
+          "type": "group",
+          "fields": [
+            {
+              "id": "dm_avatar",
+              "type": "image"
+            },
+            {
+              "id": "dm_name",
+              "type": "text"
+            },
+            {
+              "id": "dm_status",
+              "type": "status_indicator",
+              "status": "offline"
+            },
+            {
+              "id": "unread_count",
+              "type": "badge",
+              "value": 0,
+              "hidden_if_zero": true
+            }
+          ]
+        },
+        "items": [
+          {
+            "dm_avatar": "/api/user/avatar/bob",
+            "dm_name": "Bob Smith",
+            "dm_status": "online",
+            "unread_count": 1
+          },
+          {
+            "dm_avatar": "/api/user/avatar/carol",
+            "dm_name": "Carol White",
+            "dm_status": "offline",
+            "unread_count": 0
+          },
+          {
+            "dm_avatar": "/api/user/avatar/dave",
+            "dm_name": "Dave Brown",
+            "dm_status": "online",
+            "unread_count": 0
+          }
+        ]
+      },
+      {
+        "id": "new_chat_button",
+        "type": "button",
+        "label": "New Chat",
+        "icon": "plus"
+      },
+      {
+        "id": "chat_header",
+        "type": "group",
+        "label": "Chat Header",
+        "fields": [
+          {
+            "id": "chat_title",
+            "type": "text",
+            "value": "#general"
+          },
+          {
+            "id": "chat_topic",
+            "type": "text",
+            "value": "Discussions about everything related to the team."
+          },
+          {
+            "id": "member_count",
+            "type": "text",
+            "value": "12 members"
+          },
+          {
+            "id": "search_chat_input",
+            "type": "search_input",
+            "placeholder": "Search messages..."
+          },
+          {
+            "id": "call_button",
+            "type": "button",
+            "icon": "phone",
+            "label": "Call"
+          }
+        ]
+      },
+      {
+        "id": "message_display_area",
+        "type": "scrollable_container",
+        "label": "Messages",
+        "direction": "vertical",
+        "fields": [
+          {
+            "id": "chat_message_template",
+            "type": "group",
+            "orientation": "horizontal",
+            "fields": [
+              {
+                "id": "sender_avatar",
+                "type": "image",
+                "size": "small"
+              },
+              {
+                "id": "message_content_group",
+                "type": "group",
+                "orientation": "vertical",
+                "fields": [
+                  {
+                    "id": "sender_name",
+                    "type": "text",
+                    "style": "bold"
+                  },
+                  {
+                    "id": "timestamp",
+                    "type": "text",
+                    "style": "small"
+                  },
+                  {
+                    "id": "message_text",
+                    "type": "rich_text",
+                    "multiline": true
+                  },
+                  {
+                    "id": "message_attachments",
+                    "type": "list",
+                    "item_template": {
+                      "type": "group",
+                      "fields": [
+                        {
+                          "id": "file_icon",
+                          "type": "icon"
+                        },
+                        {
+                          "id": "file_name",
+                          "type": "link"
+                        },
+                        {
+                          "id": "file_size",
+                          "type": "text",
+                          "style": "small"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactions",
+                    "type": "group",
+                    "orientation": "horizontal",
+                    "fields": [
+                      {
+                        "id": "reaction_emoji",
+                        "type": "text"
+                      },
+                      {
+                        "id": "reaction_count",
+                        "type": "badge"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "typing_indicator",
+            "type": "text",
+            "value": "Someone is typing...",
+            "hidden": true
+          }
+        ],
+        "data_source": "/api/chat/messages/current_channel"
+      },
+      {
+        "id": "message_input_area",
+        "type": "group",
+        "orientation": "horizontal",
+        "label": "Message Input",
+        "fields": [
+          {
+            "id": "attachment_button",
+            "type": "button",
+            "icon": "paperclip"
+          },
+          {
+            "id": "emoji_button",
+            "type": "button",
+            "icon": "smile"
+          },
+          {
+            "id": "message_text_input",
+            "type": "textarea",
+            "placeholder": "Type your message here...",
+            "rows": 1
+          },
+          {
+            "id": "send_button",
+            "type": "button",
+            "label": "Send",
+            "icon": "send"
+          }
+        ]
+      },
+      {
+        "id": "right_sidebar_tabs",
+        "type": "tab_panel",
+        "tabs": [
+          {
+            "id": "members_tab",
+            "label": "Members"
+          },
+          {
+            "id": "shared_files_tab",
+            "label": "Files"
+          },
+          {
+            "id": "pinned_messages_tab",
+            "label": "Pinned"
+          },
+          {
+            "id": "task_integrations_tab",
+            "label": "Tasks"
+          }
+        ]
+      },
+      {
+        "id": "channel_members_list",
+        "type": "list",
+        "label": "Channel Members",
+        "item_template": {
+          "type": "group",
+          "fields": [
+            {
+              "id": "member_avatar",
+              "type": "image",
+              "size": "small"
+            },
+            {
+              "id": "member_name",
+              "type": "text"
+            },
+            {
+              "id": "member_status",
+              "type": "status_indicator"
+            }
+          ]
+        },
+        "data_source": "/api/chat/channel/current/members"
+      },
+      {
+        "id": "shared_files_list",
+        "type": "list",
+        "label": "Shared Files",
+        "item_template": {
+          "type": "group",
+          "fields": [
+            {
+              "id": "file_icon",
+              "type": "icon",
+              "name": "file"
+            },
+            {
+              "id": "file_name",
+              "type": "link"
+            },
+            {
+              "id": "uploader_name",
+              "type": "text",
+              "style": "small"
+            },
+            {
+              "id": "upload_date",
+              "type": "text",
+              "style": "small"
+            }
+          ]
+        },
+        "data_source": "/api/chat/channel/current/files"
+      },
+      {
+        "id": "pinned_messages_list",
+        "type": "list",
+        "label": "Pinned Messages",
+        "item_template": {
+          "type": "group",
+          "fields": [
+            {
+              "id": "pinner_avatar",
+              "type": "image",
+              "size": "xsmall"
+            },
+            {
+              "id": "pinned_message_text",
+              "type": "text",
+              "truncate": true
+            },
+            {
+              "id": "view_original_button",
+              "type": "button",
+              "label": "View"
+            }
+          ]
+        },
+        "data_source": "/api/chat/channel/current/pinned_messages"
+      },
+      {
+        "id": "task_integration_panel",
+        "type": "group",
+        "label": "Integrated Tasks",
+        "fields": [
+          {
+            "id": "create_task_button",
+            "type": "button",
+            "label": "Create New Task"
+          },
+          {
+            "id": "task_list",
+            "type": "list",
+            "item_template": {
+              "type": "group",
+              "fields": [
+                {
+                  "id": "task_checkbox",
+                  "type": "checkbox"
+                },
+                {
+                  "id": "task_title",
+                  "type": "text"
+                },
+                {
+                  "id": "task_assignee",
+                  "type": "text",
+                  "style": "small"
+                },
+                {
+                  "id": "task_due_date",
+                  "type": "text",
+                  "style": "small"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "new_channel_modal",
+        "type": "modal",
+        "label": "Create New Channel",
+        "fields": [
+          {
+            "id": "new_channel_name",
+            "type": "text_input",
+            "label": "Channel Name",
+            "placeholder": "e.g., #project-x"
+          },
+          {
+            "id": "new_channel_description",
+            "type": "textarea",
+            "label": "Description (optional)",
+            "rows": 3
+          },
+          {
+            "id": "channel_members_select",
+            "type": "multi_select",
+            "label": "Add Members",
+            "options_api": "/api/users"
+          },
+          {
+            "id": "create_channel_button",
+            "type": "button",
+            "label": "Create Channel"
+          }
+        ]
+      },
+      {
+        "id": "user_settings_modal",
+        "type": "modal",
+        "label": "User Settings",
+        "fields": [
+          {
+            "id": "setting_profile_picture_upload",
+            "type": "file_upload",
+            "label": "Profile Picture"
+          },
+          {
+            "id": "setting_display_name",
+            "type": "text_input",
+            "label": "Display Name"
+          },
+          {
+            "id": "setting_status_message",
+            "type": "text_input",
+            "label": "Status Message"
+          },
+          {
+            "id": "save_settings_button",
+            "type": "button",
+            "label": "Save Changes"
+          }
+        ]
+      }
+    ],
+    "layout": {
+      "root": {
+        "type": "grid",
+        "columns": "1fr 3fr 1fr",
+        "rows": "auto",
+        "areas": [
+          [
+            "sidebar_left",
+            "main_chat",
+            "sidebar_right"
+          ]
+        ],
+        "children": [
+          {
+            "id": "sidebar_left",
+            "type": "container",
+            "orientation": "vertical",
+            "grid_area": "sidebar_left",
+            "children": [
+              "workspace_switcher",
+              "user_profile_card",
+              "channel_list",
+              "direct_message_list",
+              "new_chat_button"
+            ]
+          },
+          {
+            "id": "main_chat",
+            "type": "container",
+            "orientation": "vertical",
+            "grid_area": "main_chat",
+            "children": [
+              "chat_header",
+              "message_display_area",
+              "message_input_area"
+            ]
+          },
+          {
+            "id": "sidebar_right",
+            "type": "container",
+            "orientation": "vertical",
+            "grid_area": "sidebar_right",
+            "children": [
+              "right_sidebar_tabs",
+              {
+                "id": "right_sidebar_content",
+                "type": "conditional_container",
+                "condition_field": "right_sidebar_tabs",
+                "cases": {
+                  "members_tab": [
+                    "channel_members_list"
+                  ],
+                  "shared_files_tab": [
+                    "shared_files_list"
+                  ],
+                  "pinned_messages_tab": [
+                    "pinned_messages_list"
+                  ],
+                  "task_integrations_tab": [
+                    "task_integration_panel"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "has_charts": false,
+    "has_forms": true
+  }
+]

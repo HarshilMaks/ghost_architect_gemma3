@@ -1,0 +1,72 @@
+[
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0000.png",
+    "instruction": "Generate PostgreSQL schema from this UI",
+    "output": "CREATE TABLE users (\n    id SERIAL PRIMARY KEY,\n    profile_picture TEXT,\n    full_name VARCHAR(255),\n    email VARCHAR(255) UNIQUE NOT NULL,\n    member_since DATE,\n    phone_number VARCHAR(50)\n);",
+    "domain": "synthetic",
+    "size_kb": 57.7
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0001.png",
+    "instruction": "Generate PostgreSQL schema from this UI",
+    "output": "CREATE TABLE products (\n    product_id TEXT PRIMARY KEY,\n    product_name TEXT NOT NULL,\n    brand TEXT NOT NULL,\n    category TEXT NOT NULL,\n    price NUMERIC(10, 2) NOT NULL,\n    currency_code VARCHAR(3) NOT NULL\n);",
+    "domain": "synthetic",
+    "size_kb": 61.8
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0002.png",
+    "instruction": "Generate PostgreSQL schema from this UI",
+    "output": "CREATE TABLE metrics_definitions (\n    metric_id TEXT PRIMARY KEY,\n    metric_name TEXT NOT NULL,\n    metric_type TEXT NOT NULL,\n    display_type TEXT NOT NULL,\n    unit TEXT,\n    description TEXT NOT NULL\n);",
+    "domain": "synthetic",
+    "size_kb": 106.0
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0003.png",
+    "instruction": "Generate PostgreSQL schema from this UI",
+    "output": "CREATE TYPE task_status_enum AS ENUM ('To Do', 'In Progress', 'Under Review', 'Completed', 'Blocked');\nCREATE TYPE task_priority_enum AS ENUM ('urgent', 'high', 'medium', 'low');\n\nCREATE TABLE users (\n    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    name VARCHAR(255) NOT NULL\n);\n\nCREATE TABLE tasks (\n    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    task_title VARCHAR(255) NOT NULL,\n    task_description TEXT,\n    status task_status_enum NOT NULL DEFAULT 'To Do',\n    priority task_priority_enum NOT NULL DEFAULT 'medium',\n    due_date DATE,\n    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),\n    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()\n);\n\nCREATE TABLE task_assignees (\n    task_id UUID NOT NULL REFERENCES tasks(id) ON DELETE CASCADE,\n    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,\n    PRIMARY KEY (task_id, user_id)\n);",
+    "domain": "synthetic",
+    "size_kb": 54.0
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0004.png",
+    "instruction": "Generate PostgreSQL schema from this UI",
+    "output": "CREATE TABLE users (\n    user_id VARCHAR(255) PRIMARY KEY,\n    user_name VARCHAR(255) NOT NULL,\n    user_handle VARCHAR(255) UNIQUE NOT NULL,\n    user_avatar_url VARCHAR(2048)\n);\n\nCREATE TABLE stories (\n    story_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    user_id VARCHAR(255) NOT NULL REFERENCES users(user_id),\n    media_url VARCHAR(2048) NOT NULL,\n    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,\n    expires_at TIMESTAMP WITH TIME ZONE,\n    is_highlight BOOLEAN DEFAULT FALSE\n);\n\nCREATE TABLE posts (\n    post_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    author_id VARCHAR(255) NOT NULL REFERENCES users(user_id),\n    text_content TEXT,\n    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,\n    link_preview_url VARCHAR(2048),\n    link_preview_title VARCHAR(255),\n    link_preview_description TEXT,\n    link_preview_image_url VARCHAR(2048)\n);\n\nCREATE TABLE media_attachments (\n    media_attachment_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    post_id UUID NOT NULL REFERENCES posts(post_id),\n    media_url VARCHAR(2048) NOT NULL,\n    media_format VARCHAR(50) NOT NULL, -- 'image' or 'video'\n    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP\n);\n\nCREATE TABLE polls (\n    poll_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    post_id UUID UNIQUE NOT NULL REFERENCES posts(post_id),\n    question_text TEXT NOT NULL,\n    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP\n);\n\nCREATE TABLE poll_options (\n    poll_option_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    poll_id UUID NOT NULL REFERENCES polls(poll_id),\n    option_text VARCHAR(255) NOT NULL,\n    option_order INTEGER NOT NULL,\n    UNIQUE (poll_id, option_order)\n);\n\nCREATE TABLE poll_votes (\n    poll_vote_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    poll_id UUID NOT NULL REFERENCES polls(poll_id),\n    poll_option_id UUID NOT NULL REFERENCES poll_options(poll_option_id),\n    user_id VARCHAR(255) NOT NULL REFERENCES users(user_id),\n    voted_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,\n    UNIQUE (poll_id, user_id)\n);\n\nCREATE TABLE post_locations (\n    post_location_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    post_id UUID UNIQUE NOT NULL REFERENCES posts(post_id),\n    location_name VARCHAR(255) NOT NULL,\n    latitude DECIMAL(9,6),\n    longitude DECIMAL(9,6),\n    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP\n);\n\nCREATE TABLE post_likes (\n    post_like_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    post_id UUID NOT NULL REFERENCES posts(post_id),\n    user_id VARCHAR(255) NOT NULL REFERENCES users(user_id),\n    liked_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,\n    UNIQUE (post_id, user_id)\n);\n\nCREATE TABLE post_shares (\n    post_share_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    post_id UUID NOT NULL REFERENCES posts(post_id),\n    user_id VARCHAR(255) NOT NULL REFERENCES users(user_id),\n    shared_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,\n    UNIQUE (post_id, user_id)\n);\n\nCREATE TABLE post_views (\n    post_view_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    post_id UUID NOT NULL REFERENCES posts(post_id),\n    user_id VARCHAR(255) NOT NULL REFERENCES users(user_id),\n    viewed_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP\n);\n\nCREATE TABLE post_bookmarks (\n    post_bookmark_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    post_id UUID NOT NULL REFERENCES posts(post_id),\n    user_id VARCHAR(255) NOT NULL REFERENCES users(user_id),\n    bookmarked_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,\n    UNIQUE (post_id, user_id)\n);\n\nCREATE TABLE comments (\n    comment_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    post_id UUID NOT NULL REFERENCES posts(post_id),\n    author_id VARCHAR(255) NOT NULL REFERENCES users(user_id),\n    comment_text TEXT NOT NULL,\n    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,\n    parent_comment_id UUID REFERENCES comments(comment_id)\n);\n\nCREATE TABLE comment_likes (\n    comment_like_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    comment_id UUID NOT NULL REFERENCES comments(comment_id),\n    user_id VARCHAR(255) NOT NULL REFERENCES users(user_id),\n    liked_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,\n    UNIQUE (comment_id, user_id)\n);",
+    "domain": "synthetic",
+    "size_kb": 164.8
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0005.png",
+    "instruction": "Generate PostgreSQL schema from this UI",
+    "output": "CREATE TYPE support_ticket_status AS ENUM ('New', 'Open', 'In Progress', 'Pending Customer', 'Resolved', 'Closed');\n\nCREATE TYPE support_ticket_priority AS ENUM ('Low', 'Medium', 'High', 'Urgent');\n\nCREATE TABLE users (\n    id SERIAL PRIMARY KEY,\n    username VARCHAR(255) UNIQUE NOT NULL,\n    email VARCHAR(255) UNIQUE NOT NULL,\n    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP\n);\n\nCREATE TABLE tickets (\n    ticket_id VARCHAR(20) PRIMARY KEY DEFAULT 'STK-' || LPAD(nextval('ticket_id_seq')::text, 5, '0'),\n    subject VARCHAR(255) NOT NULL,\n    description TEXT NOT NULL,\n    status support_ticket_status NOT NULL DEFAULT 'New',\n    priority support_ticket_priority NOT NULL DEFAULT 'Medium',\n    reporter_id INT NOT NULL REFERENCES users(id),\n    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,\n    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP\n);\n\nCREATE SEQUENCE ticket_id_seq START WITH 10000;",
+    "domain": "synthetic",
+    "size_kb": 66.4
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0006.png",
+    "instruction": "Generate PostgreSQL schema from this UI",
+    "output": "CREATE TABLE users (\n    id SERIAL PRIMARY KEY,\n    email VARCHAR(255) NOT NULL UNIQUE,\n    password_hash VARCHAR(255) NOT NULL,\n    first_name VARCHAR(100),\n    last_name VARCHAR(100),\n    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,\n    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP\n);\n\nCREATE TABLE products (\n    id SERIAL PRIMARY KEY,\n    name VARCHAR(255) NOT NULL UNIQUE,\n    description TEXT,\n    unit_price NUMERIC(10, 2) NOT NULL,\n    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,\n    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP\n);\n\nCREATE TABLE carts (\n    id SERIAL PRIMARY KEY,\n    user_id INTEGER REFERENCES users(id) ON DELETE SET NULL,\n    subtotal NUMERIC(10, 2) NOT NULL DEFAULT 0.00,\n    shipping_cost NUMERIC(10, 2) NOT NULL DEFAULT 0.00,\n    tax_amount NUMERIC(10, 2) NOT NULL DEFAULT 0.00,\n    discount_amount NUMERIC(10, 2) NOT NULL DEFAULT 0.00,\n    total_amount NUMERIC(10, 2) NOT NULL DEFAULT 0.00,\n    current_checkout_step VARCHAR(50) NOT NULL DEFAULT 'shipping_step',\n    status VARCHAR(50) NOT NULL DEFAULT 'active',\n    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,\n    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP\n);\n\nCREATE TABLE cart_items (\n    id SERIAL PRIMARY KEY,\n    cart_id INTEGER NOT NULL REFERENCES carts(id) ON DELETE CASCADE,\n    product_id INTEGER NOT NULL REFERENCES products(id),\n    quantity INTEGER NOT NULL CHECK (quantity > 0),\n    price_at_purchase NUMERIC(10, 2) NOT NULL,\n    line_item_total NUMERIC(10, 2) NOT NULL,\n    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,\n    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP\n);",
+    "domain": "synthetic",
+    "size_kb": 75.6
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0007.png",
+    "instruction": "Generate PostgreSQL schema from this UI",
+    "output": "CREATE TABLE team_events (\n    event_id UUID PRIMARY KEY,\n    event_name VARCHAR(255) NOT NULL,\n    event_description TEXT,\n    start_date TIMESTAMP WITH TIME ZONE NOT NULL,\n    end_date TIMESTAMP WITH TIME ZONE NOT NULL,\n    is_all_day BOOLEAN NOT NULL DEFAULT FALSE\n);",
+    "domain": "synthetic",
+    "size_kb": 51.5
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0008.png",
+    "instruction": "Generate PostgreSQL schema from this UI",
+    "output": "CREATE TYPE invoice_status_enum AS ENUM (\n    'Draft',\n    'Pending Approval',\n    'Sent',\n    'Partially Paid',\n    'Paid',\n    'Overdue',\n    'Cancelled'\n);\n\nCREATE TYPE invoice_currency_enum AS ENUM (\n    'USD',\n    'EUR',\n    'GBP',\n    'CAD',\n    'AUD'\n);\n\nCREATE TABLE customers (\n    customer_id VARCHAR(50) PRIMARY KEY\n);\n\nCREATE TABLE invoices (\n    invoice_id VARCHAR(50) PRIMARY KEY,\n    status invoice_status_enum NOT NULL DEFAULT 'Draft',\n    issue_date DATE NOT NULL,\n    due_date DATE NOT NULL,\n    currency invoice_currency_enum NOT NULL DEFAULT 'USD',\n    customer_id VARCHAR(50) NOT NULL,\n    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)\n);",
+    "domain": "synthetic",
+    "size_kb": 55.4
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0009.png",
+    "instruction": "Generate PostgreSQL schema from this UI",
+    "output": "CREATE TABLE workspaces (\n    workspace_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    name TEXT NOT NULL UNIQUE\n);\n\nCREATE TABLE users (\n    user_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    username TEXT NOT NULL UNIQUE,\n    display_name TEXT NOT NULL,\n    avatar_url TEXT,\n    status TEXT NOT NULL DEFAULT 'offline'\n);\n\nCREATE TABLE channels (\n    channel_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    workspace_id UUID NOT NULL REFERENCES workspaces(workspace_id),\n    name TEXT NOT NULL,\n    icon TEXT NOT NULL DEFAULT 'hashtag',\n    UNIQUE (workspace_id, name)\n);\n\nCREATE TABLE user_channel_status (\n    user_id UUID NOT NULL REFERENCES users(user_id),\n    channel_id UUID NOT NULL REFERENCES channels(channel_id),\n    unread_count INTEGER NOT NULL DEFAULT 0,\n    PRIMARY KEY (user_id, channel_id)\n);\n\nCREATE TABLE direct_message_conversations (\n    dm_conversation_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    user1_id UUID NOT NULL REFERENCES users(user_id),\n    user2_id UUID NOT NULL REFERENCES users(user_id),\n    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),\n    CONSTRAINT unique_dm_pair UNIQUE (LEAST(user1_id, user2_id), GREATEST(user1_id, user2_id)),\n    CONSTRAINT different_users CHECK (user1_id <> user2_id)\n);\n\nCREATE TABLE user_dm_status (\n    user_id UUID NOT NULL REFERENCES users(user_id),\n    dm_conversation_id UUID NOT NULL REFERENCES direct_message_conversations(dm_conversation_id),\n    unread_count INTEGER NOT NULL DEFAULT 0,\n    PRIMARY KEY (user_id, dm_conversation_id)\n);\n\nCREATE TABLE messages (\n    message_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    sender_id UUID NOT NULL REFERENCES users(user_id),\n    content TEXT NOT NULL,\n    sent_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),\n    channel_id UUID REFERENCES channels(channel_id),\n    dm_conversation_id UUID REFERENCES direct_message_conversations(dm_conversation_id),\n    CONSTRAINT message_type_check CHECK (\n        (channel_id IS NOT NULL AND dm_conversation_id IS NULL) OR\n        (channel_id IS NULL AND dm_conversation_id IS NOT NULL)\n    )\n);",
+    "domain": "synthetic",
+    "size_kb": 94.2
+  }
+]

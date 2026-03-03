@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>Team Event Planning Calendar</title>
+<script src="https://cdn.tailwindcss.com"></script></head>
+<body class="bg-gray-50"><header class="bg-white border-b px-6 py-4">
+<h1 class="text-2xl font-bold">Team Event Planning Calendar</h1></header>
+<main class="max-w-6xl mx-auto px-6 py-8">
+
+<div class="bg-white rounded-lg border p-6"><h2 class="text-lg font-semibold mb-4">Team Event Planning Calendar</h2>
+<form class="space-y-4">
+<div><label class="block text-sm">{'id': 'eventId', 'name': 'Event ID', 'type': 'hidden', 'dataType': 'string'}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div><div><label class="block text-sm">{'id': 'eventName', 'name': 'Event Title', 'type': 'text', 'dataType': 'string', 'required': True, 'placeholder': 'e.g., Sprint Planning, Team Offsite'}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div><div><label class="block text-sm">{'id': 'eventDescription', 'name': 'Description', 'type': 'textarea', 'dataType': 'string', 'rows': 4, 'placeholder': 'Provide details about the event agenda, goals, etc.'}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div><div><label class="block text-sm">{'id': 'startDate', 'name': 'Start Date/Time', 'type': 'datetime-local', 'dataType': 'datetime', 'required': True}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div><div><label class="block text-sm">{'id': 'endDate', 'name': 'End Date/Time', 'type': 'datetime-local', 'dataType': 'datetime', 'required': True}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div><div><label class="block text-sm">{'id': 'isAllDay', 'name': 'All-day event', 'type': 'checkbox', 'dataType': 'boolean', 'defaultValue': False}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div>
+<button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md">Submit</button>
+</form></div></main></body></html>

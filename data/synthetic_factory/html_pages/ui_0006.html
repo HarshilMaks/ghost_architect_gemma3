@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>E-commerce Checkout (Standard Flow)</title>
+<script src="https://cdn.tailwindcss.com"></script></head>
+<body class="bg-gray-50"><header class="bg-white border-b px-6 py-4">
+<h1 class="text-2xl font-bold">E-commerce Checkout (Standard Flow)</h1></header>
+<main class="max-w-6xl mx-auto px-6 py-8">
+
+<div class="bg-white rounded-lg border p-6"><h2 class="text-lg font-semibold mb-4">E-commerce Checkout (Standard Flow)</h2>
+<form class="space-y-4">
+<div><label class="block text-sm">{'id': 'checkout_progress_steps', 'type': 'ProgressIndicator', 'label': 'Checkout Steps', 'steps': [{'id': 'shipping_step', 'label': 'Shipping'}, {'id': 'delivery_step', 'label': 'Delivery'}, {'id': 'payment_step', 'label': 'Payment'}, {'id': 'review_step', 'label': 'Review'}], 'current_step_id': 'shipping_step'}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div><div><label class="block text-sm">{'id': 'cart_items_table', 'type': 'Table', 'label': 'Your Cart', 'columns': [{'id': 'product_name', 'label': 'Product', 'type': 'Text', 'flex': 3}, {'id': 'qty', 'label': 'Qty', 'type': 'Number', 'flex': 1}, {'id': 'price', 'label': 'Price', 'type': 'Currency', 'flex': 1}, {'id': 'total', 'label': 'Total', 'type': 'Currency', 'flex': 1}], 'data_source': 'api/cart/items', 'read_only': True}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div><div><label class="block text-sm">{'id': 'subtotal_display', 'type': 'TextDisplay', 'label': 'Subtotal', 'value_source': 'cart.subtotal', 'format': 'currency'}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div><div><label class="block text-sm">{'id': 'shipping_display', 'type': 'TextDisplay', 'label': 'Shipping', 'value_source': 'cart.shipping_cost', 'format': 'currency'}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div><div><label class="block text-sm">{'id': 'tax_display', 'type': 'TextDisplay', 'label': 'Tax', 'value_source': 'cart.tax_amount', 'format': 'currency'}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div><div><label class="block text-sm">{'id': 'discount_display', 'type': 'TextDisplay', 'label': 'Discount', 'value_source': 'cart.discount_amount', 'format': 'currency', 'variant': 'negative'}</label>
+<input type="text" class="w-full px-3 py-2 border rounded-md"></div>
+<button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md">Submit</button>
+</form></div></main></body></html>
