@@ -1,22 +1,21 @@
 """
-Data Factory: Generate synthetic UI/SQL pairs using Gemini API + Playwright
-
-Simple, focused pipeline:
-  1. Generate UI descriptions using Gemini (free tier)
-  2. Render to HTML using Jinja2 + Tailwind
-  3. Screenshot with Playwright
-  4. Generate SQL schemas from screenshots
+Ghost Architect: Professional Batch Data Factory (v2.1) - FINAL STABLE
+Generates 5,000 UI+SQL pairs for $0 by batching API requests.
+- Stable JSON extraction
+- Model fallback logic
+- Auto-resume support
 """
 
 import os
 import json
 import asyncio
+import time
 from pathlib import Path
 from typing import List, Dict, Any
 import google.generativeai as genai
 from PIL import Image
 from dotenv import load_dotenv
-import time
+from jinja2 import Template
 
 load_dotenv()
 
@@ -27,7 +26,6 @@ if not GEMINI_API_KEY:
 genai.configure(api_key=GEMINI_API_KEY)
 
 OUTPUT_DIR = Path("data/synthetic_factory")
-UI_DESCRIPTIONS = OUTPUT_DIR / "ui_descriptions.json"
 HTML_DIR = OUTPUT_DIR / "html_pages"
 SCREENSHOTS_DIR = OUTPUT_DIR / "screenshots"
 DATASET_FILE = OUTPUT_DIR / "synthetic_dataset.json"
@@ -36,232 +34,107 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 HTML_DIR.mkdir(parents=True, exist_ok=True)
 SCREENSHOTS_DIR.mkdir(parents=True, exist_ok=True)
 
+HTML_TEMPLATE = """<!DOCTYPE html><html><head><script src="https://cdn.tailwindcss.com"></script></head>
+<body class="bg-gray-50 p-8"><div class="max-w-4xl mx-auto bg-white shadow-xl rounded-xl overflow-hidden border">
+<header class="bg-indigo-600 px-6 py-4 text-white"><h1 class="text-2xl font-bold">{{ name }}</h1></header>
+<main class="p-6">{% if layout == 'card-grid' %}<div class="grid grid-cols-3 gap-4">
+{% for f in fields %}<div class="p-4 border rounded-lg bg-gray-50"><p class="text-xs text-gray-400 uppercase font-bold">{{ f }}</p>
+<div class="h-4 bg-gray-200 rounded mt-2 w-3/4"></div></div>{% endfor %}</div>
+{% else %}<div class="space-y-4">{% for f in fields %}<div class="flex items-center justify-between p-3 border-b">
+<span class="font-medium text-gray-700">{{ f }}</span><div class="h-6 w-24 bg-indigo-100 rounded"></div></div>{% endfor %}</div>{% endif %}
+</main></div></body></html>"""
 
 def get_model():
-    """Get best available Gemini model."""
-    for model_name in ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash']:
+    """Try 2.0-flash first, fallback to 1.5-flash."""
+    for model_name in ['gemini-2.0-flash', 'gemini-1.5-flash']:
         try:
             return genai.GenerativeModel(model_name)
         except:
             continue
     return genai.GenerativeModel('gemini-1.5-pro')
 
+def clean_json(text: str) -> str:
+    """Robustly extract JSON from model response."""
+    for delim in ['```json', '```']:
+        if delim in text:
+            text = text.split(delim)[1]
+            if '```' in text:
+                text = text.split('```')[0]
+            break
+    return text.strip()
 
-def generate_ui_descriptions(count: int = 100) -> List[Dict]:
-    """Generate diverse UI descriptions using Gemini."""
-    print(f"\n🎨 Generating {count} UI descriptions...")
-    
-    if UI_DESCRIPTIONS.exists():
-        with open(UI_DESCRIPTIONS) as f:
-            existing = json.load(f)
-        if len(existing) >= count:
-            print(f"   Reusing {len(existing)} existing descriptions")
-            return existing
-    
+async def main(target_count: int):
+    print(f"\n🚀 Launching SOTA Data Factory: Target {target_count} samples")
     model = get_model()
-    descriptions = []
-    
-    ui_types = [
-        "User Profile Dashboard", "Product Listing with Filters",
-        "Admin Analytics Panel", "Task Management App",
-        "Social Media Feed", "Support Ticket System",
-        "E-commerce Checkout", "Calendar Scheduler",
-        "Invoice System", "Chat Application",
-        "File Storage", "Settings Panel",
-    ]
-    
-    for i in range(count):
-        ui_type = ui_types[i % len(ui_types)]
-        prompt = f"""Generate a JSON UI description for: {ui_type} (variant {i//len(ui_types) + 1})
+    dataset = []
 
-Return ONLY valid JSON with fields: name, type, description, fields (list), layout, has_charts, has_forms
-Make it realistic and different from previous ones.
-"""
-        
+    if DATASET_FILE.exists():
         try:
-            resp = model.generate_content(prompt)
-            json_str = resp.text
-            
-            for delim in ['```json', '```']:
-                if delim in json_str:
-                    json_str = json_str.split(delim)[1]
-                    if '```' in json_str:
-                        json_str = json_str.split('```')[0]
-                    break
-            
-            ui_desc = json.loads(json_str.strip())
-            descriptions.append(ui_desc)
-            print(f"   ✅ {i+1}: {ui_desc.get('name', 'Unknown')}")
-            time.sleep(1)
-            
-        except Exception as e:
-            print(f"   ⚠️  {i+1}: {str(e)[:60]}")
-    
-    with open(UI_DESCRIPTIONS, 'w') as f:
-        json.dump(descriptions, f, indent=2)
-    
-    return descriptions
+            with open(DATASET_FILE) as f:
+                dataset = json.load(f)
+            print(f"   Reusing {len(dataset)} existing samples")
+        except:
+            print("   ⚠️  Corrupt dataset file found, starting fresh.")
+            dataset = []
 
+    ui_types = ["Dashboard", "Analytics", "CRM", "E-commerce", "SaaS", "Settings", "Profile", "Inventory"]
+    template = Template(HTML_TEMPLATE)
 
-def render_html_pages(descriptions: List[Dict]) -> List[str]:
-    """Convert descriptions to HTML files."""
-    print(f"\n🌐 Rendering {len(descriptions)} HTML pages...")
-    
-    try:
-        from jinja2 import Template
-    except ImportError:
-        print("   ⚠️  Installing jinja2...")
-        os.system("uv pip install jinja2")
-        from jinja2 import Template
-    
-    template_html = """<!DOCTYPE html>
-<html><head><meta charset="UTF-8"><title>{{ ui.name }}</title>
-<script src="https://cdn.tailwindcss.com"></script></head>
-<body class="bg-gray-50"><header class="bg-white border-b px-6 py-4">
-<h1 class="text-2xl font-bold">{{ ui.name }}</h1></header>
-<main class="max-w-6xl mx-auto px-6 py-8">
-{% if ui.layout == 'card-grid' %}
-<div class="grid grid-cols-3 gap-6">
-{% for f in ui.fields[:9] %}<div class="bg-white rounded-lg border p-4">
-<h3 class="font-semibold">{{ f }}</h3><div class="mt-3 h-8 bg-blue-100 rounded"></div>
-</div>{% endfor %}</div>
-{% elif ui.layout == 'two-column' %}
-<div class="grid grid-cols-2 gap-6"><div class="bg-white rounded-lg border p-6">
-<h2 class="text-lg font-semibold mb-4">Sidebar</h2>
-{% for f in ui.fields[:5] %}<div class="mb-3"><label class="text-sm">{{ f }}</label>
-<input type="text" class="w-full px-3 py-2 border rounded-md text-sm"></div>{% endfor %}
-</div><div class="bg-white rounded-lg border p-6"><h2 class="text-lg font-semibold mb-4">Content</h2>
-{% for i in range(5) %}<div class="mb-3 h-4 bg-gray-200 rounded"></div>{% endfor %}
-</div></div>
-{% else %}
-<div class="bg-white rounded-lg border p-6"><h2 class="text-lg font-semibold mb-4">{{ ui.name }}</h2>
-{% if ui.has_forms %}<form class="space-y-4">
-{% for f in ui.fields[:6] %}<div><label class="block text-sm">{{ f }}</label>
-<input type="text" class="w-full px-3 py-2 border rounded-md"></div>{% endfor %}
-<button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md">Submit</button>
-</form>{% else %}<div class="space-y-3">
-{% for f in ui.fields[:10] %}<div class="flex justify-between py-3 border-b">
-<span>{{ f }}</span><span class="text-gray-500">Value</span></div>{% endfor %}
-</div>{% endif %}</div>{% endif %}</main></body></html>"""
-    
-    template = Template(template_html)
-    files = []
-    
-    for i, ui in enumerate(descriptions):
-        try:
-            html = template.render(ui=ui, range=range)
-            html_file = HTML_DIR / f"ui_{i:04d}.html"
-            html_file.write_text(html)
-            files.append(str(html_file))
-            
-            if (i + 1) % 20 == 0:
-                print(f"   ✅ Generated {i+1}/{len(descriptions)}")
-        except Exception as e:
-            print(f"   ⚠️  Failed {i}: {str(e)[:60]}")
-    
-    return files
+    from playwright.async_api import async_playwright
 
-
-async def screenshot_pages(html_files: List[str]) -> List[str]:
-    """Screenshot HTML pages with Playwright."""
-    print(f"\n📸 Screenshotting {len(html_files)} pages...")
-    
-    try:
-        from playwright.async_api import async_playwright
-    except ImportError:
-        print("   ⚠️  Installing playwright...")
-        os.system("uv pip install playwright && uv run playwright install")
-        from playwright.async_api import async_playwright
-    
-    screenshots = []
-    
     async with async_playwright() as p:
         browser = await p.chromium.launch()
         page = await browser.new_page(viewport={"width": 1280, "height": 720})
-        
-        for i, html_file in enumerate(html_files):
+
+        while len(dataset) < target_count:
+            ui_type = ui_types[len(dataset) % len(ui_types)]
+            prompt = f"Generate 5 unique UI designs for {ui_type}. Return JSON list: [{{'name':'...', 'fields':[], 'layout':'card-grid|list', 'sql':'CREATE TABLE...'}}]"
+            
             try:
-                url = Path(html_file).absolute().as_uri()
-                await page.goto(url, wait_until="networkidle")
+                print(f"   🛰️  Requesting batch (Current: {len(dataset)}/{target_count})...")
+                resp = model.generate_content(prompt)
+                batch = json.loads(clean_json(resp.text))
+
+                if not isinstance(batch, list):
+                    raise ValueError("Model didn't return a list")
+
+                for item in batch:
+                    if len(dataset) >= target_count: break
+                    
+                    idx = len(dataset)
+                    file_name = f"ui_{idx:04d}"
+                    
+                    # 1. Render HTML
+                    html = template.render(name=item.get('name', 'App'), fields=item.get('fields', []), layout=item.get('layout', 'list'))
+                    html_path = HTML_DIR / f"{file_name}.html"
+                    html_path.write_text(html)
+
+                    # 2. Screenshot
+                    ss_path = SCREENSHOTS_DIR / f"{file_name}.png"
+                    await page.goto(html_path.absolute().as_uri())
+                    await page.screenshot(path=str(ss_path))
+
+                    # 3. Add to dataset
+                    dataset.append({
+                        "image_path": str(ss_path),
+                        "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+                        "output": item.get('sql', 'CREATE TABLE error (id INT);'),
+                        "domain": ui_type,
+                        "size_kb": round(ss_path.stat().st_size / 1024, 1)
+                    })
                 
-                ss_file = SCREENSHOTS_DIR / f"ui_{i:04d}.png"
-                await page.screenshot(path=str(ss_file), full_page=False)
-                screenshots.append(str(ss_file))
+                # Save after every batch for safety
+                with open(DATASET_FILE, 'w') as f:
+                    json.dump(dataset, f, indent=2)
                 
-                if (i + 1) % 50 == 0:
-                    print(f"   ✅ Screenshotted {i+1}/{len(html_files)}")
+                print(f"   ✅ Batch Complete. Total: {len(dataset)}")
+                await asyncio.sleep(5) # 12 RPM is safe for 15 RPM limit
+
             except Exception as e:
-                print(f"   ⚠️  Failed {i}: {str(e)[:60]}")
-        
+                print(f"   ⚠️  Error: {str(e)[:100]}")
+                await asyncio.sleep(10)
+
         await browser.close()
-    
-    return screenshots
-
-
-def generate_sql_schemas(screenshots: List[str]) -> List[Dict]:
-    """Generate SQL schemas from screenshots."""
-    print(f"\n🗄️  Generating SQL for {len(screenshots)} screenshots...")
-    
-    model = get_model()
-    prompt_sys = """Analyze this UI screenshot and generate a PostgreSQL schema.
-Output ONLY valid CREATE TABLE statements. No explanations."""
-    
-    dataset = []
-    
-    for i, ss in enumerate(screenshots):
-        try:
-            img = Image.open(ss)
-            resp = model.generate_content([prompt_sys, img])
-            
-            sql = resp.text.replace('```sql', '').replace('```', '').strip()
-            
-            dataset.append({
-                "image_path": ss,
-                "instruction": "Generate PostgreSQL schema from this UI",
-                "output": sql,
-                "domain": "synthetic",
-                "size_kb": round(Path(ss).stat().st_size / 1024, 1)
-            })
-            
-            if (i + 1) % 50 == 0:
-                print(f"   ✅ Generated SQL for {i+1}/{len(screenshots)}")
-            
-            time.sleep(1)
-        except Exception as e:
-            print(f"   ⚠️  Failed {i}: {str(e)[:60]}")
-    
-    with open(DATASET_FILE, 'w') as f:
-        json.dump(dataset, f, indent=2)
-    
-    print(f"   📁 Saved to {DATASET_FILE}")
-    return dataset
-
-
-async def main(count: int = 100):
-    """Run the complete pipeline."""
-    print("\n" + "="*60)
-    print(f"🏭 DATA FACTORY: Generating {count} synthetic UI/SQL pairs")
-    print("="*60)
-    
-    descs = generate_ui_descriptions(count)
-    if not descs:
-        return
-    
-    htmls = render_html_pages(descs)
-    if not htmls:
-        return
-    
-    screenshots = await screenshot_pages(htmls)
-    if not screenshots:
-        return
-    
-    dataset = generate_sql_schemas(screenshots)
-    
-    print("\n" + "="*60)
-    print(f"✅ COMPLETE: Generated {len(dataset)} synthetic UI/SQL pairs")
-    print(f"   📁 {DATASET_FILE}")
-    print("="*60 + "\n")
-
 
 if __name__ == "__main__":
     import sys
