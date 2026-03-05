@@ -1,10 +1,6 @@
 """
-Ghost Architect: Professional Batch Data Factory (v2.2) - STABLE RESUME
-Generates 5,000 UI+SQL pairs for $0 by batching API requests.
-- Fixed UnboundLocalError
-- Stable JSON extraction
-- Model fallback logic (1.5-flash-8b prioritized for quota)
-- Auto-resume support
+Ghost Architect: Professional Batch Data Factory (v2.3) - MULTI-MODEL ROTATION
+Generates 5,000 UI+SQL pairs by rotating models to bypass 429 quotas.
 """
 
 import os
@@ -45,9 +41,16 @@ HTML_TEMPLATE = """<!DOCTYPE html><html><head><script src="https://cdn.tailwindc
 <span class="font-medium text-gray-700">{{ f }}</span><div class="h-6 w-24 bg-indigo-100 rounded"></div></div>{% endfor %}</div>{% endif %}
 </main></div></body></html>"""
 
-def get_model():
-    """Use gemini-2.0-flash (confirmed available in user list)."""
-    return genai.GenerativeModel('gemini-2.0-flash')
+def get_available_models():
+    """Return list of models to rotate through for quota resilience."""
+    # Based on your actual API availability check
+    return [
+        'gemini-2.0-flash',          
+        'gemini-2.5-flash',          
+        'gemini-2.0-flash-lite-001', 
+        'gemini-flash-lite-latest', 
+        'gemini-1.5-pro-latest'      
+    ]
 
 def clean_json(text: str) -> str:
     """Robustly extract JSON from model response."""
@@ -60,11 +63,13 @@ def clean_json(text: str) -> str:
     return text.strip()
 
 async def main(target_count: int):
-    print(f"\n🚀 Launching SOTA Data Factory (8B-Quota-Optimized): Target {target_count} samples")
-    model = get_model()
+    print(f"\n🚀 Launching SOTA Data Factory (Multi-Model Rotation): Target {target_count} samples")
+    
+    models = get_available_models()
+    current_model_idx = 0
     dataset = []
     
-    # FIX: Initialize backoff OUTSIDE the while loop
+    # Initialize backoff
     backoff_time = 5 
 
     if DATASET_FILE.exists():
@@ -86,11 +91,15 @@ async def main(target_count: int):
         page = await browser.new_page(viewport={"width": 1280, "height": 720})
 
         while len(dataset) < target_count:
+            # Rotate models
+            model_name = models[current_model_idx % len(models)]
+            model = genai.GenerativeModel(model_name)
+            
             ui_type = ui_types[len(dataset) % len(ui_types)]
             prompt = f"Generate 5 unique UI designs for {ui_type}. Return JSON list: [{{'name':'...', 'fields':[], 'layout':'card-grid|list', 'sql':'CREATE TABLE...'}}]"
             
             try:
-                print(f"   🛰️  Requesting batch (Current: {len(dataset)}/{target_count})...")
+                print(f"   🛰️  Requesting batch (Current: {len(dataset)}/{target_count}) using {model_name}...")
                 resp = model.generate_content(prompt)
                 batch = json.loads(clean_json(resp.text))
 
@@ -129,7 +138,6 @@ async def main(target_count: int):
                         "size_kb": round(ss_path.stat().st_size / 1024, 1)
                     })
                 
-                # Save after every batch for safety
                 with open(DATASET_FILE, 'w') as f:
                     json.dump(dataset, f, indent=2)
                 
@@ -137,11 +145,18 @@ async def main(target_count: int):
                 await asyncio.sleep(backoff_time) 
 
             except Exception as e:
-                print(f"   ⚠️  Error: {str(e)[:100]}")
-                print(f"   ⏳ Backing off for {backoff_time}s...")
-                await asyncio.sleep(backoff_time)
-                # Increase backoff for next attempt
-                backoff_time = min(backoff_time * 2, 60) 
+                error_msg = str(e)
+                print(f"   ⚠️  Error with {model_name}: {error_msg[:100]}")
+                
+                if "429" in error_msg or "quota" in error_msg.lower():
+                    print(f"   🔄 Quota hit! Switching model...")
+                    current_model_idx += 1
+                    backoff_time = 5 # Reset backoff for new model
+                    await asyncio.sleep(2)
+                else:
+                    print(f"   ⏳ Backing off for {backoff_time}s...")
+                    await asyncio.sleep(backoff_time)
+                    backoff_time = min(backoff_time * 2, 60) 
 
         await browser.close()
 
