@@ -1,0 +1,12 @@
+<!DOCTYPE html><html><head><script src="https://cdn.tailwindcss.com"></script></head>
+<body class="bg-gray-50 p-8"><div class="max-w-4xl mx-auto bg-white shadow-xl rounded-xl overflow-hidden border">
+<header class="bg-indigo-600 px-6 py-4 text-white"><h1 class="text-2xl font-bold">Item Detail Inspector (Modal/Side Panel)</h1></header>
+<main class="p-6"><div class="space-y-4"><div class="flex items-center justify-between p-3 border-b">
+<span class="font-medium text-gray-700">{'name': 'Item Name', 'type': 'header'}</span><div class="h-6 w-24 bg-indigo-100 rounded"></div></div><div class="flex items-center justify-between p-3 border-b">
+<span class="font-medium text-gray-700">{'name': 'SKU', 'type': 'field_display'}</span><div class="h-6 w-24 bg-indigo-100 rounded"></div></div><div class="flex items-center justify-between p-3 border-b">
+<span class="font-medium text-gray-700">{'name': 'Current Stock', 'type': 'large_metric', 'color_coding': "quantity > 50 ? 'green' : 'orange'"}</span><div class="h-6 w-24 bg-indigo-100 rounded"></div></div><div class="flex items-center justify-between p-3 border-b">
+<span class="font-medium text-gray-700">{'name': 'Unit Cost & Price', 'type': 'dual_display'}</span><div class="h-6 w-24 bg-indigo-100 rounded"></div></div><div class="flex items-center justify-between p-3 border-b">
+<span class="font-medium text-gray-700">{'name': 'Reorder Point', 'type': 'field_display'}</span><div class="h-6 w-24 bg-indigo-100 rounded"></div></div><div class="flex items-center justify-between p-3 border-b">
+<span class="font-medium text-gray-700">{'name': 'Inventory History Chart', 'type': 'chart', 'data_source': 'transaction_log WHERE item_id = current_item_id', 'type_chart': 'line'}</span><div class="h-6 w-24 bg-indigo-100 rounded"></div></div><div class="flex items-center justify-between p-3 border-b">
+<span class="font-medium text-gray-700">{'name': 'Associated Vendors', 'type': 'related_list', 'relation': 'vendor_link'}</span><div class="h-6 w-24 bg-indigo-100 rounded"></div></div></div>
+</main></div></body></html>

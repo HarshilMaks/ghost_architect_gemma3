@@ -733,5 +733,775 @@
     "output": "CREATE TABLE subscriptions (\n    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    customer_id UUID NOT NULL, -- Foreign key to a 'customers' table\n    plan_id UUID NOT NULL,     -- Foreign key to a 'subscription_plans' table\n    start_date DATE NOT NULL,\n    next_billing_date DATE,\n    status VARCHAR(50) DEFAULT 'Active' CHECK (status IN ('Active', 'Canceled', 'Paused', 'Trialing', 'Expired')),\n    monthly_price NUMERIC(10, 2) NOT NULL,\n    last_payment_at TIMESTAMP WITH TIME ZONE,\n    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,\n    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP\n);",
     "domain": "SaaS",
     "size_kb": 27.1
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0105.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE daily_kpis (\n    report_date DATE PRIMARY KEY,\n    total_revenue DECIMAL(18, 2) NOT NULL,\n    new_users INT NOT NULL,\n    conversion_rate DECIMAL(5, 2) NOT NULL,\n    churn_rate DECIMAL(5, 2) NOT NULL,\n    avg_session_duration_seconds INT NOT NULL,\n    active_users_dau INT NOT NULL,\n    active_users_mau INT NOT NULL,\n    prev_year_revenue DECIMAL(18, 2),\n    prev_month_new_users INT\n);",
+    "domain": "Analytics",
+    "size_kb": 23.6
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0106.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE sales_performance (\n    sales_id VARCHAR(50) PRIMARY KEY,\n    sales_rep_name VARCHAR(100) NOT NULL,\n    region VARCHAR(50) NOT NULL,\n    product_category VARCHAR(100) NOT NULL,\n    sale_date DATE NOT NULL,\n    total_sales_amount DECIMAL(18, 2) NOT NULL,\n    units_sold INT NOT NULL,\n    conversion_rate DECIMAL(5, 2),\n    avg_deal_size DECIMAL(18, 2),\n    quarterly_goal_attainment DECIMAL(5, 2)\n);",
+    "domain": "Analytics",
+    "size_kb": 34.1
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0107.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE user_funnel_steps (\n    funnel_step_id INT PRIMARY KEY,\n    funnel_step_name VARCHAR(100) NOT NULL,\n    users_entered_step INT NOT NULL,\n    users_completed_step INT NOT NULL,\n    drop_off_rate DECIMAL(5, 2),\n    overall_completion_rate DECIMAL(5,2),\n    avg_time_in_step_seconds INT,\n    step_order INT UNIQUE NOT NULL\n);",
+    "domain": "Analytics",
+    "size_kb": 23.4
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0108.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE website_traffic_sources (\n    source_id VARCHAR(50) PRIMARY KEY,\n    traffic_source VARCHAR(100) NOT NULL,\n    sessions INT NOT NULL,\n    page_views INT NOT NULL,\n    bounce_rate DECIMAL(5, 2) NOT NULL,\n    avg_session_duration_seconds INT NOT NULL,\n    conversion_rate DECIMAL(5, 2) NOT NULL,\n    new_users INT NOT NULL,\n    revenue_from_source DECIMAL(18, 2)\n);",
+    "domain": "Analytics",
+    "size_kb": 34.5
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0109.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE customer_segments (\n    segment_id VARCHAR(50) PRIMARY KEY,\n    segment_name VARCHAR(100) NOT NULL,\n    num_customers INT NOT NULL,\n    avg_lifetime_value DECIMAL(18, 2) NOT NULL,\n    avg_order_value DECIMAL(18, 2) NOT NULL,\n    segment_churn_rate DECIMAL(5, 2),\n    avg_acquisition_cost DECIMAL(18, 2),\n    avg_last_purchase_date DATE\n);",
+    "domain": "Analytics",
+    "size_kb": 29.6
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0110.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE SocialProfiles (\n    user_id INTEGER PRIMARY KEY AUTOINCREMENT,\n    username TEXT UNIQUE NOT NULL,\n    display_name TEXT NOT NULL,\n    email TEXT UNIQUE NOT NULL,\n    profile_picture_url TEXT,\n    bio TEXT,\n    location TEXT,\n    website_url TEXT,\n    followers_count INTEGER DEFAULT 0,\n    following_count INTEGER DEFAULT 0,\n    posts_count INTEGER DEFAULT 0,\n    joined_date DATETIME DEFAULT CURRENT_TIMESTAMP\n);",
+    "domain": "Profile",
+    "size_kb": 29.5
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0111.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE ProfessionalProfiles (\n    profile_id INTEGER PRIMARY KEY AUTOINCREMENT,\n    full_name TEXT NOT NULL,\n    email TEXT UNIQUE NOT NULL,\n    avatar_url TEXT,\n    current_job_title TEXT,\n    current_company TEXT,\n    about_me TEXT,\n    key_skills TEXT, -- e.g., 'Python, SQL, UI/UX Design'\n    experience_summary TEXT, -- e.g., '5 years experience in software development...'\n    education_summary TEXT, -- e.g., 'MS in Computer Science, University XYZ'\n    portfolio_url TEXT,\n    linkedin_url TEXT\n);",
+    "domain": "Profile",
+    "size_kb": 29.3
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0112.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE UserAccounts (\n    account_id INTEGER PRIMARY KEY AUTOINCREMENT,\n    username TEXT UNIQUE NOT NULL,\n    display_name TEXT NOT NULL,\n    email TEXT UNIQUE NOT NULL,\n    profile_photo_url TEXT,\n    account_status TEXT DEFAULT 'active', -- e.g., 'active', 'suspended', 'pending'\n    last_login DATETIME,\n    member_since DATETIME DEFAULT CURRENT_TIMESTAMP\n);",
+    "domain": "Profile",
+    "size_kb": 31.4
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0113.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE GamingProfiles (\n    player_id INTEGER PRIMARY KEY AUTOINCREMENT,\n    player_tag TEXT UNIQUE NOT NULL,\n    player_avatar_url TEXT,\n    level INTEGER DEFAULT 1,\n    xp_points INTEGER DEFAULT 0,\n    ranking TEXT, -- e.g., 'Global: #12345'\n    favorite_game TEXT,\n    achievements_summary TEXT, -- e.g., 'First Blood, Master Explorer, Apex Predator'\n    friends_count INTEGER DEFAULT 0,\n    last_active DATETIME DEFAULT CURRENT_TIMESTAMP\n);",
+    "domain": "Profile",
+    "size_kb": 26.6
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0114.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE Customers (\n    customer_id INTEGER PRIMARY KEY AUTOINCREMENT,\n    full_name TEXT NOT NULL,\n    email TEXT UNIQUE NOT NULL,\n    phone_number TEXT,\n    primary_shipping_address TEXT, -- Simplified: In a real app, this would link to an Addresses table\n    primary_billing_address TEXT,  -- Simplified\n    loyalty_points INTEGER DEFAULT 0,\n    total_orders INTEGER DEFAULT 0,\n    wishlist_items_count INTEGER DEFAULT 0,\n    payment_methods_count INTEGER DEFAULT 0,\n    account_created_date DATETIME DEFAULT CURRENT_TIMESTAMP\n);",
+    "domain": "Profile",
+    "size_kb": 42.0
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0115.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE CategoryHubLayout (hub_id INT PRIMARY KEY, category_name VARCHAR(100), primary_image_url TEXT, trending_tags JSON);",
+    "domain": "E-commerce",
+    "size_kb": 53.9
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0116.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE MinimalistPDP (product_id INT PRIMARY KEY, title VARCHAR(255), price DECIMAL(10, 2), primary_image_url TEXT, available_variants JSON);",
+    "domain": "E-commerce",
+    "size_kb": 76.6
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0117.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE SubscriptionFeed (feed_item_id INT PRIMARY KEY, item_name VARCHAR(150), curator_comment TEXT, user_score FLOAT);",
+    "domain": "E-commerce",
+    "size_kb": 51.1
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0118.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE B2BCatalog (catalog_entry_id INT PRIMARY KEY, sku VARCHAR(50), stock_status VARCHAR(20), base_price DECIMAL(10, 2), specifications JSON);",
+    "domain": "E-commerce",
+    "size_kb": 75.5
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0119.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE CommunityReviews (review_id INT PRIMARY KEY, user_id INT, product_id INT, rating INT, review_snippet TEXT, is_verified BOOLEAN);",
+    "domain": "E-commerce",
+    "size_kb": 55.5
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0120.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE ExecutiveSummary (Revenue REAL, ProfitMargin REAL, CAC REAL, PipelineStage TEXT, Region TEXT, SalesVolume REAL, AlertDescription TEXT, AlertSeverity TEXT);",
+    "domain": "Dashboard",
+    "size_kb": 58.7
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0121.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE OperationsMonitor (Timestamp DATETIME, ComponentID TEXT, UptimeStatus TEXT, LatencyMS REAL, ActiveUsers INT, Error5xxRate REAL, CPUUsage REAL, LogMessage TEXT);",
+    "domain": "Dashboard",
+    "size_kb": 80.4
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0122.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE EcomFunnel (Timestamp DATETIME, StepName TEXT, StepCount INT, ConversionRate REAL, TrafficSource TEXT, DeviceType TEXT, OrderValue REAL);",
+    "domain": "Dashboard",
+    "size_kb": 64.7
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0123.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE ProjectTracker (SprintID INT, StoryPointsRemaining REAL, IdealPoints REAL, TaskStatus TEXT, Assignee TEXT, BlockReason TEXT, MilestoneDate DATE, Priority TEXT, DaysOpen INT);",
+    "domain": "Dashboard",
+    "size_kb": 88.0
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0124.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE SupportTickets (Timestamp DATETIME, Status TEXT, Channel TEXT, IssueCategory TEXT, ResolutionTimeMinutes REAL, SLAStatus TEXT, AgentID INT, CSATScore REAL);",
+    "domain": "Dashboard",
+    "size_kb": 67.4
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0125.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE ModernSettings (id INTEGER PRIMARY KEY, setting_name TEXT, setting_value TEXT, category TEXT);",
+    "domain": "Settings",
+    "size_kb": 27.3
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0126.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE TreeSettings (node_id INTEGER PRIMARY KEY, parent_id INTEGER, label TEXT, is_leaf BOOLEAN);",
+    "domain": "Settings",
+    "size_kb": 41.1
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0127.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE WidgetSettings (widget_id INTEGER PRIMARY KEY, title TEXT, configuration_json TEXT, last_updated TIMESTAMP);",
+    "domain": "Settings",
+    "size_kb": 36.8
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0128.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE VerticalListSettings (setting_key TEXT PRIMARY KEY, display_label TEXT, setting_type TEXT, current_value TEXT);",
+    "domain": "Settings",
+    "size_kb": 60.8
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0129.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE SearchFocusedSettings (setting_id INTEGER PRIMARY KEY, keyword TEXT, path TEXT, is_searchable BOOLEAN);",
+    "domain": "Settings",
+    "size_kb": 52.2
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0130.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE SalesPipelineSummary (DealStage VARCHAR(50), DealValue DECIMAL(15, 2), DealsCount INT, WinProbability DECIMAL(5, 2));",
+    "domain": "CRM",
+    "size_kb": 25.8
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0131.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE Contacts (ContactID INT PRIMARY KEY, FullName VARCHAR(100), Email VARCHAR(100), Phone VARCHAR(20), Company VARCHAR(100), LastActivityDate DATETIME);",
+    "domain": "CRM",
+    "size_kb": 40.3
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0132.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE LeadQualification (LeadSource VARCHAR(50), BudgetRange DECIMAL(10, 2), NeedsAssessmentScore INT, NextStep TEXT, IsQualified BOOLEAN);",
+    "domain": "CRM",
+    "size_kb": 34.5
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0133.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE ActivityTimeline (ActivityType VARCHAR(50), Timestamp DATETIME, Subject VARCHAR(255), RelatedEntity VARCHAR(100));",
+    "domain": "CRM",
+    "size_kb": 33.4
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0134.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE AccountDetails (AccountName VARCHAR(100), Industry VARCHAR(50), AnnualRevenue DECIMAL(18, 2), EmployeeCount INT, HealthScore INT, PrimaryContactID INT);",
+    "domain": "CRM",
+    "size_kb": 32.1
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0135.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE WarehouseLocations (location_id INTEGER PRIMARY KEY, name TEXT, total_skus INTEGER, stock_value REAL, low_stock_alerts INTEGER, incoming_shipments INTEGER);",
+    "domain": "Inventory",
+    "size_kb": 34.8
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0136.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE InventoryItems (item_id INTEGER PRIMARY KEY, sku TEXT UNIQUE, item_name TEXT, stock_level INTEGER, unit_cost REAL, reorder_point INTEGER, supplier_id INTEGER, last_restock_date DATE);",
+    "domain": "Inventory",
+    "size_kb": 48.2
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0137.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE ItemDetails (item_id INTEGER PRIMARY KEY, item_name TEXT, current_quantity INTEGER, bin_location TEXT, specifications JSON);",
+    "domain": "Inventory",
+    "size_kb": 35.2
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0138.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE ReorderQueue (queue_id INTEGER PRIMARY KEY, item_name TEXT, current_stock INTEGER, needed_quantity INTEGER, days_supply INTEGER, recommended_qty INTEGER, supplier_contact TEXT);",
+    "domain": "Inventory",
+    "size_kb": 45.2
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0139.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE InventoryTransactions (transaction_id INTEGER PRIMARY KEY, item_sku TEXT, adjustment_type TEXT, quantity_change INTEGER, transaction_notes TEXT, timestamp DATETIME);",
+    "domain": "Inventory",
+    "size_kb": 40.5
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0140.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE dashboards_executive (user_id INT, widget_id INT, position_x INT, position_y INT);",
+    "domain": "SaaS",
+    "size_kb": 55.2
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0141.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE data_sources (id SERIAL PRIMARY KEY, user_id INT, name VARCHAR(255), db_type VARCHAR(50), host VARCHAR(255), status VARCHAR(50));",
+    "domain": "SaaS",
+    "size_kb": 83.3
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0142.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE report_elements (report_id INT, element_type VARCHAR(50), properties JSONB, position_x INT, position_y INT);",
+    "domain": "SaaS",
+    "size_kb": 51.1
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0143.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE users (id SERIAL PRIMARY KEY, name VARCHAR(100), email VARCHAR(150), role_id INT, is_active BOOLEAN);",
+    "domain": "SaaS",
+    "size_kb": 48.8
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0144.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE alert_rules (id SERIAL PRIMARY KEY, name VARCHAR(255), metric_id INT, threshold FLOAT, trigger_channels VARCHAR(100));",
+    "domain": "SaaS",
+    "size_kb": 71.6
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0145.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "SELECT date, product_name, revenue, rep_name FROM sales_data WHERE date >= date('now', '-30 days')",
+    "domain": "Analytics",
+    "size_kb": 41.1
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0146.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "SELECT date, session_id, source_channel, bounce_rate, new_users FROM web_analytics WHERE date >= date('now', '-7 days')",
+    "domain": "Analytics",
+    "size_kb": 39.9
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0147.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "SELECT date, handle_time_seconds, fcr_rate, ticket_category, ticket_count, agent_name, csat_score FROM support_tickets",
+    "domain": "Analytics",
+    "size_kb": 57.2
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0148.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "SELECT sku_id, product_name, current_stock, reorder_point, unit_cost, turnover_rate FROM inventory_data",
+    "domain": "Analytics",
+    "size_kb": 44.1
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0149.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "SELECT campaign_name, date, cost, conversions, revenue, (revenue - cost) / cost * 100 AS roi_percentage FROM marketing_results WHERE date >= date('now', '-90 days')",
+    "domain": "Analytics",
+    "size_kb": 54.7
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0150.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE minimalist_profile (id INTEGER PRIMARY KEY, avatar_url TEXT, username TEXT UNIQUE, follower_count INTEGER, following_count INTEGER, bio_snippet TEXT);",
+    "domain": "Profile",
+    "size_kb": 34.7
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0151.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE detailed_profile (id INTEGER PRIMARY KEY, full_name TEXT, email TEXT UNIQUE, phone_number TEXT, date_of_birth DATE, address TEXT, last_login TIMESTAMP);",
+    "domain": "Profile",
+    "size_kb": 47.1
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0152.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE tabbed_profile (id INTEGER PRIMARY KEY, user_id INTEGER UNIQUE, username TEXT, total_posts INTEGER, reputation_score INTEGER, preferences_json TEXT);",
+    "domain": "Profile",
+    "size_kb": 37.7
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0153.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE business_profile (id INTEGER PRIMARY KEY, organization_name TEXT UNIQUE, logo_url TEXT, industry TEXT, website TEXT, founding_year INTEGER, employee_count INTEGER);",
+    "domain": "Profile",
+    "size_kb": 39.9
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0154.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE gamified_profile (id INTEGER PRIMARY KEY, nickname TEXT, level INTEGER, experience_points INTEGER, achievements_list TEXT, progress_to_next_level REAL);",
+    "domain": "Profile",
+    "size_kb": 47.8
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0155.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE ProductQuickViewModal (product_id INT PRIMARY KEY, product_name VARCHAR(255), price DECIMAL(10, 2), short_description TEXT, main_image_url VARCHAR(512), available_sizes JSONB, call_to_action VARCHAR(50));",
+    "domain": "E-commerce",
+    "size_kb": 40.4
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0156.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE CategoryNavigationDrawer (category_id INT PRIMARY KEY, category_name VARCHAR(100), parent_category_id INT, product_count INT, is_expanded BOOLEAN);",
+    "domain": "E-commerce",
+    "size_kb": 46.5
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0157.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE CheckoutStepperProgress (step_id INT PRIMARY KEY, step_label VARCHAR(50), status VARCHAR(50), timestamp_completed TIMESTAMP);",
+    "domain": "E-commerce",
+    "size_kb": 38.8
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0158.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE UserReviewSubmissionForm (review_id UUID PRIMARY KEY, product_sku VARCHAR(50), user_id INT, rating_value SMALLINT, review_title VARCHAR(150), review_body TEXT, image_attachments JSONB);",
+    "domain": "E-commerce",
+    "size_kb": 45.7
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0159.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE HomePageHeroBanner (banner_id INT PRIMARY KEY, title_text VARCHAR(200), subtitle_text VARCHAR(300), background_asset_url VARCHAR(512), cta_button_text VARCHAR(50), target_link VARCHAR(512), is_active BOOLEAN);",
+    "domain": "E-commerce",
+    "size_kb": 36.1
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0160.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE sales_data (date DATE, revenue DECIMAL, orders INT, product_id INT, region VARCHAR);",
+    "domain": "Dashboard",
+    "size_kb": 53.1
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0161.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE projects (project_id INT, task_name VARCHAR, status VARCHAR, assignee VARCHAR, due_date DATE);",
+    "domain": "Dashboard",
+    "size_kb": 59.9
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0162.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE system_metrics (timestamp TIMESTAMP, cpu_usage FLOAT, memory_usage FLOAT, api_latency INT, error_count INT);",
+    "domain": "Dashboard",
+    "size_kb": 55.9
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0163.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE transactions (transaction_id INT, date DATE, amount DECIMAL, type VARCHAR, category VARCHAR);",
+    "domain": "Dashboard",
+    "size_kb": 61.9
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0164.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE campaigns (campaign_id INT, impressions INT, clicks INT, cost DECIMAL, conversion_rate FLOAT);",
+    "domain": "Dashboard",
+    "size_kb": 59.6
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0165.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE MinimalistSettings (id INTEGER PRIMARY KEY, section TEXT, setting_name TEXT, value TEXT, type TEXT);",
+    "domain": "Settings",
+    "size_kb": 39.6
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0166.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE FeatureSettings (id INTEGER PRIMARY KEY, feature_name TEXT, description TEXT, setting_type TEXT, default_value TEXT);",
+    "domain": "Settings",
+    "size_kb": 47.9
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0167.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE TabbedSettings (id INTEGER PRIMARY KEY, category TEXT, setting_key TEXT, value_type TEXT, current_value TEXT);",
+    "domain": "Settings",
+    "size_kb": 48.5
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0168.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE MobileSettings (id INTEGER PRIMARY KEY, setting_name TEXT, segment_options TEXT, current_selection TEXT);",
+    "domain": "Settings",
+    "size_kb": 51.6
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0169.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE AdvancedConfig (id INTEGER PRIMARY KEY, config_name TEXT, data_type TEXT, setting_value TEXT);",
+    "domain": "Settings",
+    "size_kb": 33.4
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0170.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE sales_pipeline_kanban (deal_id INTEGER PRIMARY KEY, deal_name TEXT, stage TEXT, value REAL, owner TEXT);",
+    "domain": "CRM",
+    "size_kb": 55.0
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0171.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE customer_360_profile (contact_id INTEGER PRIMARY KEY, full_name TEXT, company TEXT, last_interaction_date DATE, lifetime_value REAL, notes TEXT);",
+    "domain": "CRM",
+    "size_kb": 61.5
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0172.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE task_activity_tracker (task_id INTEGER PRIMARY KEY, task_type TEXT, due_date DATETIME, related_to TEXT, priority TEXT, status TEXT);",
+    "domain": "CRM",
+    "size_kb": 63.8
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0173.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE support_ticket_dashboard (ticket_id INTEGER PRIMARY KEY, subject TEXT, severity TEXT, assigned_agent TEXT, time_open INTERVAL, customer_tier TEXT);",
+    "domain": "CRM",
+    "size_kb": 51.8
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0174.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE marketing_campaign_results (campaign_id INTEGER PRIMARY KEY, campaign_name TEXT, start_date DATE, leads_generated INTEGER, conversion_rate REAL, budget_spent REAL);",
+    "domain": "CRM",
+    "size_kb": 66.1
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0175.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE inventory_items (item_id INTEGER PRIMARY KEY, item_name TEXT NOT NULL, sku TEXT UNIQUE, quantity INTEGER, unit_cost REAL, location_bin TEXT, reorder_point INTEGER);",
+    "domain": "Inventory",
+    "size_kb": 55.0
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0176.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE inventory_items (item_id INTEGER PRIMARY KEY, item_name TEXT, sku TEXT, quantity INTEGER, unit_cost REAL, unit_price REAL, reorder_point INTEGER, supplier_id INTEGER);",
+    "domain": "Inventory",
+    "size_kb": 63.5
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0177.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE transaction_log (log_id INTEGER PRIMARY KEY, timestamp DATETIME, item_id INTEGER, quantity_change INTEGER, move_type TEXT, from_location TEXT, to_location TEXT, user_id INTEGER);",
+    "domain": "Inventory",
+    "size_kb": 52.2
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0178.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE receiving_sessions (session_id INTEGER PRIMARY KEY, po_ref TEXT, item_id INTEGER, expected_qty INTEGER, received_qty INTEGER, putaway_location TEXT, received_date DATETIME);",
+    "domain": "Inventory",
+    "size_kb": 50.6
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0179.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE item_valuation (item_id INTEGER PRIMARY KEY, category TEXT, warehouse TEXT, current_quantity INTEGER, unit_cost REAL);",
+    "domain": "Inventory",
+    "size_kb": 64.7
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0180.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE projects (project_id INT PRIMARY KEY, project_name VARCHAR(255), status VARCHAR(50), assignee_id INT, priority VARCHAR(50), due_date DATE);",
+    "domain": "SaaS",
+    "size_kb": 37.9
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0181.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE subscriptions (subscription_id INT PRIMARY KEY, customer_id VARCHAR(100), plan_name VARCHAR(100), mrr DECIMAL(10, 2), start_date DATE, payment_status VARCHAR(50), last_invoice_id VARCHAR(100));",
+    "domain": "SaaS",
+    "size_kb": 46.3
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0182.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE system_logs (log_id INT PRIMARY KEY, event_type VARCHAR(100), timestamp DATETIME, source_ip VARCHAR(45), latency_ms INT, success BOOLEAN);",
+    "domain": "SaaS",
+    "size_kb": 38.6
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0183.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE products (sku VARCHAR(50) PRIMARY KEY, product_name VARCHAR(255), category VARCHAR(100), price DECIMAL(10, 2), stock_qty INT, is_active BOOLEAN);",
+    "domain": "SaaS",
+    "size_kb": 31.9
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0184.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE contacts (contact_id INT PRIMARY KEY, contact_name VARCHAR(255), company_name VARCHAR(255), lead_score INT, last_contact DATE, owner_id INT, contact_stage VARCHAR(50));",
+    "domain": "SaaS",
+    "size_kb": 35.7
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0185.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE daily_sales (sale_date DATE, product_id INT, revenue DECIMAL, units_sold INT);",
+    "domain": "Analytics",
+    "size_kb": 36.4
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0186.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE user_activity (timestamp TIMESTAMP, user_id INT, session_duration INT, event_type VARCHAR);",
+    "domain": "Analytics",
+    "size_kb": 38.0
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0187.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE marketing_data (campaign_id INT, channel VARCHAR, cost DECIMAL, impressions INT, roi_percentage DECIMAL, region VARCHAR);",
+    "domain": "Analytics",
+    "size_kb": 48.5
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0188.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE system_metrics (timestamp TIMESTAMP, endpoint VARCHAR, latency_ms INT, http_status INT, service_name VARCHAR);",
+    "domain": "Analytics",
+    "size_kb": 37.8
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0189.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE feature_adoption (user_id INT, signup_date DATE, cohort_week INT, feature_x_used_date DATE, cohort_retention_day INT);",
+    "domain": "Analytics",
+    "size_kb": 51.7
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0190.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE profile_minimalist (id INTEGER PRIMARY KEY, avatar_url TEXT, username TEXT NOT NULL UNIQUE, bio_snippet TEXT, follower_count INTEGER);",
+    "domain": "Profile",
+    "size_kb": 36.6
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0191.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE profile_detailed_panel (id INTEGER PRIMARY KEY, full_name TEXT, email TEXT UNIQUE, location TEXT, member_since DATE, last_active DATETIME);",
+    "domain": "Profile",
+    "size_kb": 52.0
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0192.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE profile_activity_stats (id INTEGER PRIMARY KEY, post_count INTEGER, reputation_score INTEGER, verified_status BOOLEAN, preferred_language TEXT, settings_link TEXT);",
+    "domain": "Profile",
+    "size_kb": 57.2
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0193.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE profile_social_aggregator (id INTEGER PRIMARY KEY, profile_url TEXT NOT NULL, website_url TEXT, twitter_handle TEXT, linkedin_url TEXT, bio_paragraph TEXT);",
+    "domain": "Profile",
+    "size_kb": 44.6
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0194.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE profile_settings_view (id INTEGER PRIMARY KEY, theme_preference TEXT, notification_email BOOLEAN, mfa_enabled BOOLEAN, timezone TEXT);",
+    "domain": "Profile",
+    "size_kb": 52.8
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0195.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE products_minimalist (id INT PRIMARY KEY, image_url TEXT, title VARCHAR(100), price DECIMAL(10, 2));",
+    "domain": "E-commerce",
+    "size_kb": 31.3
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0196.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE featured_stories (story_id INT PRIMARY KEY, brand_name VARCHAR(50), media_link TEXT, snippet TEXT, product_tag VARCHAR(50));",
+    "domain": "E-commerce",
+    "size_kb": 39.6
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0197.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE product_comparisons (item_id INT PRIMARY KEY, thumbnail_url TEXT, specs JSON, rating FLOAT, min_price DECIMAL(10, 2), max_price DECIMAL(10, 2));",
+    "domain": "E-commerce",
+    "size_kb": 48.6
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0198.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE filtered_inventory (sku INT PRIMARY KEY, category_id INT, image_url TEXT, available_colors TEXT, price DECIMAL(10, 2), stock_level INT);",
+    "domain": "E-commerce",
+    "size_kb": 37.9
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0199.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE ar_enabled_products (model_id INT PRIMARY KEY, name VARCHAR(100), viewer_asset_link TEXT, review_snippet TEXT);",
+    "domain": "E-commerce",
+    "size_kb": 38.3
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0200.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE sales_data (date DATE, revenue DECIMAL, conversions INT, region VARCHAR);",
+    "domain": "Dashboard",
+    "size_kb": 44.3
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0201.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE projects (project_id INT, status VARCHAR, due_date DATE, priority INT, assigned_to VARCHAR);",
+    "domain": "Dashboard",
+    "size_kb": 55.9
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0202.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE system_metrics (timestamp DATETIME, metric_name VARCHAR, value FLOAT, service_id INT);",
+    "domain": "Dashboard",
+    "size_kb": 42.1
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0203.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE customer_events (event_type VARCHAR, timestamp DATETIME, device_type VARCHAR, location VARCHAR, product_id INT);",
+    "domain": "Dashboard",
+    "size_kb": 47.2
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0204.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE financial_transactions (transaction_date DATE, account_code VARCHAR, amount DECIMAL, transaction_type VARCHAR);",
+    "domain": "Dashboard",
+    "size_kb": 66.1
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0205.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE settings_classic_list (theme TEXT, font_size INTEGER, notifications_enabled BOOLEAN, language TEXT);",
+    "domain": "Settings",
+    "size_kb": 72.5
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0206.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE settings_dashboard_tiles (tile_id TEXT PRIMARY KEY, last_accessed DATETIME);",
+    "domain": "Settings",
+    "size_kb": 51.4
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0207.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE settings_tabbed (general_autosave BOOLEAN, display_animation_quality TEXT, privacy_tracking BOOLEAN);",
+    "domain": "Settings",
+    "size_kb": 64.6
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0208.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE settings_advanced_split (api_key_status TEXT, log_level TEXT, cache_timeout_minutes INTEGER);",
+    "domain": "Settings",
+    "size_kb": 87.1
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0209.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE settings_matrix_prefs (marketing_emails BOOLEAN, system_alerts BOOLEAN, telemetry_diagnostics TEXT, telemetry_performance TEXT, enable_beta BOOLEAN);",
+    "domain": "Settings",
+    "size_kb": 68.9
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0210.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE SalesPipelineOverview (Stage VARCHAR(50) PRIMARY KEY, DealCount INT, TotalValueUSD DECIMAL(10, 2), Probability DECIMAL(5, 2));",
+    "domain": "CRM",
+    "size_kb": 27.8
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0211.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE Contacts (ContactID INT PRIMARY KEY, FirstName VARCHAR(100), LastName VARCHAR(100), Email VARCHAR(255), Phone VARCHAR(50), Company VARCHAR(150), LastActivityDate DATETIME, LeadScore INT);",
+    "domain": "CRM",
+    "size_kb": 48.2
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0212.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE Tasks (TaskID INT PRIMARY KEY, Subject VARCHAR(255), DueDate DATE, AssignedTo VARCHAR(100), Status VARCHAR(20), RelatedRecordID INT, Priority VARCHAR(10));",
+    "domain": "CRM",
+    "size_kb": 48.7
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0213.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE Accounts (AccountName VARCHAR(150) PRIMARY KEY, Industry VARCHAR(100), AnnualRevenueUSD DECIMAL(15, 2), Employees INT, AccountOwner VARCHAR(100), LastContacted DATE);",
+    "domain": "CRM",
+    "size_kb": 41.7
+  },
+  {
+    "image_path": "data/synthetic_factory/screenshots/ui_0214.png",
+    "instruction": "Analyze the UI structure and generate an appropriate database schema.",
+    "output": "CREATE TABLE OpenDeals (DealName VARCHAR(150) PRIMARY KEY, Account VARCHAR(150), Value DECIMAL(12, 2), CloseDateEstimate DATE, SalesRep VARCHAR(100), StageColorCode CHAR(7));",
+    "domain": "CRM",
+    "size_kb": 29.0
   }
 ]
