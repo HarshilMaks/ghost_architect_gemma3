@@ -1,0 +1,12 @@
+<!DOCTYPE html><html><head><script src="https://cdn.tailwindcss.com"></script></head>
+<body class="bg-gray-50 p-8"><div class="max-w-4xl mx-auto bg-white shadow-xl rounded-xl overflow-hidden border">
+<header class="bg-indigo-600 px-6 py-4 text-white"><h1 class="text-2xl font-bold">Financial Health Summary (Detailed)</h1></header>
+<main class="p-6"><div class="grid grid-cols-3 gap-4">
+<div class="p-4 border rounded-lg bg-gray-50"><p class="text-xs text-gray-400 uppercase font-bold">{'name': 'Net Profit Margin (%)', 'type': 'gauge_with_target', 'target': '15%'}</p>
+<div class="h-4 bg-gray-200 rounded mt-2 w-3/4"></div></div><div class="p-4 border rounded-lg bg-gray-50"><p class="text-xs text-gray-400 uppercase font-bold">{'name': 'Expense Category Breakdown', 'type': 'sunburst_chart', 'levels': ['Operational', 'R&D', 'Marketing']}</p>
+<div class="h-4 bg-gray-200 rounded mt-2 w-3/4"></div></div><div class="p-4 border rounded-lg bg-gray-50"><p class="text-xs text-gray-400 uppercase font-bold">{'name': 'Accounts Receivable Aging', 'type': 'stacked_bar_chart_time', 'stacks': ['0-30 Days', '31-60 Days', '60+ Days']}</p>
+<div class="h-4 bg-gray-200 rounded mt-2 w-3/4"></div></div><div class="p-4 border rounded-lg bg-gray-50"><p class="text-xs text-gray-400 uppercase font-bold">{'name': 'Cash Flow Projection (Next 90 Days)', 'type': 'waterfall_chart'}</p>
+<div class="h-4 bg-gray-200 rounded mt-2 w-3/4"></div></div><div class="p-4 border rounded-lg bg-gray-50"><p class="text-xs text-gray-400 uppercase font-bold">{'name': 'Detailed Transaction Log Filter', 'type': 'filterable_data_table', 'columns': ['Transaction ID', 'Amount', 'Date', 'Account'], 'searchable': True}</p>
+<div class="h-4 bg-gray-200 rounded mt-2 w-3/4"></div></div></div>
+
+</main></div></body></html>

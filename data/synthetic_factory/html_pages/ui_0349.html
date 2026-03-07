@@ -1,0 +1,12 @@
+<!DOCTYPE html><html><head><script src="https://cdn.tailwindcss.com"></script></head>
+<body class="bg-gray-50 p-8"><div class="max-w-4xl mx-auto bg-white shadow-xl rounded-xl overflow-hidden border">
+<header class="bg-indigo-600 px-6 py-4 text-white"><h1 class="text-2xl font-bold">System Health Monitoring</h1></header>
+<main class="p-6"><div class="grid grid-cols-3 gap-4">
+<div class="p-4 border rounded-lg bg-gray-50"><p class="text-xs text-gray-400 uppercase font-bold">{'name': 'Latency Percentiles (P50, P90, P99)', 'type': 'line_chart', 'x_axis': 'Time', 'y_axis': 'Latency_ms', 'series': ['P50', 'P90', 'P99']}</p>
+<div class="h-4 bg-gray-200 rounded mt-2 w-3/4"></div></div><div class="p-4 border rounded-lg bg-gray-50"><p class="text-xs text-gray-400 uppercase font-bold">{'name': 'Error Rate Spikes', 'type': 'scatter_plot', 'x_axis': 'Timestamp', 'y_axis': 'Error_Count', 'threshold_line': 50}</p>
+<div class="h-4 bg-gray-200 rounded mt-2 w-3/4"></div></div><div class="p-4 border rounded-lg bg-gray-50"><p class="text-xs text-gray-400 uppercase font-bold">{'name': 'Service Status Indicators', 'type': 'list', 'columns': ['Service_Name', 'Status', 'Uptime_Last_Hour'], 'status_field': 'Status'}</p>
+<div class="h-4 bg-gray-200 rounded mt-2 w-3/4"></div></div><div class="p-4 border rounded-lg bg-gray-50"><p class="text-xs text-gray-400 uppercase font-bold">{'name': 'Resource Utilization (CPU/Memory)', 'type': 'area_chart', 'categories': 'Time', 'series': ['CPU_Usage', 'Memory_Usage']}</p>
+<div class="h-4 bg-gray-200 rounded mt-2 w-3/4"></div></div><div class="p-4 border rounded-lg bg-gray-50"><p class="text-xs text-gray-400 uppercase font-bold">{'name': 'Request Volume Timeline', 'type': 'bar_chart', 'categories': 'Hour_of_Day', 'values': 'Request_Count'}</p>
+<div class="h-4 bg-gray-200 rounded mt-2 w-3/4"></div></div></div>
+
+</main></div></body></html>

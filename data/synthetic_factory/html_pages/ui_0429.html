@@ -1,0 +1,12 @@
+<!DOCTYPE html><html><head><script src="https://cdn.tailwindcss.com"></script></head>
+<body class="bg-gray-50 p-8"><div class="max-w-4xl mx-auto bg-white shadow-xl rounded-xl overflow-hidden border">
+<header class="bg-indigo-600 px-6 py-4 text-white"><h1 class="text-2xl font-bold">Customer Churn Prediction Insights (Card Grid)</h1></header>
+<main class="p-6"><div class="grid grid-cols-3 gap-4">
+<div class="p-4 border rounded-lg bg-gray-50"><p class="text-xs text-gray-400 uppercase font-bold">{'name': 'Current Churn Rate', 'type': 'kpi', 'value_source': 'AVG(is_churned)'}</p>
+<div class="h-4 bg-gray-200 rounded mt-2 w-3/4"></div></div><div class="p-4 border rounded-lg bg-gray-50"><p class="text-xs text-gray-400 uppercase font-bold">{'name': 'Churn Risk Distribution', 'type': 'stacked_bar_chart', 'category': 'segment', 'values': ['high_risk', 'medium_risk', 'low_risk']}</p>
+<div class="h-4 bg-gray-200 rounded mt-2 w-3/4"></div></div><div class="p-4 border rounded-lg bg-gray-50"><p class="text-xs text-gray-400 uppercase font-bold">{'name': 'Top 5 Churn Drivers', 'type': 'word_cloud', 'text_source': 'churn_reason_keywords', 'weight_source': 'frequency'}</p>
+<div class="h-4 bg-gray-200 rounded mt-2 w-3/4"></div></div><div class="p-4 border rounded-lg bg-gray-50"><p class="text-xs text-gray-400 uppercase font-bold">{'name': 'Prediction Accuracy Score', 'type': 'gauge', 'value_source': 'model_accuracy'}</p>
+<div class="h-4 bg-gray-200 rounded mt-2 w-3/4"></div></div><div class="p-4 border rounded-lg bg-gray-50"><p class="text-xs text-gray-400 uppercase font-bold">{'name': 'High-Risk Customers (Action Required)', 'type': 'table', 'columns': ['customer_id', 'predicted_churn_prob', 'last_interaction_days_ago'], 'sort_by': 'predicted_churn_prob', 'sort_order': 'DESC'}</p>
+<div class="h-4 bg-gray-200 rounded mt-2 w-3/4"></div></div></div>
+
+</main></div></body></html>

@@ -1,0 +1,12 @@
+<!DOCTYPE html><html><head><script src="https://cdn.tailwindcss.com"></script></head>
+<body class="bg-gray-50 p-8"><div class="max-w-4xl mx-auto bg-white shadow-xl rounded-xl overflow-hidden border">
+<header class="bg-indigo-600 px-6 py-4 text-white"><h1 class="text-2xl font-bold">Customer Support Analytics Dashboard</h1></header>
+<main class="p-6"><div class="grid grid-cols-3 gap-4">
+<div class="p-4 border rounded-lg bg-gray-50"><p class="text-xs text-gray-400 uppercase font-bold">{'name': 'Tickets_Created_Vs_Closed', 'type': 'Dual Axis Chart', 'series_1': 'created_count', 'series_2': 'closed_count', 'category': 'day'}</p>
+<div class="h-4 bg-gray-200 rounded mt-2 w-3/4"></div></div><div class="p-4 border rounded-lg bg-gray-50"><p class="text-xs text-gray-400 uppercase font-bold">{'name': 'Average_Resolution_Time', 'type': 'Metric Card', 'value_source': 'AVG(resolution_time_hours)'}</p>
+<div class="h-4 bg-gray-200 rounded mt-2 w-3/4"></div></div><div class="p-4 border rounded-lg bg-gray-50"><p class="text-xs text-gray-400 uppercase font-bold">{'name': 'Ticket_Volume_By_Channel', 'type': 'Pie Chart', 'breakdown_field': 'channel'}</p>
+<div class="h-4 bg-gray-200 rounded mt-2 w-3/4"></div></div><div class="p-4 border rounded-lg bg-gray-50"><p class="text-xs text-gray-400 uppercase font-bold">{'name': 'CSAT_Score', 'type': 'Gauge', 'value_source': 'avg_csat', 'threshold': 4.5}</p>
+<div class="h-4 bg-gray-200 rounded mt-2 w-3/4"></div></div><div class="p-4 border rounded-lg bg-gray-50"><p class="text-xs text-gray-400 uppercase font-bold">{'name': 'Recent_Unresolved_Tickets', 'type': 'Data Table', 'columns': ['ticket_id', 'submit_date', 'priority', 'agent']}</p>
+<div class="h-4 bg-gray-200 rounded mt-2 w-3/4"></div></div></div>
+
+</main></div></body></html>

@@ -1,0 +1,12 @@
+<!DOCTYPE html><html><head><script src="https://cdn.tailwindcss.com"></script></head>
+<body class="bg-gray-50 p-8"><div class="max-w-4xl mx-auto bg-white shadow-xl rounded-xl overflow-hidden border">
+<header class="bg-indigo-600 px-6 py-4 text-white"><h1 class="text-2xl font-bold">Marketing Campaign ROI Analyzer (Card Grid)</h1></header>
+<main class="p-6"><div class="grid grid-cols-3 gap-4">
+<div class="p-4 border rounded-lg bg-gray-50"><p class="text-xs text-gray-400 uppercase font-bold">{'name': 'Total Spend', 'type': 'kpi', 'value_source': 'SUM(spend)'}</p>
+<div class="h-4 bg-gray-200 rounded mt-2 w-3/4"></div></div><div class="p-4 border rounded-lg bg-gray-50"><p class="text-xs text-gray-400 uppercase font-bold">{'name': 'Total Conversions', 'type': 'kpi', 'value_source': 'SUM(conversions)'}</p>
+<div class="h-4 bg-gray-200 rounded mt-2 w-3/4"></div></div><div class="p-4 border rounded-lg bg-gray-50"><p class="text-xs text-gray-400 uppercase font-bold">{'name': 'ROI by Channel', 'type': 'donut_chart', 'segment_by': 'channel', 'value': 'roi'}</p>
+<div class="h-4 bg-gray-200 rounded mt-2 w-3/4"></div></div><div class="p-4 border rounded-lg bg-gray-50"><p class="text-xs text-gray-400 uppercase font-bold">{'name': 'Cost Per Acquisition (CPA) Trend', 'type': 'area_chart', 'x_axis': 'date', 'y_axis': 'cpa'}</p>
+<div class="h-4 bg-gray-200 rounded mt-2 w-3/4"></div></div><div class="p-4 border rounded-lg bg-gray-50"><p class="text-xs text-gray-400 uppercase font-bold">{'name': 'Campaign Performance Matrix', 'type': 'table', 'columns': ['campaign_name', 'spend', 'conversions', 'cpa', 'roi'], 'sort_by': 'roi', 'sort_order': 'DESC'}</p>
+<div class="h-4 bg-gray-200 rounded mt-2 w-3/4"></div></div></div>
+
+</main></div></body></html>
