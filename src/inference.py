@@ -59,7 +59,7 @@ def _parse_create_tables(sql: str) -> list[dict]:
     return tables
 
 
-def _render_rich(image_name: str, sql: str, raw_sql: str):
+def _render_rich(image_name: str, sql: str):
     from rich.console import Console
     from rich.table import Table
     from rich.panel import Panel
@@ -186,7 +186,7 @@ def run_inference(adapter_dir: str, image_path: str | None = None):
     full_text = processor.batch_decode(outputs, skip_special_tokens=True)[0]
     sql = full_text.split("model\n")[-1].strip() or full_text
 
-    _render_rich(img_file.name, sql, sql)
+    _render_rich(img_file.name, sql)
     return sql
 
 

@@ -166,7 +166,7 @@ def train_vision_model(dataset_path: Path, output_dir: str):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--dataset", type=Path, default=Path("data/dataset.json"))
+    parser.add_argument("--dataset", type=Path, default=Path("data/dataset_vision.json"))
     parser.add_argument("--output", type=str, default="output/adapters/vision_trinity")
     args = parser.parse_args()
     

@@ -153,7 +153,7 @@ def _load_dataset(dataset_json: Path):
     },
     secrets=[modal.Secret.from_name("ghost-architect-secrets")],
 )
-def train(dataset_filename: str = "dataset_vision.json"):
+def train(dataset_filename: str = "dataset_merged.json"):
     import os
     import logging
 
@@ -239,7 +239,7 @@ def train(dataset_filename: str = "dataset_vision.json"):
         ),
     )
 
-    print("🚀 Starting training — 3 epochs × 287 examples...")
+    print(f"🚀 Starting training — 3 epochs × {len(dataset)} examples...")
     trainer.train()
 
     print(f"✅ Training complete! Saving adapter to {output_dir}...")
@@ -254,11 +254,11 @@ def train(dataset_filename: str = "dataset_vision.json"):
 
 # ── Upload Dataset ────────────────────────────────────────────────────────────
 @app.local_entrypoint()
-def upload_dataset(dataset_filename: str = "dataset_vision.json"):
+def upload_dataset(dataset_filename: str = "dataset_merged.json"):
     """
     Upload dataset JSON + ui_screenshots/ + synthetic_factory/ to Modal.
     Run once (or when dataset changes):
-      modal run src/modal_train.py::upload_dataset --dataset-filename dataset_merged.json
+      modal run src/modal_train.py::upload_dataset
     """
     import os
 
@@ -318,10 +318,10 @@ def download_adapter(adapter_name: str = "trinity_a10g"):
 
 # ── Run Training ─────────────────────────────────────────────────────────────
 @app.local_entrypoint()
-def main(dataset_filename: str = "dataset_vision.json"):
+def main(dataset_filename: str = "dataset_merged.json"):
     """
     Default entrypoint: 
-      modal run src/modal_train.py --dataset-filename dataset_vision.json
+      modal run src/modal_train.py
     """
     result = train.remote(dataset_filename=dataset_filename)
     print(f"\n🎉 Training complete!")

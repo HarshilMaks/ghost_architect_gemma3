@@ -78,7 +78,7 @@ def export_to_gguf(adapter_dir: str, output_dir: str, quantization: str = "q4_k_
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Export LoRA adapters to GGUF for Ollama")
-    parser.add_argument("--adapter_dir", type=str, default="output/adapters/phase2",
+    parser.add_argument("--adapter_dir", type=str, default="output/adapters/trinity_a10g",
                         help="Directory containing saved LoRA adapter weights")
     parser.add_argument("--output_dir", type=str, default="output/gguf",
                         help="Where to save the .gguf file")
