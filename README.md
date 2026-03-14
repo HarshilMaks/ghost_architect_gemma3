@@ -65,9 +65,18 @@ modal run src/modal_train.py
 
 ### 4) Interactive demo
 ```bash
-streamlit run src/app.py          # Upload screenshot → see schema
+streamlit run src/app.py          # Upload 3-6 related screenshots → consolidated schema
 python src/inference.py            # CLI testing with rich output
 ```
+
+### Precision upload guide (Streamlit)
+- Upload screenshots from the **same product/web app flow**.
+- Use **3-6 images** for best accuracy (minimum 3).
+- Include at least:
+  - one **list/table** view,
+  - one **create/edit form** view,
+  - one **detail/dashboard** view.
+- The app runs inference per image, then merges evidence into one schema.
 
 ## Make Targets
 ```bash
@@ -115,7 +124,7 @@ ghost_architect_gemma3/
 │   ├── train_vision.py             # Colab T4 vision training (QLoRA+rsLoRA)
 │   ├── train.py                    # Phase 1 text training
 │   ├── inference.py                # CLI testing with rich terminal output
-│   ├── app.py                      # Streamlit web app (upload screenshot → schema)
+│   ├── app.py                      # Streamlit app (multi-image evidence → consolidated schema)
 │   ├── export.py                   # GGUF export for Ollama
 │   └── synthetic_generator.py      # Gemini API for SQL generation from screenshots
 ├── data/
