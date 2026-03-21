@@ -321,14 +321,30 @@ def download_adapter(adapter_name: str = "trinity_a10g"):
         print(f"❌ No adapter files found for {adapter_name}. Has training completed?")
         return
 
-    print(f"Downloading {len(files)} files...")
+    print(f"Downloading {len(files)} entries...")
+    downloaded = 0
+    skipped = 0
     for entry in files:
+        # Skip directory markers if present in listing.
+        if str(getattr(entry, "type", "")).lower() == "directory" or entry.path.endswith("/"):
+            skipped += 1
+            continue
         dest = local_out / Path(entry.path).relative_to(adapter_prefix)
         dest.parent.mkdir(parents=True, exist_ok=True)
-        with output_vol.read_file(entry.path) as f:
-            dest.write_bytes(f.read())
+        try:
+            blob = output_vol.read_file(entry.path)
+            if isinstance(blob, (bytes, bytearray)):
+                dest.write_bytes(bytes(blob))
+            else:
+                dest.write_bytes(b"".join(blob))
+            downloaded += 1
+        except Exception as e:
+            # Modal may list non-regular entries (e.g. checkpoint dirs) as paths.
+            # Skip those and continue downloading regular files.
+            skipped += 1
+            print(f"⚠️ Skipping non-file entry: {entry.path} ({e})")
 
-    print(f"✅ Adapter downloaded to {local_out}/")
+    print(f"✅ Adapter downloaded to {local_out}/ (files: {downloaded}, skipped: {skipped})")
 
 
 # ── Run Training ─────────────────────────────────────────────────────────────
