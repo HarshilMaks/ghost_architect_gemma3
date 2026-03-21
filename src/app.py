@@ -28,6 +28,14 @@ st.set_page_config(
 
 MIN_REQUIRED_IMAGES = 3
 MAX_RECOMMENDED_IMAGES = 6
+UNIVERSAL_BACKEND_ASSUMPTIONS = (
+    "Universal backend assumptions (apply unless already present or strongly contradictory):\n"
+    "1. Every table should include a primary key `id` (prefer BIGSERIAL PRIMARY KEY or UUID PRIMARY KEY).\n"
+    "2. Every table should include `created_at` and `updated_at` timestamp columns with sensible defaults.\n"
+    "3. If login/authentication context is visible (login form, sign-in, auth flow), include "
+    "`password_hash` and `auth_token` columns in the user/auth table even if not directly visible.\n"
+    "4. Prefer snake_case naming and avoid duplicate semantic columns."
+)
 
 # ── Sidebar — adapter path ────────────────────────────────────────────────────
 with st.sidebar:
@@ -50,7 +58,8 @@ with st.sidebar:
         "4. App merges evidence into one consolidated PostgreSQL schema"
     )
     st.info(
-        "Precision mode: tables/columns are included only when supported by visible UI evidence."
+        "Precision mode with backend defaults: visible UI drives the schema, and universal fields "
+        "(`id`, `created_at`, `updated_at`, plus auth columns when login is detected) are enforced."
     )
 
 
@@ -122,7 +131,12 @@ def _merge_constraints(existing: str, new: str) -> str:
 
 
 def merge_table_sets(table_sets: list[list[dict]]) -> list[dict]:
-    """Merge tables from multiple screenshots into a single consolidated schema."""
+    """Merge tables from multiple screenshots into a single consolidated schema.
+    
+    NOTE: This is a lightweight fallback parser for rendering visual cards.
+    The real "conflict resolution" happens in consolidate_sql_with_llm() below,
+    where the LLM itself merges the raw SQL outputs.
+    """
     merged: dict[str, dict] = {}
     for tables in table_sets:
         for table in tables:
@@ -172,7 +186,11 @@ def _normalize_identifier(name: str) -> str:
 
 
 def tables_to_sql(tables: list[dict]) -> str:
-    """Render merged table representation back into SQL CREATE TABLE statements."""
+    """Render merged table representation back into SQL CREATE TABLE statements.
+    
+    NOTE: This is a fallback for visual rendering only. The *authoritative* consolidated
+    SQL comes from consolidate_sql_with_llm(), not this function.
+    """
     statements = []
     for table in tables:
         table_name = _normalize_identifier(table["name"])
@@ -187,6 +205,129 @@ def tables_to_sql(tables: list[dict]) -> str:
             f"CREATE TABLE {table_name} (\n" + ",\n".join(column_lines) + "\n);"
         )
     return "\n\n".join(statements)
+
+
+def _strip_markdown_code_fence(text: str) -> str:
+    """Remove optional markdown triple-backtick wrappers."""
+    stripped = text.strip()
+    fenced = re.match(r"^```[a-zA-Z0-9_+-]*\s*\n(.*?)\n```$", stripped, re.DOTALL)
+    if fenced:
+        return fenced.group(1).strip()
+    return stripped
+
+
+def split_consolidated_output(final_output: str) -> tuple[str | None, str]:
+    """
+    Split LLM consolidation output into Mermaid + SQL sections.
+
+    Expected strict format:
+      === MERMAID ===
+      ...
+      === SQL ===
+      ...
+
+    Returns:
+      (mermaid_diagram_or_none, sql_text)
+    """
+    marker_mermaid = "=== MERMAID ==="
+    marker_sql = "=== SQL ==="
+    if marker_mermaid in final_output and marker_sql in final_output:
+        after_mermaid = final_output.split(marker_mermaid, 1)[1]
+        mermaid_part, sql_part = after_mermaid.split(marker_sql, 1)
+        mermaid_part = _strip_markdown_code_fence(mermaid_part)
+        sql_part = _strip_markdown_code_fence(sql_part)
+        return mermaid_part.strip() or None, sql_part.strip()
+
+    return None, _strip_markdown_code_fence(final_output)
+
+
+def consolidate_sql_with_llm(model, processor, per_image_sql: list[tuple], uploaded_files) -> str:
+    """
+    LLM-based SQL conflict resolution.
+    
+    Instead of using Python regex to merge CREATE TABLE statements (which breaks with
+    naming conflicts, complex FK syntax, etc.), we pass all N raw SQL outputs back to
+    the LLM with a strict consolidation prompt. The model does the merging itself.
+    
+    Args:
+        model: Loaded Gemma-3 model
+        processor: Vision processor
+        per_image_sql: List of (filename, sql_text, table_count) tuples
+        uploaded_files: The original image files (for vision context)
+    
+    Returns:
+        Raw consolidated output (expected to include Mermaid + SQL sections)
+    """
+    from unsloth.chat_templates import get_chat_template
+    
+    # Build the conflict resolution prompt
+    sql_fragments = "\n\n--- Next Screenshot SQL ---\n\n".join(
+        f"-- From: {filename}\n{sql}" for filename, sql, _ in per_image_sql
+    )
+    
+    consolidation_prompt = f"""You are a database architect. Below are {len(per_image_sql)} SQL schemas extracted from different UI views of the same application.
+
+Your task: Resolve naming conflicts, merge duplicate tables, normalize data types, and output ONE unified PostgreSQL schema.
+
+Universal assumptions to enforce in the final merged schema:
+{UNIVERSAL_BACKEND_ASSUMPTIONS}
+
+Rules:
+1. If multiple screenshots show the same entity with different names (e.g., "users" vs "accounts"), pick the most specific name and use it consistently.
+2. If a column appears in multiple views with conflicting types (e.g., "status TEXT" vs "status VARCHAR(50)"), choose the more specific type.
+3. Preserve all foreign key relationships.
+4. Ensure every table has `id`, `created_at`, and `updated_at` unless an equivalent stronger column already exists.
+5. If login/authentication context appears in any fragment, ensure the user/auth table includes `password_hash` and `auth_token`.
+6. Output format is STRICT. No text outside these 2 sections:
+=== MERMAID ===
+(A valid Mermaid `erDiagram` with tables, columns, PK/FK markers, and relationship lines.)
+
+=== SQL ===
+(Valid PostgreSQL CREATE TABLE statements only.)
+7. Do not add explanations, notes, or markdown headings beyond these exact markers.
+
+Input SQL fragments:
+{sql_fragments}
+
+Generate the final output now:"""
+
+    # Use text-only mode (no images needed for SQL merging)
+    messages = [{"role": "user", "content": consolidation_prompt}]
+    processor.tokenizer = get_chat_template(
+        processor.tokenizer,
+        chat_template="gemma-2",
+    )
+    
+    input_text = processor.apply_chat_template(
+        messages,
+        tokenize=False,
+        add_generation_prompt=True,
+    )
+    
+    inputs = processor(
+        text=input_text,
+        images=None,  # Text-only consolidation
+        return_tensors="pt",
+    ).to("cuda")
+    
+    from unsloth import is_bfloat16_supported
+    output_ids = model.generate(
+        **inputs,
+        max_new_tokens=2048,
+        use_cache=True,
+        temperature=0.1,  # Low temperature for deterministic merging
+        min_p=0.05,
+        do_sample=True,
+        eos_token_id=processor.tokenizer.eos_token_id,
+    )
+    
+    consolidated = processor.batch_decode(
+        output_ids[:, inputs["input_ids"].shape[1]:],
+        skip_special_tokens=True,
+        clean_up_tokenization_spaces=True,
+    )[0]
+    
+    return consolidated.strip()
 
 
 def render_schema_cards(tables: list[dict]):
@@ -257,9 +398,12 @@ def generate_schema(model, processor, image: Image.Image, image_path_str: str) -
 
     strict_instruction = (
         "Analyze the UI and output only PostgreSQL CREATE TABLE statements. "
-        "Only include entities, columns, and relationships that are clearly visible in the screenshot. "
-        "If uncertain, omit it instead of guessing. "
-        "Prefer snake_case names and include PRIMARY KEY / FOREIGN KEY constraints when evidence exists."
+        "Use visible UI evidence as the primary signal, but enforce universal backend assumptions so the schema is deployable.\n\n"
+        f"{UNIVERSAL_BACKEND_ASSUMPTIONS}\n\n"
+        "Additional rules:\n"
+        "- Include entities, columns, and relationships supported by visible UI evidence.\n"
+        "- Add PRIMARY KEY / FOREIGN KEY constraints when evidence exists.\n"
+        "- If there are multiple valid options, choose a conservative PostgreSQL type and keep naming consistent."
     )
 
     # IMPORTANT: message format MUST match train_vision.py structure
@@ -379,26 +523,40 @@ with col_schema:
                 progress.progress(index / len(uploaded_files))
 
             status.empty()
-            merged_tables = merge_table_sets(table_sets)
-            consolidated_sql = tables_to_sql(merged_tables)
+            
+            # Step 1: Use LLM to consolidate raw SQL outputs into Mermaid + SQL
+            status.write("Consolidating schemas with LLM conflict resolution...")
+            final_output = consolidate_sql_with_llm(model, processor, per_image_sql, uploaded_files)
+            mermaid_diagram, consolidated_sql = split_consolidated_output(final_output)
+            
+            # Step 2: Parse the LLM's consolidated output for visual card rendering
+            merged_tables = parse_create_tables(consolidated_sql)
+            status.empty()
 
             st.success(
                 f"Consolidated schema generated from {len(uploaded_files)} screenshots."
             )
 
-            # ── Visual schema cards ──────────────────────────────────────────
-            if merged_tables:
-                st.markdown(
-                    "<p style='color:#64748b;font-size:12px;'>"
-                    "🔑 Primary Key &nbsp; 🔗 Foreign Key &nbsp; ● Not Null</p>",
-                    unsafe_allow_html=True,
-                )
-                render_schema_cards(merged_tables)
-            else:
-                st.warning("Could not build a consolidated schema — showing per-image outputs below.")
+            # ── Primary output tabs: Mermaid + SQL ───────────────────────────
+            tab_visual, tab_sql = st.tabs(["📊 Visual Architecture", "💻 PostgreSQL Code"])
 
-            # ── Raw SQL (always shown, collapsible) ──────────────────────────
-            with st.expander("View consolidated SQL", expanded=(not merged_tables)):
+            with tab_visual:
+                if mermaid_diagram:
+                    st.markdown("### Entity-Relationship Diagram")
+                    st.markdown(f"```mermaid\n{mermaid_diagram}\n```")
+                elif merged_tables:
+                    st.markdown(
+                        "<p style='color:#64748b;font-size:12px;'>"
+                        "🔑 Primary Key &nbsp; 🔗 Foreign Key &nbsp; ● Not Null</p>",
+                        unsafe_allow_html=True,
+                    )
+                    render_schema_cards(merged_tables)
+                    st.info("Mermaid output missing from model response. Showing fallback schema cards.")
+                else:
+                    st.warning("Could not render Mermaid or parse fallback tables from model output.")
+
+            with tab_sql:
+                st.markdown("### Deployable Schema")
                 st.code(consolidated_sql or "-- No consolidated SQL produced", language="sql")
 
             with st.expander("View per-image model outputs"):

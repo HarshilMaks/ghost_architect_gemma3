@@ -153,7 +153,7 @@ def _load_dataset(dataset_json: Path):
     },
     secrets=[modal.Secret.from_name("ghost-architect-secrets")],
 )
-def train(dataset_filename: str = "dataset_merged.json"):
+def train(dataset_filename: str = "dataset_merged.json", dry_run_limit: int = 0):
     import os
     import logging
 
@@ -182,6 +182,10 @@ def train(dataset_filename: str = "dataset_merged.json"):
         raise FileNotFoundError(f"Dataset {dataset_filename} not found in Modal volume. Run upload_dataset first.")
         
     dataset = _load_dataset(dataset_json)
+    if dry_run_limit > 0:
+        limit = min(dry_run_limit, len(dataset))
+        dataset = dataset.select(range(limit))
+        print(f"🧪 DRY RUN ACTIVATED: Training on only {len(dataset)} examples")
 
     print("Loading Gemma-3-12B-IT vision model...")
     model, processor = FastVisionModel.from_pretrained(
@@ -189,13 +193,13 @@ def train(dataset_filename: str = "dataset_merged.json"):
         load_in_4bit=True,   # QLoRA: 12B fits in 24GB with room for DoRA gradients
     )
 
-    # Full Trinity on A10G:
-    # - finetune_vision_layers=True  → A10G has 24GB; safe to adapt SigLIP too
-    # - use_dora=True               → DoRA dtype bug patched above
-    # - use_rslora=True             → stabilizes rank 64 training
+    # One-shot stability profile on A10G:
+    # - finetune_vision_layers=False → lower VRAM pressure and fewer dtype edge cases
+    # - use_dora=True                → DoRA dtype bug patched above
+    # - use_rslora=True              → stabilizes rank 64 training
     model = FastVisionModel.get_peft_model(
         model,
-        finetune_vision_layers=True,      # A10G can handle vision adapter too
+        finetune_vision_layers=False,     # safer for single-run reliability
         finetune_language_layers=True,
         finetune_attention_modules=True,
         finetune_mlp_modules=True,
@@ -318,12 +322,12 @@ def download_adapter(adapter_name: str = "trinity_a10g"):
 
 # ── Run Training ─────────────────────────────────────────────────────────────
 @app.local_entrypoint()
-def main(dataset_filename: str = "dataset_merged.json"):
+def main(dataset_filename: str = "dataset_merged.json", dry_run_limit: int = 0):
     """
     Default entrypoint: 
       modal run src/modal_train.py
     """
-    result = train.remote(dataset_filename=dataset_filename)
+    result = train.remote(dataset_filename=dataset_filename, dry_run_limit=dry_run_limit)
     print(f"\n🎉 Training complete!")
     print(f"   Adapter is in Modal Volume at: {result}")
     print(f"   Download it: modal run src/modal_train.py::download_adapter --adapter-name trinity_a10g")
