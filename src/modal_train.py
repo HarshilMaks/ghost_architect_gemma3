@@ -47,27 +47,23 @@ image = (
     modal.Image.debian_slim(python_version="3.12")
     .apt_install("git", "wget", "curl")
     .pip_install(
-        # Core ML stack — pin torch first so Unsloth picks the right CUDA variant
-        "torch==2.4.1",
-        "torchvision==0.19.1",
+        # Core ML stack — torch>=2.6 required by current transformers masking path
+        "torch==2.6.0",
+        "torchvision==0.21.0",
         # Unsloth + Zoo from matching sources to avoid API mismatch (e.g. device_synchronize)
         "unsloth @ git+https://github.com/unslothai/unsloth.git",
         "unsloth_zoo @ git+https://github.com/unslothai/unsloth-zoo.git",
-        # Dependencies (pin to known-compatible stack to avoid runtime import drift)
-        "transformers==4.51.3",
-        "trl==0.15.2",
-        "peft==0.14.0",
+        # Let Unsloth stack resolve its own compatible transformers/trl/peft set
         "accelerate>=0.34.0",
         "bitsandbytes>=0.44.0",
         "xformers",
         "datasets>=3.0.0",
         "huggingface_hub>=0.25.0",
         "pillow>=10.0.0",
-        "triton",
+        "triton==3.2.0",
         "sentencepiece",
     )
-    # torchao 0.16+ expects newer torch symbols (e.g. torch.int1) and crashes with torch 2.4.1.
-    # Keep it out of the runtime so transformers/peft imports stay stable.
+    # torchao can still introduce incompatible code paths via transitive deps. Keep it out.
     .run_commands("python -m pip uninstall -y torchao || true")
 )
 
@@ -159,6 +155,7 @@ def _load_dataset(dataset_json: Path):
 def train(dataset_filename: str = "dataset_merged.json", dry_run_limit: int = 0):
     import os
     import logging
+    import torch
 
     logging.basicConfig(level=logging.INFO, format="%(message)s")
 
@@ -166,6 +163,8 @@ def train(dataset_filename: str = "dataset_merged.json", dry_run_limit: int = 0)
     os.environ["HF_HOME"]             = str(CACHE_PATH)
     os.environ["TRANSFORMERS_CACHE"]  = str(CACHE_PATH / "transformers")
     os.environ["HF_DATASETS_CACHE"]   = str(CACHE_PATH / "datasets")
+    # Force safer attention backend to avoid kernel NYI errors in SigLIP/Gemma3 vision path.
+    os.environ["XFORMERS_DISABLED"]   = "1"
 
     # Auth
     from huggingface_hub import login
@@ -175,6 +174,13 @@ def train(dataset_filename: str = "dataset_merged.json", dry_run_limit: int = 0)
 
     # Apply DoRA patch
     _patch_dora()
+
+    # Prefer math SDPA backend for maximum compatibility on this stack.
+    if hasattr(torch.backends, "cuda") and hasattr(torch.backends.cuda, "enable_math_sdp"):
+        torch.backends.cuda.enable_math_sdp(True)
+        torch.backends.cuda.enable_flash_sdp(False)
+        torch.backends.cuda.enable_mem_efficient_sdp(False)
+        print("✅ Attention backend forced to math SDPA (flash/mem-efficient disabled)")
 
     from unsloth import FastVisionModel, is_bfloat16_supported
     from unsloth.trainer import UnslothVisionDataCollator
@@ -242,7 +248,7 @@ def train(dataset_filename: str = "dataset_merged.json", dry_run_limit: int = 0)
             remove_unused_columns=False,
             dataset_text_field="",
             dataset_kwargs={"skip_prepare_dataset": True},
-            max_seq_length=4096,             # A10G can handle full 4096 context
+            max_seq_length=2048,             # Gemma3 runtime currently clamps to 2048
         ),
     )
 
