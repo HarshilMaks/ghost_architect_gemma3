@@ -53,10 +53,10 @@ image = (
         # Unsloth from source — gets latest Gemma3 patches
         "unsloth @ git+https://github.com/unslothai/unsloth.git",
         "unsloth_zoo",
-        # Dependencies
-        "transformers>=4.46.0",
-        "trl>=0.11.0",
-        "peft>=0.13.0",
+        # Dependencies (pin to known-compatible stack to avoid runtime import drift)
+        "transformers==4.51.3",
+        "trl==0.15.2",
+        "peft==0.14.0",
         "accelerate>=0.34.0",
         "bitsandbytes>=0.44.0",
         "xformers",

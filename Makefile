@@ -1,4 +1,4 @@
-.PHONY: help venv install validate dataset-check train export test clean
+.PHONY: help venv install validate dataset-check train export test clean modal-dry-1 modal-dry-10 modal-train
 
 VENV := .venv
 PYTHON := $(VENV)/bin/python
@@ -13,6 +13,9 @@ help:
 	@echo "  make validate      - Validate environment and GPU readiness"
 	@echo "  make dataset-check - Validate dataset JSON file is present and valid"
 	@echo "  make train         - Run training entrypoint with config + dataset"
+	@echo "  make modal-dry-1   - Modal training smoke test on 1 sample"
+	@echo "  make modal-dry-10  - Modal dry run on 10 samples"
+	@echo "  make modal-train   - Modal full training run"
 	@echo "  make export        - Run export entrypoint"
 	@echo "  make test          - Run project tests"
 	@echo "  make clean         - Remove Python cache files"
@@ -31,6 +34,15 @@ dataset-check:
 
 train:
 	$(PYTHON) src/train.py --config $(CONFIG) --dataset $(DATASET)
+
+modal-dry-1:
+	$(UV) tool run modal run src/modal_train.py::main --dry-run-limit 1
+
+modal-dry-10:
+	$(UV) tool run modal run src/modal_train.py::main --dry-run-limit 10
+
+modal-train:
+	$(UV) tool run modal run src/modal_train.py::main
 
 export:
 	$(PYTHON) src/export.py
