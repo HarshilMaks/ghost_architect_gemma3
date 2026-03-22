@@ -347,6 +347,118 @@ def download_adapter(adapter_name: str = "trinity_a10g"):
     print(f"✅ Adapter downloaded to {local_out}/ (files: {downloaded}, skipped: {skipped})")
 
 
+# ── Inference (test the adapter) ──────────────────────────────────────────────
+@app.function(
+    gpu="A10G",
+    timeout=3600,
+    volumes={
+        CACHE_PATH:   model_cache_vol,
+        OUTPUT_PATH:  output_vol,
+    },
+)
+def run_inference(adapter_name: str, image_path: str):
+    """Run inference on a test image using the trained adapter."""
+    import sys
+    from pathlib import Path
+    from PIL import Image
+    from unsloth import FastVisionModel
+    from peft import AutoPeftModelForCausalLM
+    
+    sys.path.insert(0, "/src")
+    
+    output_dir = OUTPUT_PATH / "adapters" / adapter_name
+    if not output_dir.exists():
+        print(f"❌ Adapter not found at {output_dir}")
+        return None
+    
+    print(f"Loading adapter from {output_dir}...")
+    model, processor = FastVisionModel.from_pretrained(
+        "unsloth/gemma-3-12b-it-bnb-4bit",
+        load_in_4bit=True,
+        use_cache=True,
+        max_seq_length=2048,
+        device_map="auto",
+    )
+    
+    # Load the LoRA adapter
+    model = AutoPeftModelForCausalLM.from_pretrained(
+        str(output_dir),
+        model_name_or_path="unsloth/gemma-3-12b-it-bnb-4bit",
+        device_map="auto",
+    )
+    
+    # Check that image exists locally in dataset
+    from pathlib import Path as PathlibPath
+    local_image = PathlibPath(image_path)
+    if not local_image.exists():
+        # Try without data/ prefix
+        local_image = DATASET_PATH / "ui_screenshots" / PathlibPath(image_path).name
+    
+    if not local_image.exists():
+        print(f"❌ Image not found: {image_path}")
+        return None
+    
+    print(f"Loading image: {local_image}")
+    image = Image.open(local_image).convert("RGB")
+    
+    # Prepare prompt
+    prompt = f"""Analyze this UI screenshot and generate a normalized SQL schema that describes the database backing this interface.
+
+Return ONLY valid SQL CREATE TABLE statements. Do not explain.
+
+CREATE TABLE"""
+    
+    # Process inputs
+    messages = [
+        {
+            "role": "user",
+            "content": [
+                {"type": "image", "image": image, "text": ""},
+                {"type": "text", "image": "", "text": prompt},
+            ],
+        }
+    ]
+    
+    inputs = processor(messages, return_tensors="pt").to(model.device)
+    
+    # Generate
+    import torch
+    with torch.inference_mode():
+        outputs = model.generate(
+            **inputs,
+            max_new_tokens=1024,
+            temperature=0.7,
+            top_p=0.9,
+        )
+    
+    response = processor.decode(outputs[0], skip_special_tokens=True)
+    return response
+
+
+@app.local_entrypoint()
+def run_inference_local(adapter_name: str = "trinity_a10g", image_path: str = ""):
+    """
+    Test inference on a UI screenshot using a trained adapter.
+    Usage:
+      modal run src/modal_train.py::run_inference_local --adapter-name trinity_a10g --image-path data/ui_screenshots/paystack.co_44228.png
+    """
+    if not image_path:
+        import glob as glob_module
+        images = glob_module.glob("data/ui_screenshots/*.png")
+        if images:
+            image_path = images[0]
+            print(f"Using first image: {image_path}")
+        else:
+            print("❌ No image path provided and no images found in data/ui_screenshots/")
+            return
+    
+    result = run_inference.remote(adapter_name=adapter_name, image_path=image_path)
+    if result:
+        print("\n" + "="*80)
+        print(result)
+        print("="*80)
+
+
 # ── Run Training ─────────────────────────────────────────────────────────────
 @app.local_entrypoint()
 def main(dataset_filename: str = "dataset_merged.json", dry_run_limit: int = 0):
